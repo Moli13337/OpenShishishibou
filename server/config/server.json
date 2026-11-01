@@ -1,0 +1,11 @@
+{
+  "host": "0.0.0.0",
+  "port": 8800,
+  "corsAllowOrigin": "*",
+  "webDir": "../web",
+  "dataDir": "data",
+  "injectScript": "/lan-sync.js",
+  "syncIntervalHintMs": 10000,
+  "maxPlayers": 200,
+  "requestTimeoutMs": 15000
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="ja" data-gate="pending" data-astro-cid-z4jru4n3><head><script data-astro-rerun>(function(){const LANG_KEY = "tavern.lang";
+const CUR = "ja";
+const PREFIXED = ["ja","en","ko"];
+const LISTED = ["zh","ja","en","ko"];
+
+          try {
+            var want = localStorage.getItem(LANG_KEY);
+            if (CUR !== 'zh') {
+              if (!want && LISTED.indexOf(CUR) >= 0) localStorage.setItem(LANG_KEY, CUR);
+            } else if (want && want !== CUR && PREFIXED.indexOf(want) >= 0 && LISTED.indexOf(want) >= 0) {
+              // 带前缀的语言（ja / en / ko……）从 src/i18n/langs.ts 来，这里不写死
+              var bare = location.pathname.replace(new RegExp('^/(' + PREFIXED.join('|') + ')(?=/|$)'), '') || '/';
+              location.replace((want === 'zh' ? '' : '/' + want) + (bare === '/' && want !== 'zh' ? '' : bare) + location.search + location.hash);
+            }
+          } catch (e) {}
+        })();</script><style>html[data-gate="pending"] body{visibility:hidden}</style><script>(function(){const AGE_KEY = "tavern.age-confirmed";
+const GATE_PATH = "/ja/gate";
+
+            try {
+              if (localStorage.getItem(AGE_KEY) === '1') document.documentElement.dataset.gate = 'ok';
+            } catch {}
+            if (document.documentElement.dataset.gate !== 'ok') {
+              location.replace(GATE_PATH + '?next=' + encodeURIComponent(location.pathname + location.search));
+            }
+          })();</script><script>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script><script>
+      (function () {
+        var read = function () {
+          try {
+            return Object.keys(JSON.parse(localStorage.getItem('tavern.quest-clear') || '{}') || {}).join(' ');
+          } catch (e) {
+            return '';
+          }
+        };
+        document.documentElement.dataset.clears = read();
+        if (window.__tavernClears) return;
+        window.__tavernClears = true;
+        document.addEventListener('astro:before-swap', function (e) {
+          e.newDocument.documentElement.dataset.clears = read();
+        });
+      })();
+    </script><style>html:not([data-clears~="tobatsu/001"]) [data-unlock="tobatsu/001"][data-unlock-show="open"],html[data-clears~="tobatsu/001"] [data-unlock="tobatsu/001"][data-unlock-show="locked"]{display:none!important}html[data-clears~="tobatsu/001"] [data-chain="tobatsu"][data-chain-step="1"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="2"],html[data-clears~="tobatsu/002"] [data-chain="tobatsu"][data-chain-step="2"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="3"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="3"],html[data-clears~="tobatsu/003"] [data-chain="tobatsu"][data-chain-step="3"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="4"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="4"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="4"],html[data-clears~="tobatsu/004"] [data-chain="tobatsu"][data-chain-step="4"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="5"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="5"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="5"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="5"],html[data-clears~="tobatsu/005"] [data-chain="tobatsu"][data-chain-step="5"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/005"]) [data-chain="tobatsu"][data-chain-step="6"],html[data-clears~="tobatsu/006"] [data-chain="tobatsu"][data-chain-step="6"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/005"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/006"]) [data-chain="tobatsu"][data-chain-step="7"],html[data-clears~="tobatsu/007"] [data-chain="tobatsu"][data-chain-step="7"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/005"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/006"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/007"]) [data-chain="tobatsu"][data-chain-step="8"]{display:none!important}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#10173F"><meta name="robots" content="noindex, nofollow"><title>勇者自らの手で創られた『最強のサキュバス』 · 士师志望</title><link rel="preload" href="/fonts/ui/noto-sans-sc-900.19b8d493.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/ui/noto-sans-sc-700.08a058f2.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/ui/m-plus-1-800.39e9af5d.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/ui/lilita-one.e1467dd8.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/body/index.css?v=c3b26b51" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/fonts/body/index.css?v=c3b26b51"></noscript><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BKsdyySz.js"></script><link rel="stylesheet" href="/_astro/BaseLayout.HeiBSvvY.css"><style>.viewer[data-astro-cid-g3gknhok]{z-index:300;background:var(--c-ink);opacity:var(--viewer-fade,1);touch-action:none;overscroll-behavior:contain;justify-content:center;align-items:center;display:flex;position:fixed;inset:0;overflow:hidden}.viewer[data-astro-cid-g3gknhok][hidden]{display:none}.viewer-stage[data-astro-cid-g3gknhok]{width:100%;height:100%;translate:var(--viewer-x,0px) var(--viewer-y,0px);scale:var(--viewer-scale,1);will-change:translate, scale;justify-content:center;align-items:center;display:flex}.viewer-stage[data-astro-cid-g3gknhok] picture,.viewer-stage[data-astro-cid-g3gknhok] img[data-astro-cid-g3gknhok]{object-fit:contain;max-width:100vw;max-height:100dvh;display:block}.viewer-close[data-astro-cid-g3gknhok]{right:14px;top:calc(14px + env(safe-area-inset-top));border:var(--stroke-sm) solid var(--c-cream);width:40px;height:40px;color:var(--c-cream);background:#0b0b1299;border-radius:50%;justify-content:center;align-items:center;font-size:16px;line-height:1;display:flex;position:absolute}.viewer-hint[data-astro-cid-g3gknhok]{left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom));color:#fff5e199;letter-spacing:1px;text-align:center;pointer-events:none;margin:0;font-size:11px;position:absolute}
+.lock[data-astro-cid-hxds2m4h]{color:var(--c-cream);display:block}
+.scene[data-astro-cid-kfnc2asi]{height:var(--scene-h,100%);background:var(--c-cream);position:absolute;inset:0 0 auto;overflow:hidden}.scene[data-astro-cid-kfnc2asi] img[data-astro-cid-kfnc2asi]{object-fit:cover;object-position:var(--focus);width:100%;height:100%;display:block}.scene[data-astro-cid-kfnc2asi]:after{content:"";background:var(--c-navy);opacity:var(--scene-dim,.15);pointer-events:none;position:absolute;inset:0}.lang[data-astro-cid-65fqhi4t]{border:var(--stroke-sm) solid var(--c-ink);border-radius:var(--radius-pill);background:var(--c-ink);height:30px;box-shadow:var(--shadow-pill);align-items:center;padding:0 3px;display:flex}.pick[data-astro-cid-65fqhi4t]{border-radius:var(--radius-pill);min-width:30px;height:22px;color:var(--c-cream);place-items:center;padding:0 7px;font-size:12px;font-weight:900;line-height:1;text-decoration:none;display:grid}.pick[data-astro-cid-65fqhi4t]:is(:lang(en),:lang(ko)){font-family:var(--font-num);letter-spacing:.5px;font-weight:400}.pick[data-astro-cid-65fqhi4t][aria-current=true]{background:var(--c-hud);color:var(--c-ink)}.pick[data-astro-cid-65fqhi4t]:not([aria-current=true]):hover{color:var(--c-hud)}.more[data-astro-cid-65fqhi4t]{display:none}@media (width<=359.98px){.lang[data-astro-cid-65fqhi4t]:not([data-open]) .pick[data-astro-cid-65fqhi4t]:not([aria-current=true]){display:none}.lang[data-astro-cid-65fqhi4t]:not([data-open]) .more[data-astro-cid-65fqhi4t]{border-top:5px solid var(--c-cream);border-left:4px solid #0000;border-right:4px solid #0000;width:0;height:0;margin:1px 6px 0 5px;display:block}.lang[data-astro-cid-65fqhi4t][data-open]{z-index:5}}
+</style><link rel="stylesheet" href="/_astro/TaleView.D7GZD25J.css"><style>.bar[data-astro-cid-jgapfgnb]{box-sizing:content-box;border:var(--stroke-xs) solid var(--c-ink);border-radius:var(--radius-pill);background:linear-gradient(90deg, var(--c-hud) var(--fill), var(--c-cream) var(--fill));width:48px;height:7px;display:inline-block}.bar[data-astro-cid-jgapfgnb].is-indeterminate{background:repeating-linear-gradient(135deg, var(--c-hud) 0 3px, var(--c-cream) 3px 6px)}.rank-text[data-astro-cid-kexnm7ay]{font-family:var(--font-sans);font-synthesis:none;letter-spacing:.05em;white-space:nowrap;font-weight:900;line-height:1.25;display:inline-block}.rank-text[data-astro-cid-kexnm7ay] b[data-astro-cid-kexnm7ay]{font:inherit;letter-spacing:0;margin-left:.15em}
+</style><link rel="stylesheet" href="/_astro/ReadingFrame.Bu0p5sBm.css"><link rel="stylesheet" href="/_astro/ZoneFrame.BamIwW-D.css"><style>.keeper[data-astro-cid-ros4szcv]{z-index:5;position:absolute}.keeper-defs[data-astro-cid-ros4szcv]{width:0;height:0;position:absolute}.keeper-hit[data-astro-cid-ros4szcv]{cursor:pointer;-webkit-tap-highlight-color:transparent;background:0 0;border:0;width:100%;padding:0;display:block}.keeper-hit[data-astro-cid-ros4szcv] img[data-astro-cid-ros4szcv]{width:100%;height:auto;display:block}.keeper-hit[data-astro-cid-ros4szcv]:focus-visible{outline:2px dashed var(--c-hud);outline-offset:4px}.keeper-bubble[data-astro-cid-ros4szcv]{bottom:var(--bubble-bottom,62%);pointer-events:none;width:max-content;max-width:260px;margin:0;padding:11px 18px 13px 16px;position:absolute}@media (width>=1024px){.keeper-bubble[data-astro-cid-ros4szcv]{max-width:340px}}.keeper--bubble-left[data-astro-cid-ros4szcv] .keeper-bubble[data-astro-cid-ros4szcv]{transform-origin:calc(100% - 22px) calc(100% + 10px);right:58%}.keeper--bubble-right[data-astro-cid-ros4szcv] .keeper-bubble[data-astro-cid-ros4szcv]{transform-origin:22px calc(100% + 10px);left:58%}.keeper-bubble-bg[data-astro-cid-ros4szcv]{filter:drop-shadow(3px 3px 0 var(--c-ink));position:absolute;inset:0}.keeper-bubble-shape[data-astro-cid-ros4szcv]{width:100%;height:100%;position:absolute;inset:0;overflow:visible}.keeper-bubble-shape[data-astro-cid-ros4szcv] .ink[data-astro-cid-ros4szcv] polygon[data-astro-cid-ros4szcv]{fill:var(--c-ink);stroke:var(--c-ink);stroke-width:5px;stroke-linejoin:round}.keeper-bubble-shape[data-astro-cid-ros4szcv] .fill[data-astro-cid-ros4szcv] polygon[data-astro-cid-ros4szcv]{fill:var(--c-cream)}.keeper-bubble-text[data-astro-cid-ros4szcv]{color:var(--c-cream);white-space:normal;word-break:break-all;font-size:14px;font-weight:900;line-height:1.5;display:block;position:relative}.keeper-bubble-text[data-astro-cid-ros4szcv][lang]{word-break:normal;overflow-wrap:anywhere;word-spacing:.2em}.keeper-bubble-lang[data-astro-cid-ros4szcv]{border-radius:var(--radius-pill);background:var(--c-ink);width:fit-content;color:var(--c-cream);letter-spacing:1px;white-space:nowrap;align-items:baseline;gap:5px;margin:-22px 0 7px -8px;padding:1px 9px 2px;font-size:11px;font-weight:900;line-height:17px;display:flex;position:relative;rotate:-3deg}.keeper-bubble-lang[data-astro-cid-ros4szcv][hidden]{display:none}.keeper-bubble-lang-name[data-astro-cid-ros4szcv]{color:var(--c-hud);font-family:var(--font-num);letter-spacing:.5px;font-size:12px;font-weight:400}.keeper-bubble-lang-name[data-astro-cid-ros4szcv]:empty{display:none}.keeper-bubble[data-astro-cid-ros4szcv]:not([hidden]){animation:.16s cubic-bezier(.2,.9,.3,1.2) bubble-pop}@keyframes bubble-pop{0%{opacity:0;transform:scale(.6)rotate(-6deg)}}@media (prefers-reduced-motion:reduce){.keeper-bubble[data-astro-cid-ros4szcv]:not([hidden]){animation:none}}
+</style><script type="module" src="/_astro/page.DZsFs8hX.js"></script></head><body data-astro-cid-z4jru4n3><noscript><p class="noscript-gate" data-astro-cid-z4jru4n3>年齢確認のため、JavaScript を有効にしてください。</p></noscript><!-- cut-in / 插页的样式是全局的：标记由 scripts/remark-cutin.mjs 从 markdown 指令生成 --><div class="reading" data-reading data-astro-cid-goz4tz7k><header class="reading-hud" data-astro-cid-goz4tz7k><span class="hud-title" data-astro-cid-goz4tz7k>勇者自らの手で創られた『最強のサキュバス』</span><button type="button" class="hud-stagecraft" data-stagecraft aria-pressed="true" aria-label="演出の強さ" data-astro-cid-goz4tz7k>演出</button></header><main class="paper" data-reading-id="saikyo-succubus" data-astro-cid-goz4tz7k><header class="head" data-astro-cid-goz4tz7k><p class="kicker" data-astro-cid-goz4tz7k>短編</p><div class="head-line" data-astro-cid-goz4tz7k><h1 data-text="勇者自らの手で創られた『最強のサキュバス』" data-astro-cid-goz4tz7k="true" class="sticker sticker--small heading">勇者自らの手で創られた『最強のサキュバス』</h1></div></header><div class="prose" data-astro-cid-goz4tz7k><p>よくある復讐ざまぁ物のように、ひどい目に遭ったわけではない。</p>
+<p data-pause="2">裏切られたわけでも、陥れられたわけでも、勇者としての功績や名誉を取り上げられたわけでもない。</p>
+<p>ただ普通に、命を懸けて魔王を倒し、その働きに見合っただけの、ごく普通の褒賞を王から受け取った。それだけのことだ。</p>
+<p>思っていたより少なくもなく、多くもない。大臣が恭しく差し出した目録を手にしたとき、胸にあったのはただの空白だった。<span class="dash">—</span>—ああ、こんなものか。せいぜいその程度の感慨。</p>
+<p>爵位。領地。英雄の称号。王女との婚姻。</p>
+<p>上等な羊皮紙にうやうやしく並んだそれは、常人なら取り乱して喜ぶだけの輝かしい未来だった。あいにく、この体の神経も副腎も、魔物との死闘のなかでとっくに焼き切れてしまったのだろう。いまさらこの程度の刺激では、心はぴくりとも動かない。</p>
+<p>振り返ってみれば、この旅でいちばん心が躍ったのは、結局のところ魔王アミテールと剣を打ち合わせた、あの一瞬だった。凱旋だの、謁見だの、叙勲だのは<span class="dash">—</span>—芝居が跳ねたあとのカーテンコールのように、圧倒的に虚しく、味気ない。</p>
+<p><span class="quote sticker is-block" data-text="——もしかして、勇者の物語はどれも、こういう終わり方をするのだろうか？"><span class="dash">—</span>—もしかして、勇者の物語はどれも、こういう終わり方をするのだろうか？</span></p>
+<p>胸のうちで必死に折り合いをつけながら、勇者はいつのまにか噛みしめていた唇をゆるめた。</p>
+<p>子どものころ、冒険譚の絵本を満足げに閉じたあとで、それでも味気ない現実へ目を戻すしかなかったのと同じこと。そうだ、どの叙事詩でも、主人公たちの運命は結局そこで尽きる。自分の結末は十分に恵まれている。文句をつけるようなところなど、何もないはずだ。</p>
+<p>王はいまも自分の力を恐れてはいるが、それでも誠意と節度をもってもてなしてくれる。王女の気性は驕慢そのものだが、それに見合うだけの才覚と資質があるのもたしかだ。侍臣たちはほどよく敬意を払い、民はほどよく感謝の声を上げる。みないい人間ばかりで、続編を背負えるほどの悪人など、ひとりもいない。</p>
+<p>いいことのはずだ。</p>
+<p>いいことに決まっている。</p>
+<p>なにしろ、ようやく手に入れた平和を、みんなが享受できるのだから。惜しむらくは……ただ『物語』が続かなくなった、それだけのこと。だが、それがどうしたというのか。『冒険』は目的ではなく、手段でしかなかった。諸悪の根源が倒れたのなら、あとの時間は市井のひとりひとりのものであって、末永く幸せに暮らしていけばいい<span class="dash">—</span>—</p>
+<p>そうだろう、</p>
+<p>そうだ。</p>
+<p>そうだろう？</p>
+<p>そうだろう！</p>
+<p>とっくに答えの出ている問答をひとりで繰り返しながら、勇者は無意識のうちに、腰に提げた聖剣の柄を撫でていた。低く、聞き取れないほどの吐息が、人けのない王宮の側廊をそっと通り抜ける。記憶のなかの自分よりずっと老いたその声が、勇者にあらためて思い出させた<span class="dash">—</span>—『魔王との決戦は、もう五年以上も前のことだ』。</p>
+<p>時が止まったかのような。空っぽで、味気なく、あっという間の二千の昼夜。それでも体験としては、旅の途中の三週間分にすら満たないのではないか。</p>
+<p data-pause="2">ふと、勇者の脳裏に、魔王の間へ続く扉の前でのことが浮かんだ<span class="dash">—</span>—</p>
+<div class="scene-break" role="separator" aria-label="场景切换"><span></span></div>
+<p>「ぢゅるっ♡ ちゅ〜♡…… んむ、ゆう♡ んむむ〜勇者さま♡…ちゅるるる♡ きっと〜 んぐむ♡ んん〜 きっと、じゅぽ♡ じゅぽ♡ 後悔、しますよぉ<span class="dash">—</span>—ちゅぶ、ちゅるるっ♡♡」</p>
+<p>薄暗い魔王城の最奥、そこはアミテール本人が座す玉座の間だった。あと一人、最後の護衛を倒しさえすれば、禍々しい浮き彫りに覆われた重い扉を押し開け、この魔物侵攻の元凶と向かい合い、長い旅にふさわしい壮大な最終決戦を始められる。</p>
+<p>ところが今<span class="dash">—</span>—勇者の股間は、その『最後の護衛』に口いっぱいに含まれ、夢中で前後に頭を振られ、粘ついた水音を立てさせられていた。</p>
+<p>「ちゅ、ちゅ、ちゅるるるるる♡ んはぁ〜♡ <span class="dash">—</span>—このまま、人間のために、んぐぅ〜♡♡ 魔王さまを倒したら……じゅぷ♡ 保証しますよ〜勇者さま♡ きっと後悔します<span class="dash">—</span>—ぢゅるるるっ〜♡♡♡」</p>
+<p>魔王アミテールの寵妃、サキュバスの女王エリタ。</p>
+<p>四天王がことごとく聖剣の露と消えたあと、彼女はアミテールの傍に残された、最後のまともな部下でもあった。サキュバス族に優れた戦闘能力はない。だが異性を誘惑し、内輪揉めをけしかける腕前は間違いなく一流だ。とりわけこういう絶望的な劣勢では、戦況をひっくり返す奇手にもなりうる。</p>
+<p>「勇者さまみたいな立派な英雄とは違って〜♡ ちゅぐ、ちゅぐ…んむむ♡♡ たいていの人間って、身勝手で、臆病で、そのうえ恩知らずな生き物なんです♡♡ <span class="dash">—</span>—そんなこと、んちゅちゅ♡ 勇者さまのほうが…わたしよりよくご存じでしょう〜♡」</p>
+<p>扉の向こうの部屋で、夫が究極の変身に向けて最後の詠唱をしていることなど気にも留めず、魔王の寵妃は侵入者の両脚のあいだに媚びるように膝をつき、ふくよかな唇で目の前の勇者に奉仕していた。細く器用な舌は、煽るような言葉を並べながらも、赤く張り詰めた肉茎を時おり舐め上げるのを忘れない。</p>
+<p>超ローライズのTバックに強調された豊かな尻も、喋りながら落ち着きなく左右に揺れる。発情期の雌猫めいた天然の媚態は、その実、異性の欲を煽るためだけに一〇〇パーセント計算され尽くした仕草だ。自分と夫の生死がかかったこの瞬間にすら、危地のただなかで魅力を満点まで引き出してみせる。まったく<span class="dash">—</span>—エリタはやはり、サキュバス族の女王の名に恥じない。</p>
+<p>「想像してみてください〜♡ もし本当に、このまま魔王を殺してしまったら……じゅぷ♡ ぢゅるるる♡ 故郷に帰ったあと、まあ〜♡ 最初のうちは、みんな歓迎してくれるでしょうね〜〜♡ んむむ〜んちゅ<span class="dash">—</span>—それなりのご褒美もあるでしょう…富とか、名誉とか、美女とか〜〜ふふっ♡」</p>
+<p>勇者の肉棒を隅々まで舐め尽くしたあと、エリタは自慢の双丘を両手で抱え上げ、慣れた手つきでパイズリを始めた。前戯で限界まで膨れ上がったそれも、九十九センチの爆乳に埋もれてしまえば、亀頭がわずかに覗くのがやっとだ。</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="right" style="--cg-ar: 1664 / 2432"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-01-elita.f132ad989e" aria-label="放大看这张 CG：勇者さま♡ きっと後悔しますよ——"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-01-elita.f132ad989e.avif"><img src="/art/cg/saikyo-01-elita.f132ad989e.webp" alt="" loading="lazy" decoding="async" style="object-position: 50% 45%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="勇者さま♡ きっと後悔しますよ——">勇者さま♡ きっと後悔しますよ——</span></figcaption></figure>
+<p>左右から包み込む柔らかさが前後に動き出すと、唾液でちょうどよく滑る肉棒も、エリタの動きに合わせてくちゅくちゅと水音を立てはじめる。誰もいない薄暗い回廊では、その煽情的な響きがいっそう際立った。</p>
+<p>「でも〜……人間が差し出せる享楽なんて、たかが知れています。じきに飽きてしまいますよ<span class="dash">—</span>—んちゅ〜♡ それに、たとえ勇者さまが飽きなくても、あなたが守ってあげた王や大臣たちのほうが飽きるんです♡♡ あなたのおかげで毎日遊んで暮らせるというのに〜 そのうちだんだん、勇者さまへの感謝なんて抱きたくなくなる♡ 一升の米は恩、一斗の米は仇〜 それが人間という生き物の本能なんですよ♡♡♡」</p>
+<p>双乳が往復するたび、二つの媚肉が勇者の腰へずしりとぶつかり、ぱん、と音を立てる。魂まで蕩かすその感触は、これまでエリタに挑んだ数えきれない男たちを屈服させてきた。彼女のパイズリが始まってなお、立っていられた男はほとんどいない……</p>
+<p>「もっと言えば〜 同族や祖国を本気で裏切る必要なんて、ないんです♡ ぢゅるぢゅる♡♡ 勇者さまは…人類を救う英雄のままでいい<span class="dash">—</span>—ほんの少し、いま急いで魔王を消してしまわなければいいだけ♡♡ 戦を少し長引かせて、もう少しだけ睨み合っていてくださる〜〜 わたしたちも合わせますから♡ 魔王が完全に滅びない限り、あの愚かな人間たちは、あなたの大切さを忘れずにいられるんですよ〜〜 敵を飼って己を重んじさせる。賢い勇者さまなら、おわかりでしょう〜♡」</p>
+<p data-pause="2">……ところが、このときばかりは違った。</p>
+<p>この勇者だけは、まるで理性と現実主義がそのまま人の形をとったかのように、自分の誘惑にひとかけらの興味も示さない。夢幻術に引きずり込まれたときから、ただ淡々と、波ひとつ立てずに、ひとりで喋る自分を見下ろしているだけだ。</p>
+<p>「それに、魔王が本当にいなくなってしまえば、人間の王もきっと勇者さまの武名を恐れはじめます♡ 毒を盛られたり、暗殺されたり……ありもしない罪を着せられて、大軍を差し向けられて、逆に討伐されるかも♡ せっかく苦しい冒険を終えたのに、また同胞と戦うだなんて……勇者さま、かわいそう〜♡♡♡」</p>
+<p>この水準の冒険者なら当然知っている。サキュバスの最上位夢幻術に途中で解ける手立てはなく、三十分の術時間が過ぎて自動的に抜けるのを待つしかない。だが夢幻術のなかでは、サキュバスの側も相手に現実の肉体的損傷を与えられない。つまり三十分の誘惑さえ凌げば、誰であろうと無傷で夢から出てこられる。</p>
+<p>裏を返せば、夢幻術のいちばん恐ろしいところもそこにある。これまでただのひとりとして、エリタの囁きのなかでこの三十分を持ちこたえた心はなかった。サキュバスの女王たる彼女がもっとも得意とするのは、砂糖をまぶした甘言で敵の心のいちばん奥まった隙間へ潜り込み、かつての仲間と反目させることなのだ。</p>
+<p>「ですから〜 いっそ前線を、勇者さまだけの離宮にしてしまいましょう♡ 人間のものだけでなく、魔族が差し出す享楽だって、好きなだけ摘み取っていいんですよ♡♡ 獣娘でも、性奴人形でも、わたしのようなサキュバスでも〜 勇者さまが思いつくものは全部、期待以上に用意してさしあげます。何もしなくても最高の体験が手に入って、しかも永遠に飽きない<span class="dash">—</span>—一時の勝利より、長く続く幸せのほうが値打ちがある。そうは思いません♡♡♡」</p>
+<p>エリタはこの夢幻術で、これまで何人もの高位冒険者を落としてきた。</p>
+<p>夢のなかで必死に逃げ回って時間を稼ぐ者もいれば、調子を合わせて協力するふりをする者もいた。だが誰であろうと、三十分の夢が終わるころには、彼女の蠱惑に落ち、心から進んで意のままの傀儡になっていた。</p>
+<p>ただのひとりもいなかったのだ<span class="dash">—</span>—いまのこの勇者のように、夢幻術が現実には何の害も及ぼさないと悟るなり、何もせず、ただ黙って時間が過ぎるのを待つ者は。まるで目的に関わらない事柄はすべて、脳が勝手に遮断してしまうかのように。</p>
+<p>そして事実、そのとおりだった。生理的な反応は、彼が快感を覚えていることを疑いようもなく証明しているし、こちらの讒言もきちんと耳に入っている。それでも勇者の内心だけは、最初から最後までさざ波ひとつ立たない。はじめから、ただ何か考えるような目で、自分を見下ろしているだけだった。</p>
+<p>「じゅぷ♡ じゅぷ♡ そうだ〜♡ 勇者さま、わたしの娘リリスタは♡ わたしなんか遠く及ばない、サキュバス族千年に一度の天才なんです♡ でもいまは、あなたの先生<span class="dash">—</span>—あの忌々しい老神父に、聖墓の地下へ封じられていて……勇者さまの実力なら、きっと簡単に助け出せます♡ そうしたら、リリスタをあなた専属のサキュバス奴隷にするのはどうです〜？ お嫌でなければ♡ わたしも一緒に、禁断の親子丼を楽しんでも……」</p>
+<p data-pause="2">そしてついに、三十分の刻限が迫るころ。</p>
+<p>幾度も限界すれすれの寸止めを重ねたのち、エリタはとうとう勇者に、自分の谷間で盛大に精を放たせた。</p>
+<p>夢幻術のなかの射精では、本当にレベルを搾り取ることはできない。それでも絶頂の快楽は、たいていの人間の価値観をひっくり返すには十分だ。これまでのエリタの経験では、夢から覚めたあとの相手はたいてい、三十分前とはまるで別人に変わっていた。</p>
+<p>「あ、お目覚め<span class="dash">—</span>—」</p>
+<p data-pause="2">だが、このときの勇者だけは違った。</p>
+<p>夢幻術が解けた最初の一秒で、勇者は一滴のためらいもない動作で、鞘から聖剣を抜き放った。</p>
+<p>会話もなく、宣言もなく、まして技名を叫ぶような演出もない。<span class="quote sticker" data-text="刃はただ淡々と、最短の軌跡をなぞって、エリタの喉元へ吸い込まれた。">刃はただ淡々と、最短の軌跡をなぞって、エリタの喉元へ吸い込まれた。</span></p>
+<p>まばゆい光がひらめき、何か言いかけていたサキュバスの女王を、あっさりと貫く。ほどなく彼女の魂は、魔族特効の神意斬によって解体され、いくつもの欠片となって聖剣のなかへ封じられていった。付随していた経験値のほうは、空気中でちらちらと光る霧に変わり、無表情の勇者に吸い込まれていく。</p>
+<p>背嚢から体力薬を一本取り出し、勇者は射精で失った精気を最大値まで戻した。</p>
+<p>時間からして、魔王アミテールの究極変身の詠唱も、そろそろ終わっているころだろう。この冒険の大詰めを飾る決戦だ。できることなら万全の状態で臨みたかった。</p>
+<p data-pause="2">これから待ち受けるその血湧き肉躍る挑戦を思うだけで、勇者の内心の昂ぶりは最大値まで振り切れた。</p>
+<div class="scene-break" role="separator" aria-label="场景切换"><span></span></div>
+<p data-pause="2">そして<span class="dash">—</span>—今。</p>
+<p>勇者は愛おしむように聖剣の柄を撫でながら、胸のうちで何かを考えはじめていた。五年以上前、まだ戦場にいたころとは違う。いまの彼には、あのころのように素早く断を下すことができない。腹を決めるためには、やはり自分の背中を押してくれる理由を、いくつか積み上げる必要があった。</p>
+<p>一つ目の理由は、数日後、王女のうえに見つかった。</p>
+<p>妻となった王女は、驕慢な気性をついぞ改めなかった。とりわけ政務が思いどおりに運ばないときは、周囲のごく当たり前の振る舞いを限りなく拡大し、正義面をした道徳の断罪にまで祭り上げ、相手を完膚なきまでに叩きのめすまで収まらない。自分の非だと気づいたところで、詫びの言葉を口にすることは決してなかった。</p>
+<p>公平に見れば、この理不尽にも映る言動そのものは、統治者の尊厳を守るための帝王学の一側面でもあって、まるきり筋が通らないわけでもない。ただ、いまの勇者にとっては、その程度のことで十分に理由になった。</p>
+<p>二つ目の理由は、数週間後、王のうえに見つかった。</p>
+<p>王は財務大臣の提案を容れ、宮廷支出の削減を決めた。そして真っ先に廃止されたのが、国営の冒険者養成機関だった。ついでに勇者も、実技教授の肩書を失う。冒険という営みとかろうじて繋がっていた最後の糸が、財政再建の旗のもとで完全に断たれた。</p>
+<p>公平に見れば、この有無を言わせぬ機構改編そのものは、産業革命でより多くの労働者を必要とするようになった国情に合わせたものであって、どう言っても悪政ではない。ただ、いまの勇者にとっては、その程度のことでやはり十分に理由になった。</p>
+<p>そして三つ目の理由は、数か月後、侍臣たちのうえに見つかった。</p>
+<p>王女とのあいだに生まれた子は、いまや王国の第一継承者だ。子が言葉を覚えてからというもの、礼儀作法の教育を担う廷臣たちがどんどん増えていった。宮廷で何十年も過ごしてきた彼らから見れば、勇者が民間から持ち込んだ立ち居振る舞いの多くは、子に悪い影響を与えるものだった。おそらく、陰で悪く言われた回数も少なくないだろう。</p>
+<p>公平に見れば、いくらか辛辣なその評価も、まるきり的外れではない。継承者たる子が、勇者に倣って冒険者の道を歩む見込みは薄いのだから。ただ、いまの勇者にとっては、その程度のことがやはり十分に理由になった。</p>
+<p data-pause="2">よくある復讐ざまぁ物のように、ひどい目に遭ったわけではない。</p>
+<p data-pause="2">愛する者に裏切られたわけでもない。政略結婚の夫婦がする、ごく普通の喧嘩にすぎない。</p>
+<p>夢を取り上げられたわけでもない。社会の発展に伴う、ごく普通の淘汰にすぎない。</p>
+<p>大切な人を侮辱されたわけでもない。使用人たちが茶飲み話のついでに漏らす、ごく普通の二言三言にすぎない。</p>
+<p data-pause="2">理由はたいして十分でもなかったが、それでも勇者は心を決めた<span class="dash">—</span>—</p>
+<p data-pause="2"><span class="quote sticker is-block" data-text="彼は、後悔することにした。">彼は、後悔することにした。</span></p>
+<p>竜を斬った勇士はいずれ竜になる、という運命の呪いじみた戯れなのかもしれない。あるいは、あの日蒔かれた種が、何年も経ってようやく芽を出しただけなのかもしれない。</p>
+<p>ともあれ、魔王アミテールを滅ぼしてから五年後、勇者は後悔することを選んだ。</p>
+<p>名前も覚えていないあのサキュバス族の女王の蠱惑に従わず、あの場で自分の冒険にあっさり終止符を打ってしまったことを、彼は後悔した。あんな醜い人間どものために、安全で平和な黄金時代を築いてしまったことを後悔した。そして何より、魔族の残党をほとんど自らの手で討ち滅ぼしてしまったことを後悔した。</p>
+<p>だが、それも終わりにする時だ。この瞬間から、人類の偉大な英雄はその場で百八十度向き直り、魔族の走狗へと続く道へ踏み出した。</p>
+<p>かちり、と音を立てて、勇者は腰で長く眠っていた聖剣をふたたび抜いた。</p>
+<p>悔いを噛みしめた彼はいま、自らの手で創り上げると決めていた<span class="dash">—</span>—ふたたび世界に闇を招き、人類を絶望の淵へ追い詰める、最強の魔物を。</p>
+<p data-pause="3"><span class="quote sticker is-block" data-text="そして聖剣がふたたび鞘へ納められたとき、勇者の足もとの血だまりに倒れていたのは、かつての恩師——聖墓を守りつづけてきた、あの老神父だった。">そして聖剣がふたたび鞘へ納められたとき、勇者の足もとの血だまりに倒れていたのは、かつての恩師<span class="dash">—</span>—聖墓を守りつづけてきた、あの老神父だった。</span></p>
+<p data-pause="3">それから勇者は、まるまる一年、姿を消した。</p>
+<p data-pause="2">老神父が世を去ったあとであれば、水晶棺に封じられたリリスタを甦らせるのは難しくない。魔王と魔妃のただひとりの娘として、リリスタの素質は疑いようもなかった。だが、それだけでは足りない。勇者の心にある、世界を滅ぼすにふさわしいラスボスへ育つ保証にはならない。</p>
+<p>勇者が望んだのは、大陸史上まちがいなく最強にして、最悪の魔族の女王に育て上げることだった。そうでなければ、頭のなかで全人類のために書き上げた終焉に、釣り合わない。</p>
+<p>だから勇者は、この一年を準備に充てた<span class="dash">—</span>—</p>
+<p data-pause="2">まず両膝をつき、水晶棺の前で、女神から授かった聖剣を自らへし折った。聖剣に封じられていた無数の魔物の魂が、血の導きに従って、リリスタの華奢な体へ溶けていく。</p>
+<p>母親の言葉を信じるなら、リリスタはサキュバス族千年に一度の天才になるはずだ。とはいえ、経験を積む間もなく封じられてしまった彼女には、母が積み上げてきた経験と見識がやはり要る。</p>
+<p>勇者の理想は、異性の心理を知り尽くした、精神の支配者だ。できれば相手の性癖と弱点を完全に把握し、それを的確に突いてくる狡猾な策謀家であってほしい。</p>
+<p>そしてリリスタに、あらかじめ自分の弱点を知っておいてもらうため、抜かりのない勇者は、自身の遺伝情報を直接献上することも忘れなかった。</p>
+<p>水晶棺の蓋を開け、なかで眠るリリスタを見下ろす。勇者はふと、五年前、彼女の母エリタを見下ろしていたときのことを思い出した。違うのはただ一点<span class="dash">—</span>—いまは自分が勃起した肉棒を握り、滑稽なほど必死に、ひとりで扱いていることだけだ。</p>
+<p>リリスタの顔立ちにはまだあどけなさが残っていたが、母親の妖艶さもすでにいくらか宿していた。清らかさのなかに一筋の媚を滲ませたその造作は、透明な棺に横たわっていると、罪を誘う宗教画のように神々しい。ほどなく勇者は精が緩むのを抑えられず、意識のないリリスタの顔へ、汚れた欲望を吐き出した。</p>
+<p>ほんの数分後、魔力を孕んだ精液は淡い光をまといながら、リリスタの肌へ自然に吸い込まれていった。心なしか、小作りな顔立ちがいっそう瑞々しく、滑らかになった気さえする。高位のサキュバスが精液を取り込むことで男の素質と性的嗜好を読み取るのは、勇者も知っていた。ただ、その過程でついでに自分の容姿まで整え、高めてしまうとは思わなかった。</p>
+<p>それ以来、勇者は三日と空けずに棺の前へ戻っては、自分で自分を搾り取るようにして、際限なく彼女の体へ精を吐き出すようになった。</p>
+<p>はじめこそ、おとなしくリリスタを眺めながら手で処理するだけだった。だがほどなくそれでは足りなくなり、行為は少しずつ過激になっていく。亀頭の裏筋を顔の横の髪にそっと擦りつけるところから、眠ったままの口へ直接挿し入れて腰を振るところまで。吐き出す量も回を重ねるごとに増え、しまいには増精剤を服まなければ、日ごとに膨らむ射精欲を満たせなくなった。</p>
+<p>とはいえ朗報もあった<span class="dash">—</span>—射精量が増えるほどに、リリスタの成長も速くなっていったのだ。とりわけ薬の量を増やし、白濁が水晶棺のなかで体を浸すほど注いでやると、翌日には決まって残らず吸収されており、同時に彼女の体つきも目に見えて仕上がっていく。</p>
+<p>そうして半年あまりが過ぎるころには、かつて華奢だった娘は、眠りのなかで、熟れたサキュバスにも劣らない蠱惑的な肢体へと育っていた。</p>
+<p>童顔とのあまりの落差が際立つ爆乳は、測るまでもなく軽く一〇〇センチを超えている。その下の引き締まった細腰は、横たわっているだけでも腸骨の稜線がはっきり見て取れた。豊かに持ち上がった桃尻は、すらりと伸びた脚といっそう映え合う。まるでラブドールのように、性のためだけに造形されたその極上の体と、勇者が妄想のなかで幾度睦み合ったかは、もはや数え切れない。</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="left" style="--cg-ar: 1019 / 1543"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-02-coffin.4444328edc" aria-label="放大看这张 CG：性のためだけに育てられた極上の体"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-02-coffin.4444328edc.avif"><img src="/art/cg/saikyo-02-coffin.4444328edc.webp" alt="" loading="lazy" decoding="async" style="object-position: 55% 55%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="性のためだけに育てられた極上の体">性のためだけに育てられた極上の体</span></figcaption></figure>
+<p>性欲の処理に充てた以外の時間も、無駄にはしなかった。</p>
+<p>勇者はほぼすべての精力を、新しい冒険に注いだ。ただし今回の目的は魔王討伐ではない。やがて目覚める新たなサキュバスの女王のために、彼女にいちばんふさわしい装備と道具を、あらかじめ一式そろえることだった。</p>
+<p>まずは北境の無人の深谷で、千年そこを守りつづけてきた黒蛇を討った。腕の鈍った彼は、あの致命的な毒牙に幾度も命を落としかけた。それでも戦いの果てに、勝者として大蛇を踏みつけ、小刀でその腹を裂いたとき、勇者の胸にあったのは至上の幸福だけだった。この皮でサキュバスの女王にふさわしいレザースーツをどう仕立てるか<span class="dash">—</span>—それを思うだけで、震える口の端が勝手に吊り上がっていく。</p>
+<p>二つめの獲物は、極東の神秘的な島国。そこには先住民が神として崇める女郎蜘蛛がいた。艶やかな見た目で旅人を惑わす魔物も、このときの勇者の前では何ひとつ力を発揮できなかった。そう、目的さえ定まれば、彼はもはや何物にも惑わされない。当時の勇者にとって大事なのは、女郎蜘蛛の催淫糸を奪い、見た目も肌触りも完璧なストッキングをリリスタに捧げることだけだった。</p>
+<p>続いて勇者は、休む間もなく南方の原生雨林へ向かった。命など惜しくないと言わんばかりの不眠不休の探索で、彼は最短の日数で翠緑の迷宮を踏破し、その最奥で樹霊を根ごと引き抜いた。香木や匂い袋では足りない。勇者に必要なのは、幹まるごとから精製した、もっとも純度の高い樹脂だった。そこからは極上の媚薬香膏が取れる。まとった者の肌からは、あらゆる異性を狂わせる淡い体香が自然と漂うようになる。</p>
+<p>さらに西海の群島。そこには芸術ばかりを研究して暮らす歌姫の海妖たちが隠れ住んでいた。勇者は彼女たちの宴に押し入り、一族に代々伝わる虹色真珠を奪った。それで作ったカラーコンタクトは、着けた者の視線に無条件の催眠を宿す。その瞳をまっすぐ見てしまえば、心の底から強制的な恋情が湧き上がり、救いようもなく本気で相手を愛してしまう。これもまた、彼女にふさわしい小さな贈り物になるだろう。</p>
+<p data-pause="2">そして最後、いちばん大事なもの<span class="dash">—</span>—リリスタの得物だ。</p>
+<p>幾晩も寝返りを打ちながら悩み抜いた末、勇者が選んだのは、結局のところ最初に頭へ浮かんだあれだった<span class="dash">—</span>—鞭。</p>
+<p data-pause="2">王家の地下宝物庫に、伝説の悪戯好きの神に祝福された一本の長鞭がある。常識を超えた長さのせいで扱いは極めて難しいが、この鞭で打たれた者は痛みを感じない。感じるのは、本来の痛みとちょうど同じだけの快楽だけだ。</p>
+<p>一見すると武器としての機能はない。だが打たれることのもうひとつの副作用として、脳が勝手に痛覚と快楽を結びつけてしまう。打たれた回数が増えるほど、ほかの苦痛までも快感として受け取るようになっていく。その影響下では、戦場の敵ですら、その場で自ら鞭を欲しがるM奴隷へと調教されてしまう。</p>
+<p>いずれ人類すべてを跪かせるサキュバスの女王にとって、これ以上ふさわしい装備はない……</p>
+<p data-pause="2">こうして一年は、勇者の入念な準備のうちに、あっという間に過ぎ去った。</p>
+<p>リリスタのためにすべてを計画し、大小の段取りをひとつずつ詰めていくその時間は、かつて旅の途中で自分の計画を組み立てていたころによく似ていた。当時は仲間から効率厨だとさんざん笑われたものだが、そこにある楽しさは、ほかの誰にも理解できないものだった。</p>
+<p>実の娘の行く末に道を敷いてやるように、勇者は自分の胸のうちにある最高の答案を、リリスタの前へ並べていった<span class="dash">—</span>—</p>
+<p>『経験』、『技能』、『道具』、『武器』。</p>
+<p>もちろん、両膝をついたこの自分という『配下』も含めて。</p>
+<figure class="plate" data-plate=""><button type="button" class="plate-frame" data-cutin-open="" data-src="/art/cg/saikyo-03-gear.045d6d5201" aria-label="放大看这张插页" style="aspect-ratio: 14 / 9"><picture><source type="image/avif" srcset="/art/cg/saikyo-03-gear.045d6d5201.avif"><img src="/art/cg/saikyo-03-gear.045d6d5201.webp" alt="" loading="lazy" decoding="async"></picture></button></figure>
+<p data-pause="2">すべては整った。あとは主が目を覚まし、自分のものとなる贈り物を受け取るだけだ。勇者は深く息を吸い、膨大な魔力を練り上げて、水晶の霊柩に封じられたサキュバスの娘を呼び覚ましはじめた。</p>
+<p>身を潜めた地下室で、けばけばしい色彩が明滅して呼び合い、虚空から邪気が噴き出す。封印者の魔力を失った聖棺に、稲妻のような亀裂が、かっ、と走った。人類にとっての平和で幸福な日々が、まもなく終わりを告げることを予告するかのように。</p>
+<p data-pause="2">詠唱が終わり、長い睫毛がかすかに震え、彼女がゆっくりと目を開け、賞賛と嘲りの入り混じった目で自分をちらりと見やった<span class="dash">—</span>—その瞬間、</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="right" data-line-at="bottom-left" style="--cut-bl: 30; --cg-ar: 1248 / 1888"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-04-eyes.abbad42a36" aria-label="放大看这张 CG：賞賛と嘲りの入り混じった目"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-04-eyes.abbad42a36.avif"><img src="/art/cg/saikyo-04-eyes.abbad42a36.webp" alt="" loading="lazy" decoding="async" style="object-position: 50% 45%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="賞賛と嘲りの入り混じった目">賞賛と嘲りの入り混じった目</span></figcaption></figure>
+<p data-pause="3">まだ勃ちきってもいない勇者の肉棒がびくりと跳ね、失禁のように大量の精液を床へ撒き散らした。</p>
+<div class="scene-break" role="separator" aria-label="场景切换"><span></span></div>
+<p>リリスタが目覚めた。</p>
+<p>床に一列に並べられた高級装備と、いちばん奥で膝をつき、体を震わせている男。それを一瞥しただけで現状のすべてを理解したかのように、彼女は砕けた棺の残骸から長い脚を踏み出した。何も言わず、ただ自分のペースで、優雅な所作のまま、勇者が用意した衣装を一枚ずつ身につけていく。</p>
+<p>まるで、それらが当然に自分のものであるかのように。</p>
+<p>見事な胸に吸いつくように誂えられたランジェリー。面積は小さいが理にかなった裁ちのショーツ。魔力を孕んだ上質のストッキング。黒革のボディスーツに、同じ素材のロンググローブ。膝上まで編み上げるハイヒールブーツ。ティアラ、ネックレス、レッグリング、さらには香水やカラーコンタクトに至る化粧道具まで、どれも伝説級以上の魔道具だとひと目でわかる。</p>
+<p>それでも娘は、ためらいも遠慮も微塵も見せず、ただ淡々と、目の前の貢ぎ物を受け取っていった。</p>
+<p>そして身支度を終えたリリスタは、邪悪な艶を帯びた革鞭の先で、勇者の顎をそっと持ち上げ、にこやかな笑みのまま、彼が夢に描いたものより十倍は甘い声で、こう言った。</p>
+<figure class="cutin" data-cutin="" data-mode="rift" data-side="right" style="--cg-ar: 1024 / 1536"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-05-no.e15bae6307" aria-label="放大看这张 CG：いいえ♡"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-05-no.e15bae6307.avif"><img src="/art/cg/saikyo-05-no.e15bae6307.webp" alt="" loading="lazy" decoding="async" style="object-position: 50% 30%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="いいえ♡">いいえ♡</span></figcaption></figure>
+<p data-pause="2">「いいえ♡」</p>
+<p data-pause="2">勇者は呆然とした顔をした。何が起きたのか、とっさに飲み込めないとでもいうように。胸が激しく上下しはじめ、呼吸が浅く速くなる。唇は宙で開いては閉じるばかりで、ひと言も絞り出せない。</p>
+<p>それを見たリリスタは、鼻で小さく笑うと、身をかがめ、勇者の耳もとへ口を寄せた。</p>
+<p data-pause="2">「いいえ、と言ったんです。わたしは、あなたを誘惑しません〜♡」</p>
+<p data-pause="2">蘭のような吐息が耳の奥をくすぐり、背筋の裏から生えた痺れが、瞬く間に全身へ広がっていく。目覚めたばかりのサキュバスの娘もそれに気づいたらしく、少しだけ体を引いて、目の前の男とのあいだにわずかな距離を取った。</p>
+<p data-pause="2">「ここまでしてくださったのは、本当に感謝しています。もうこの世界に、わたしに抗える人なんて残っていないでしょうね……でも、残念♡ それでもなお<span class="dash">—</span>—勇者さまだけは、絶対に誘惑してさしあげません〜♡」</p>
+<p data-pause="2">「あなたのおちんちんを咥えて、器用な舌で何度も寸止めして、自分の原則を投げ出してわたしのために人を斬りに行くまで追い込んであげたり〜♡ 人間との交渉の席で、テーブルクロスの下からこっそり手でいじって、言うことを聞かせたり〜♡ 足で頭を踏みにじって、降伏を誓うのと引き換えに踏まれて出す権利をあげたり〜♡ 騎乗位で、まるで逆レイプみたいに、あなたのレベルを精液ごと全部搾り取ってあげたり〜♡ <span class="dash">—</span>—そういうことは、ぜんぶしません」</p>
+<p data-pause="2">「わたしが眠っているあいだ、きっとそういうご褒美を夢見て、せっせと貢いでくださっていたんでしょう。でも残念でした〜♡ そのどれも、あなたの身には、ぜ〜んぶ起こりません♡」</p>
+<p data-pause="2">嘲りの滲む言葉がひとつずつリリスタの口からこぼれるたび、勇者の目の奥から絶望が噴き上がってきた。その絶望はほどなく怒りと屈辱に変わり、続いて、あたりの空気ごと沸き立たせるような膨大な魔力の波動が湧き起こる。</p>
+<p>歴戦の人類の英雄がいまにも拳を振り上げてきそうなその瞬間にも、リリスタは贈られた装備のひとつすら起動させなかった。ただ慌てる様子もなく人差し指を伸ばし、勇者の唇へそっと押し当てる。</p>
+<p data-pause="2">「でも、勘違いしないでくださいね♡ ご褒美をあげないとは、言っていません〜」</p>
+<p data-pause="2">「わたしがさしあげるのは、そのへんに転がっている誘惑じゃありません。あなたの心のいちばん奥が、本当に欲しがっているもの<span class="dash">—</span>—」</p>
+<p data-pause="3">少し間を置いて、今度は反対側の耳もとへ口を寄せ、恋人に愛を囁くような甘い声で、彼女はそっと呟いた。</p>
+<p data-pause="2">「<span class="dash">—</span>—いま言ったこと、ぜ♡ん♡ぶ、あなたのまわりの『ほかの人たち』に、してさしあげます〜〜♡」</p>
+<p data-pause="2">「王さまには内側が触手の貞操具をつけて、自分に忠実だった臣下を、自分から陥れるように仕向けてあげます〜♡ 王女さまは感じるところを隅々まで開発して、わたしの指がないと生きていけない体にしてあげます〜♡ 侍臣たちは一列に並ばせて、順番に、思いきり股間を蹴り上げてあげます〜♡ 息子さんは<span class="dash">—</span>—将来、大人になってから誘惑してさしあげます。サキュバスの中で、100％中毒になる、悪夢みたいな初めてを迎えさせてあげますね〜♡」</p>
+<p data-pause="2">「あなたが想像したことも、想像を超えたことも〜ぜんぶ『ほかの人たち』の上で、ひとつずつ実演してさしあげます。うれしいでしょう♡ だって、それこそが、あなたの本当に欲しかったものなんですから〜〜」</p>
+<p data-pause="2">勇者の瞳孔が、きゅっと縮んだ。</p>
+<p>それでもリリスタは意に介さず、同じ調子のまま先を続ける。</p>
+<p data-pause="2">「ご安心ください♡ 勇者さまに寝取られ趣味がないのは、よくわかっていますし……そういう場面で性欲を刺激されるかたでもない」</p>
+<p data-pause="2">「……いえ、そもそもあなたには、本当の意味での性欲がないんです。同じことをわたしが勇者さまご自身にしたところで、きっと特別な感慨は湧かない。勃つでしょうし、射精もするでしょうし、意識が飛ぶくらいイくことだってあるでしょう……でも、あなたの『心』は、まったく揺れない。どれも、勇者さまのいちばん根っこにある欲望ではありませんから〜♡」</p>
+<p data-pause="2">「生まれついての戦闘狂であるあなたの飢えは、最初から最後まで、性の快楽ごときで埋まるものじゃない。わたしたちの勇者さまが人類を裏切って、世界最強のサキュバスを自らの手で創り上げてまで欲しかったものは、たったひとつ<span class="dash">———</span>—」</p>
+<p data-pause="2">心臓が狂ったように打ち鳴らされ、大粒の汗が遠慮なく上着を濡らしていく。鈴を転がすようなリリスタの声は、いまの勇者には、幸福を告げる教会の鐘の音にしか聞こえなかった。</p>
+<p data-pause="3"><span class="quote sticker is-block" data-text="「————それは『敵』。そうでしょう〜？」">「<span class="dash">———</span>—それは『敵』。そうでしょう〜？」</span></p>
+<p data-pause="4">唾をひとつ、喉の奥へ飲み下す。もう何も返す必要がないことは、彼自身がいちばんよくわかっていた。心のうちを完全に見抜かれて屈服させられる敗北感が、勇者の裡に、久しく忘れていたあの甘い緊張を灯していく。</p>
+<p>これだ。これなんだ。</p>
+<p>この血が沸き立つような期待がなければ、どれだけ快楽を積んだところで、絵に描いた餅にすぎない。冒険だけが<span class="dash">—</span>—冒険がもたらす死の際の手触りだけが、自分の『心』まで絶頂へ連れていってくれる。</p>
+<p data-pause="2">「母上は、きっと間違えたんですね〜♡ よりにもよって、人間からの裏切りを餌にして、魔王討伐を先延ばしさせようとしたんですから。ふふっ、そんなやり方では誘惑できるはずもありません……ご存じなかったんです。わたしたちの勇者さまは〜凱旋した翌日にでも、人類全員に裏切ってもらいたくてたまらなかった、だなんて〜〜♡ だってそうすれば、物語にまた新しい『敵』ができるんですもの♡♡」</p>
+<p data-pause="2">「だからあなたは、意気揚々と魔王を倒して、人間の社会へ帰って、王がいつ、あの手垢のついた復讐ざまぁ物みたいに、身内へ刃を向けてくるかを待っていた♡ ところが困ったことに、みんなただの善人ばかり〜ひとりとして、あなたの期待どおりに振る舞ってはくれなかった。この五年あまり、毎日毎日、燃えるように待ち焦がれては、掻く場所もなくて疼いていたんでしょう〜♡」</p>
+<p data-pause="2">「そしてわたしの読みが外れていなければ、勇者さま♡ 封じられたわたしにこれほどの期待を注いだのは……わたしのそばにいるとき、久しぶりに『敵意』を感じられたから<span class="dash">—</span>—違いますか？」</p>
+<p data-pause="2">容赦のない侮蔑をこめて、黒革の手袋が勇者の髪を掴み、無理やり自分のほうを向かせる。人形めいたその瞳が、七色に揺らめいた。『あのとき』はまだ眠っていたはずのリリスタが、まるで現場をすべて見届けていたかのように、実際に起きたことを言い当てていく。</p>
+<p data-pause="2"><span class="quote sticker is-block" data-text="「老神父さまの死。あれ、とても不自然です♡」">「老神父さまの死。あれ、とても不自然です<span class="quote-heart">♡</span>」</span></p>
+<p data-pause="2">「あんなの、勇者さまらしくありません。罪もない人間を自分の手で殺す度胸が本当にあるのなら……そもそもわたしに、敵を作ってもらう必要なんてなかったはずでしょう♡ そう<span class="dash">—</span>—あなたは、相手に先に手を出させなければならない。相手が先に悪意を向けてきて、はじめて、道徳の重荷を背負わずに返り討ちにできるんですから〜」</p>
+<p data-pause="2">「だからわたしが思うに〜♡ 最初、勇者さまは眠っているわたしを水晶棺から盗み出すつもりだった、それだけ……ぷっ♡ ところが運悪く、老神父に見つかってしまった〜♡ しかもあのご老人ときたら、後生大事にしていた自慰のおかずに手を出されたとでもいうように、烈火のごとく勇者さまへ斬りかかってきた〜〜 その条件がそろってはじめて、あなたは『正当防衛』という大義名分で、恩師の命を奪えたんですよね♡♡」</p>
+<p data-pause="2">あまりの衝撃と感嘆に、勇者の喉の奥から、空気の抜けるような呻きが漏れた。</p>
+<p data-pause="2">それは、自らの美貌と魅力に対する絶対の自信だった。</p>
+<p>封じられ、意識のない眠りのなかにあってなお、他者の意志を歪めてしまう。かつて一心に神へ仕えた高潔な教士を、来る日も来る日もの守衛のうちに、水晶棺のサキュバスを思って自慰にふける依存者へと腐らせてしまう。自分という存在が男にとってどれほど恐ろしい魔力を持つのか、リリスタははっきりと理解していた。</p>
+<p>彼女の言うとおり、嫉妬と怨嗟にまみれた師の顔を目にしたその瞬間、勇者はこの一年の計画を即座に決めたのだ。夢に見た暮らしは、きっとこの娘の手によって現実になる<span class="dash">—</span>—そう、本能で信じた。</p>
+<p data-pause="2">「それで〜足もとに転がる恩師の亡骸を見下ろしながら、あなたは気づいた<span class="dash">—</span>—眠っているこのサキュバスが、勇者さまの仲間を、理性を失った敵に変えてしまったのだと。だったら、この子が目を覚ましたなら、もっと大勢を自分と反目させられるんじゃないか〜って♡」</p>
+<p data-pause="2">「もう、勇者さまってひどい人♡ わたしを利用してまで、お仲間を堕としてでも、自分に新しい『敵』を用意したいだなんて♡ それとも<span class="dash">—</span>—その過程そのものも、あなたの変態的な心を刺激してくれるのかしら〜？」</p>
+<p data-pause="2">「ご安心ください。いまのわたしを一から創ってくださった恩人ですもの♡ 勇者さまのご入用は……すべて、全力でお応えしてさしあげます〜♡」</p>
+<p data-pause="2">言い終えると、リリスタは立ち上がり、勇者の唇に当てていた指も引き戻した。</p>
+<p>宙で指を鳴らすと、人差し指の先に魔力が集まりはじめる。それはねじれ、渦巻き、膨らんで、やがて仮面ほどの大きさの桃色の靄になった。</p>
+<p data-pause="2">「これ、見覚えがあるでしょう〜？ 三十分の天国を人工的に作る夢幻術です♡ でも母上のとは違って、わたしのは即時発動もできれば、こうして塊に固めることもできるんです……勇者さまはこれを持って王城へ帰って、血相を変えて出迎えにきた最初のひとりの顔へ、投げつけてくださればいいだけ〜♡」</p>
+<p data-pause="2">「三十分の、これ以上ないほど淫らで乱れた春夢のほうは、あなたには見られませんけど〜♡ 保証します。三十分が終わって夢から解き放たれたその人は……きっと、勇者さまがいちばん必要としている姿になっていますよ♡」</p>
+<p data-pause="2">「野心に満ちて、一国の王女として国政に心血を注ぐ奥さまも〜♡ 心根が優しくて、温厚で、方々の均衡を取ることに腐心してきたあの老王も〜♡ 礼を重んじて、あなたのお子の教育を第一に考えている侍臣たちも〜♡ ひとり残らず、三十分後には……顔つきも歪んだ、心根の醜い、復讐の相手にうってつけの悪役の駒に、変わってしまいます〜えへへ♡」</p>
+<p data-pause="2">「手段を選ばないそういう悪党との戦いは、きっと刺激に満ちていて、しかもなんの後ろめたさもない、最高の冒険譚の続編になりますよね〜♡ これからの日々、お互い欲しいものを取り合って、な〜〜がいお付き合いをしましょう♡ ゆ・う・しゃ・さ・ま〜？」</p>
+<p data-pause="2">リリスタは騎士を叙任する王族のような手つきで、邪悪な呪いを孕んだその魔力の塊を、勇者の左肩にそっと置いた。</p>
+<p>とうに唇を解かれていた勇者は、それでも何も答えなかった。</p>
+<p data-pause="2">ただ、心から悦んで跪いたまま、首を伸ばし、感謝をこめてリリスタの靴先に口づけた。</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="right" style="--cg-ar: 1888 / 1248"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-06-boots.a352cc4c23" aria-label="放大看这张 CG"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-06-boots.a352cc4c23.avif"><img src="/art/cg/saikyo-06-boots.a352cc4c23.webp" alt="" loading="lazy" decoding="async" style="object-position: 45% 45%"></picture></span></button></figure></div><div class="fin" data-fin data-astro-cid-goz4tz7k><span class="fin-rule" aria-hidden="true" data-astro-cid-goz4tz7k></span><span class="fin-word sticker sticker--large" data-text="Fin." data-astro-cid-goz4tz7k>Fin.</span><span class="fin-note" data-astro-cid-goz4tz7k>完 · お読みいただきありがとうございます</span></div></main><button type="button" class="resume" data-resume hidden data-astro-cid-goz4tz7k>続きから · 第<span data-resume-n data-astro-cid-goz4tz7k>1</span>段落</button><nav class="reading-bar" aria-label="戻る" data-astro-cid-goz4tz7k><a class="btn btn-next btn-back" href="/ja/tales" data-astro-cid-goz4tz7k>戻る</a></nav><div class="viewer" data-viewer hidden aria-modal="true" role="dialog" aria-label="大きく見る" data-astro-cid-g3gknhok><div class="viewer-stage" data-viewer-stage data-astro-cid-g3gknhok><picture data-viewer-picture data-astro-cid-g3gknhok><source data-viewer-avif type="image/avif" data-astro-cid-g3gknhok><img data-viewer-img alt="" decoding="async" data-astro-cid-g3gknhok></picture></div><button type="button" class="viewer-close" data-viewer-close aria-label="閉じる" data-astro-cid-g3gknhok>✕</button><p class="viewer-hint" data-astro-cid-g3gknhok>ピンチで拡大 · 下にスワイプで閉じる</p></div></div><script type="module" src="/_astro/ReadingFrame.astro_astro_type_script_index_0_lang.CCT8jKlS.js"></script><div class="lang-notice" role="status" hidden data-lang-notice="ja" data-astro-cid-v2xiuujx><span class="lang-notice-tag" data-astro-cid-v2xiuujx>お知らせ</span><p data-astro-cid-v2xiuujx>サイトの表示は日本語です。作品そのものは、緑の線がついた <em class="em" data-astro-cid-v2xiuujx>ゲーム</em> と <em class="em" data-astro-cid-v2xiuujx>小説</em> に日本語版があります。文字コラと動画は、まだ中国語のままです。</p><button type="button" class="lang-notice-close" aria-label="閉じる" data-lang-notice-close data-astro-cid-v2xiuujx><svg viewBox="0 0 12 12" aria-hidden="true" data-astro-cid-v2xiuujx><path d="M2 2l8 8M10 2l-8 8" data-astro-cid-v2xiuujx></path></svg></button></div><script type="module">var e=`tavern.lang-notice`,t=0;function n(e){if(window.clearTimeout(t),!e.hidden){if(matchMedia(`(prefers-reduced-motion: reduce)`).matches){e.hidden=!0;return}e.classList.remove(`is-in`),e.classList.add(`is-out`),e.addEventListener(`animationend`,()=>e.hidden=!0,{once:!0})}}document.addEventListener(`astro:page-load`,()=>{let r=document.querySelector(`[data-lang-notice]`);if(!r)return;let i=null;try{i=sessionStorage.getItem(e),sessionStorage.removeItem(e)}catch{}i===r.dataset.langNotice&&(r.hidden=!1,r.classList.add(`is-in`),r.addEventListener(`click`,()=>n(r)),t=window.setTimeout(()=>n(r),7e3))});</script><div data-astro-transition-persist="sweep" class="sweep" data-sweep aria-hidden="true" data-astro-cid-g5p2a5pb><span class="band band--body" data-astro-cid-g5p2a5pb></span><span class="band band--rim" data-astro-cid-g5p2a5pb></span></div></body></html><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.B6XbzcT8.js"></script>

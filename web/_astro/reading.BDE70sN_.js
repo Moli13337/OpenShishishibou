@@ -1,0 +1,1 @@
+var e=`tavern.reading.`;function t(t){try{let n=localStorage.getItem(e+t);return n?JSON.parse(n):null}catch{return null}}function n(t,n){try{localStorage.setItem(e+t,JSON.stringify(n))}catch{}}export{n,t};

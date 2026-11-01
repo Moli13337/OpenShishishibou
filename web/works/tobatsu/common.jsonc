@@ -1,0 +1,465 @@
+// 讨伐任务 · 公共参数
+//
+// 这份文件是 JSON 加注释（// 开头的行是注释，游戏读的时候会去掉）。
+// 改完重跑发布就生效。时间一律按秒写，长按按毫秒写。
+//
+// 讨伐是同一套框架下的几份委托。参数分两层，载入时按顺序整个盖上去：
+//   common.jsonc（这份：框架、效果库、音效、文字样式、性能）
+//   → quest-<编号>.jsonc（那份委托：委托单、节奏预设、每组、演出表、选曲、战斗图与背景）
+//   → 那份委托里的 standee（立绘档案：跟着图走的像素数值）
+// 委托文件里写了同名的段，就盖过这里；没写的沿用这里。
+// 台词：lines-common.jsonc（共用的言责词库、心声、拟声词）+ lines-<编号>.jsonc；剧情：story-<编号>.jsonc。
+{
+  // ---------- 委托 ----------
+  // list：有哪几份委托，按这个顺序挂到任务墙上（每份一张卡，点进去是 /quests/tobatsu/<编号>）。
+  // 每份要有 quest-<编号>.jsonc、lines-<编号>.jsonc、story-<编号>.jsonc 三个文件。
+  // default：地址里没写 ?quest=<编号> 时进哪一份（调节器、/quests/tobatsu 本身）
+  // unlisted：不上任务墙的委托（编辑中）——编号: 链接暗号。只能用 index.html?quest=编号&k=暗号 打开（这台设备输过调节器口令也能开）；
+  // 要公开就把它从 unlisted 里删掉，重新导入（写法："unlisted": { "007": "暗号" }。006 在 2026-10-04 上墙；007 在 2026-10-19 上墙；008 在 2026-10-26 上墙）
+  "quests": { "list": ["001", "002", "003", "004", "005", "006", "007", "008"], "default": "004", "unlisted": {} },
+
+  // ---------- 性能档 ----------
+  // high / mid / low。玩家设备上默认用哪一档（站主定：高。iPhone 12 最坏情况前 2–3 分钟平均 58fps）；调节器可以换档并存本机，地址加 ?perf=low 临时指定。
+  // tiers 里可以改每一档的数值（不写就用默认）：dpr 画布分辨率上限、edge 边缘处理（full / noShadow / off）、
+  // particles 粒子数量倍数、visions 魅了幻象开不开、glow 辉光（full / light / none）
+  // auto 自动降档（站主定：按推荐值）：只在战斗画面量，每 window 秒算一次平均帧数，连续 windows 次低于 below 就降一档、提示一次，
+  //   一局里只降不升；换画面 / 切后台回来后的前 settle 秒不算；平均落在 capBand 里且每秒帧数极差 ≤ capJitter 时当成系统限帧（低电量模式）不降。
+  //   地址写了 ?perf= 或调节器里手选过档位就不自动降
+  "perf": {
+    "default": "high",
+    "auto": { "enabled": true, "below": 50, "windows": 2, "window": 10, "settle": 5, "capBand": [27, 33], "capJitter": 2 }
+  },
+
+  // ---------- 委托单里各委托共用的 ----------
+  // 其余（委托名、委托人、组数、秒数……）在各自的 quest-<编号>.jsonc
+  "quest": {
+    // 主人公（剧情对话里的名牌）。主人公不出立绘
+    "hero": "你",
+    // 无敌模式（站主 2026-10-04）：这台设备在一份委托累计失败 invincible 次之后解锁——题失手不算败北，只有自己放弃才会输；用它通关不发奖杯。
+    // 每份委托都有（不用另写剧情）；哪份不要就在它的 quest.relief 里写 "invincible": 0。「重来这一组」的救济（relief.after）还是各委托自己写
+    "relief": { "invincible": 10 }
+  },
+
+  // ---------- 节奏 ----------
+  "timing": {
+    // 剧情之后、每组开始之前的准备倒数
+    "readyCountdown": 3,
+    // 准备倒数时横在画面上的提醒
+    "readyTip": "请握紧您的『圣剑』，准备按照节奏攻击",
+    // 前段 / 中段 的结束点，按本组目标时长的比例。其余是后段（委托文件的 sets 里可以按组改）
+    // 默认 30 秒一组：前段 0–10.5 秒，中段 10.5–22.5 秒，后段 22.5–30 秒
+    "earlyEnds": 0.35,
+    "midEnds": 0.75,
+    // 台词条几秒换一句、抽哪个池，在各委托的演出表（quest-<编号>.jsonc 的 stage）
+    // 心跳间隔（秒，按阶段）：疲劳层明暗一次；后段放弃按钮跟着脉冲
+    "beatEvery": { "early": 1.0, "mid": 0.8, "late": 0.55 },
+    // 放弃要按住多久才生效（毫秒）
+    "holdToQuit": 1500,
+    // cut-in 停在画面上多久（秒，不含切进切出）
+    "cutinHold": 1.2,
+    // 一组数到 0 之后，先停这么久放余韵（节奏停下、「0」发光、心形环、残影），再出「通过」印章；0＝不停
+    "finishHold": 1.4,
+    // 一组撑完，「第 n 组 通过」印章停多久再进暂停画面
+    "passHold": 1.4
+  },
+
+  // ---------- 无尽战斗（最后选「饶过魔物」之后）----------
+  // 不会赢，只能自己放弃。按已坚持的秒数分阶段
+  "endless": {
+    "midAt": 30,
+    "lateAt": 60,
+    // 台词、演出、魅了强度在各委托演出表的 stage.endless
+    // 节奏每过 speedUpEvery 秒加快 speedUpBy，最多到 maxSpeed 倍
+    "speedUpEvery": 20,
+    "speedUpBy": 0.05,
+    "maxSpeed": 1.6,
+    // 随机快慢：每隔 every [最短, 最长] 秒换一个速度倍数（在 range [最慢, 最快] 里挑，快慢尽量交替），
+    // ease 越大换得越急（1 ≈ 一秒左右过渡过去）
+    "sway": { "enabled": true, "every": [3, 8], "range": [0.55, 1.9], "ease": 1.6 }
+  },
+
+  // ---------- 音效 ----------
+  // 每个槽写一个音频文件名（mp3，放在这个文件夹里、英文文件名）；留空＝不出声。
+  // 也可以写成 { "src": "文件名", "volume": 0.6, "pitch": 0.05 }：volume 这一槽的音量（0–1），
+  // pitch 每次音高随机浮动的幅度（0.05＝±5%，连续重复的声音不那么机械）。
+  // 文件全部由 scripts/art/tobatsu-sfx.mjs 用 ffmpeg 合成（不用下载素材），峰值统一到 -1 dB。
+  "sfx": {
+    // 总音量 0–1。玩家可以用 HUD 右上角的喇叭关掉声音
+    "volume": 0.8,
+    // 心跳声在哪几段放（每次心跳一声）
+    "heartbeatIn": ["late"],
+    "slots": {
+      "提": { "src": "sfx-wood-up.8c7095fac5.mp3", "volume": 0.8 },    // 节奏滑块到顶（和魅惑特效一起）
+      "压": { "src": "sfx-wood-down.47145e9aca.mp3", "volume": 0.8 },  // 节奏滑块到底
+      "倒数": { "src": "sfx-count.bd8360e4a6.mp3", "volume": 0.6 },    // 准备倒数 3、2、1，切回来的恢复倒数
+      "开始": { "src": "sfx-go.84b4298113.mp3", "volume": 0.7 },       // 倒数结束、一组开始
+      "台词": { "src": "sfx-line.6d4dae0637.mp3", "volume": 0.3 },     // 战斗中台词条换一句（要很轻）
+      "对话": { "src": "sfx-talk.e4e599679b.mp3", "volume": 0.5 },     // 剧情对话框换一句
+      "cutin": { "src": "sfx-cutin.1fbc014d93.mp3", "volume": 0.7 },   // cut-in 切进来
+      "切阶段": { "src": "sfx-phase.758eabe049.mp3", "volume": 0.9 },  // 进中段 / 后段（切图抖动那一下）
+      "心跳": { "src": "sfx-heartbeat.68801f420b.mp3", "volume": 0.8 }, // 心跳（见 heartbeatIn）
+      "长按": { "src": "sfx-charge.73a43d48cb.mp3", "volume": 0.7 },   // 按住放弃开始（蓄力声，松手会被切断）
+      "松手": { "src": "sfx-release.cfa26008ba.mp3", "volume": 0.6 },  // 没按满就松开
+      "放弃": { "src": "sfx-quit.3802473673.mp3", "volume": 0.8 },     // 放弃生效
+      "通过": { "src": "sfx-pass.6577c61759.mp3", "volume": 0.9 },     // 一组通过，印章砸下
+      "全部通过": { "src": "sfx-clear.51fc13c2f7.mp3", "volume": 0.8 }, // 四组全部通过
+      "讨伐成功": { "src": "sfx-victory.d9ce4bb4e0.mp3", "volume": 0.8 }, // 最后一击之后
+      "失败": { "src": "sfx-fail.10d192c024.mp3", "volume": 0.8 },     // 放弃 / 撤退 / 无尽战斗结算
+      "选择": { "src": "sfx-choose.495372fbf8.mp3", "volume": 0.6 },   // 暂停和最后一击的选项被点
+      "按钮": { "src": "sfx-tap.1da249e708.mp3", "volume": 0.5 },      // 其他按钮（开始、继续、重来、跳过、喇叭）
+      "摇": { "src": "sfx-boing-up.7fd9fde0f6.mp3", "volume": 0.8, "pitch": 0.06 },    // 立绘大幅摇动（cut-in、切阶段）：duang~
+      "摇小": { "src": "sfx-purun-up.b657458e8c.mp3", "volume": 0.5, "pitch": 0.08 },  // 节奏到顶时偶尔一下：ぷるん
+      "特写摇": { "src": "sfx-boing-cute.4a09361c59.mp3", "volume": 0.75, "pitch": 0.06 },
+      "余韵": { "src": "sfx-finish.83e45dbb96.mp3", "volume": 0.7 },                // 一组数到 0 的余韵：柔和的钟声 + 往上的亮晶晶
+      "特写臀": { "src": "sfx-hip-up.b685b9d68a.mp3", "volume": 0.75, "pitch": 0.06 },   // 臀部特写切进来：扭过去的 ぷりん↗，比胸的低一点、颤得慢 // 胸部特写切进来：高一点、可爱一点、往上挑的 ぷるるん↗
+      "接触": { "src": "sfx-chu.001589d756.mp3", "volume": 0.8, "pitch": 0.05 },    // 肢体接触：ちゅっ。剧情里某句写 "sfx": "接触" 就在那句放；唇印也用它
+      "魅惑闪光": { "src": "sfx-allure.b3303f845a.mp3", "volume": 0.7 },           // 演出：魅惑闪光、眼神特写
+      "心章": { "src": "sfx-heartpop.ea0074956c.mp3", "volume": 0.7, "pitch": 0.05 }, // 演出：心章砸下
+      "集中线": { "src": "sfx-focus.00dcdf894f.mp3", "volume": 0.7 },              // 演出：集中线 + 大字
+      "吐息": { "src": "sfx-breath.9da0b5de13.mp3", "volume": 0.6 },               // 演出：吐息（粉雾）
+      "挑战出现": { "src": "sfx-chal-alert.32ad8d81dc.mp3", "volume": 0.75 },       // 挑战：图标砸下来（急促的「嘀嘀」）
+      "挑战命中": { "src": "sfx-chal-hit.407a602b2d.mp3", "volume": 0.7 },          // 挑战：完成
+      "挑战失手": { "src": "sfx-chal-miss.cb528e48cf.mp3", "volume": 0.85 },        // 挑战：没在限时内完成
+      "挑战蓄力": { "src": "sfx-chal-charge.f42d7d3a13.mp3", "volume": 0.55 },      // 挑战·按住：按下去蓄力（往上爬，松手切断）
+      "挑战推进": { "src": "sfx-chal-step.045d0311dd.mp3", "volume": 0.5 },         // 挑战·拖动：过一个检查点
+      "挑战脱轨": { "src": "sfx-chal-slip.123ac34831.mp3", "volume": 0.7 },         // 挑战·拖动：偏离轨道，弹回检查点
+      "挑战斩": { "src": "sfx-chal-slash.d1c5d968df.mp3", "volume": 0.75 },         // 挑战·拖动：拖到终点斩开
+      "报数": { "src": "sfx-tick-up.e479d54a6e.mp3", "volume": 0.55 },              // 报数（005）：数字砸在滑块那一头时轻轻一声「嗒」
+      "踩": { "src": "sfx-stomp.966198ab4a.mp3", "volume": 0.85, "pitch": 0.04 },   // 靴底特写（005）：每一下「压」踩下来的闷响
+      // 高跟鞋踩在地上（007 的鞋印，2026-10-19）：鞋印出来、踩到卡上用「鞋跟」，鞋印一步一步走的时候用轻的那一声
+      "鞋跟": { "src": "sfx-heel.27bb9d6bb7.mp3", "volume": 0.85, "pitch": 0.05 },
+      "鞋跟-轻": { "src": "sfx-heel.27bb9d6bb7.mp3", "volume": 0.32, "pitch": 0.08 },
+      // 哨子（005 啦啦队 / 下指令，定时演出「哨子」、命令的 sound）：「哔」/「哔、哔——」/ 长长的「哔——」
+      "哨子-短": { "src": "sfx-whistle.636e86eb75.mp3", "volume": 0.6 },
+      "哨子": { "src": "sfx-whistle2.24cec04839.mp3", "volume": 0.6 },
+      "哨子-长": { "src": "sfx-whistle-long.6fec19162e.mp3", "volume": 0.6 },
+      // 催眠（006）：响指（下暗示 / 触发暗示）、开关面板拨一个；怀表的滴答在 quest-006.jsonc 里盖掉「提」「压」
+      "响指": { "src": "sfx-snap.b8ea610100.mp3", "volume": 1 },
+      "开关": { "src": "sfx-switch.02496d6ca4.mp3", "volume": 0.6 }
+    },
+    // 摇动音效什么时候响：big＝这些冲量放「摇」；节奏到顶在 topIn 的阶段里每 topEvery 下放一次「摇小」（0＝不放）
+    "jiggle": { "big": ["cutin", "art"], "topIn": ["mid", "late"], "topEvery": 4 },
+    // 调节器里可以换着试听的备选文件
+    "variants": {
+      "摇": ["sfx-boing-up.7fd9fde0f6.mp3", "sfx-boing-up-high.21b75f3f1c.mp3", "sfx-boing.04c0807ff1.mp3", "sfx-boing-high.a907dc100a.mp3", "sfx-boing-deep.492d8ee806.mp3"],
+      "摇小": ["sfx-purun-up.b657458e8c.mp3", "sfx-poyon-up.88aa9219bd.mp3", "sfx-purun.67235382df.mp3", "sfx-poyon.e3c533baf0.mp3"],
+      "特写臀": ["sfx-hip-up.b685b9d68a.mp3", "sfx-hip-up2.1b9d3ffa73.mp3", "sfx-poyon-up.88aa9219bd.mp3", "sfx-boing-up.7fd9fde0f6.mp3"],
+      "特写摇": ["sfx-boing-cute.4a09361c59.mp3", "sfx-boing-cute2.cdf71932e7.mp3", "sfx-boing-up-high.21b75f3f1c.mp3", "sfx-poyon-up.88aa9219bd.mp3"],
+      "接触": ["sfx-chu.001589d756.mp3", "sfx-chu-soft.eefb17ef10.mp3"]
+    },
+    // 「提 / 压」可选的音色（tuner.html 里切换试听用；定了哪套就把上面两槽改成那一套的文件）
+    "choices": {
+      "钢琴": { "提": "sfx-piano-up.df3eba8256.mp3", "压": "sfx-piano-down.2421ad53c0.mp3" },
+      "木鱼": { "提": "sfx-wood-up.8c7095fac5.mp3", "压": "sfx-wood-down.47145e9aca.mp3" },
+      "滴答": { "提": "sfx-tick-up.e479d54a6e.mp3", "压": "sfx-tick-down.c316d611e8.mp3" }
+    }
+  },
+
+  // ---------- 插入演出（fx.js）----------
+  // 什么时候放哪个写在各委托的演出表（quest-<编号>.jsonc 的 stage）；这里是效果本身。
+  // 效果库。战斗中时不时插进来的一下：拟声词贴纸、浮现台词、魅了层、倒计时诱惑、特写 cut-in、魅惑闪光、心章、唇印、集中线、吐息。
+  // 文字全在 lines-common.jsonc（言责词库、心声、拟声-*）和 lines-<编号>.jsonc 的「倒计时」「特写-*」「集中线」池里；她的浮现文字默认怎么混言责见下面的 speech.floats。
+  // 剧情里也能用：story-<编号>.jsonc 某句写 "fx": "魅惑闪光"（或 ["心章", "吐息"]），"float": "耳语"（或 { "style": "大字", "text": "……" }）。
+  // 演出名：拟声 耳语 气泡 大字 竖排 思绪 魅惑闪光 特写-胸 特写-胸-循环 特写-胸-横 特写-胸-横-循环 特写-臀 特写-臀-循环 特写-眼 心章 唇印 集中线 命令 吐息（拟声也可以直接写池名，如 "拟声-亲"）
+  "fx": {
+    // 全部演出名（演出表和剧情里写的名字；导入时照这张表检查）。拟声也可以直接写池名，如 "拟声-亲"
+    "effects": ["拟声", "耳语", "气泡", "大字", "竖排", "思绪", "魅惑闪光", "特写-胸", "特写-胸-循环", "特写-胸-横", "特写-胸-横-循环", "特写-臀", "特写-臀-循环", "特写-眼", "特写-唇", "特写-腿", "特写-腿-循环", "特写-嘴", "特写-靴底", "特写-双格", "爱心爆发", "心章", "唇印", "集中线", "命令", "吐息", "特写-怀表", "特写-怀表-循环", "特写-凝视", "环字", "字墙"],
+    // 大框（特写、视频 / 静图 cut-in）的露脸下限：前一个露出来不到这么多秒，下一个等够了再进（站主 2026-09-23：可以叠，但别一出来就被盖掉）
+    "cutinMin": 1.8,
+    // 演出的组：演出表里写组名，就在这一组里平均随机挑一个（组名不要和演出名重）
+    "groups": {
+      "浮现": ["耳语", "气泡", "竖排", "思绪"],
+      "特写": ["特写-胸", "特写-胸-横", "特写-臀", "特写-眼"],
+      "特写循环": ["特写-胸-循环", "特写-胸-横-循环", "特写-臀-循环"],
+      "印记": ["心章", "唇印"],
+      "氛围": ["吐息", "魅惑闪光", "集中线"]
+    },
+    // 浮现文字的样式预设：color 字色、stroke 描边色、strokeWidth 描边粗细（px）、glow 外发光色、glowSize 发光半径（px）、weight 字重（可不写）
+    "looks": {
+      "粉": { "color": "#fff0f7", "stroke": "#0b0b12", "strokeWidth": 1.2, "glow": "#ff6fae", "glowSize": 10 },
+      "紫": { "color": "#f3e8ff", "stroke": "#24103d", "strokeWidth": 1.2, "glow": "#a86bff", "glowSize": 12 },
+      "红": { "color": "#ffe8ec", "stroke": "#4a0012", "strokeWidth": 1.3, "glow": "#ff2f5e", "glowSize": 10 },
+      "黑": { "color": "#170912", "stroke": "#ffd3e8", "strokeWidth": 1.4, "glow": "#ff6fae", "glowSize": 8 },
+      "白": { "color": "#ffffff", "stroke": "#d63a86", "strokeWidth": 1, "glow": "rgba(255,255,255,0.9)", "glowSize": 9 },
+      "墨": { "color": "#0b0b12", "stroke": "#fff5e1", "strokeWidth": 1.6, "glow": "transparent", "glowSize": 0 },
+      "幽": { "color": "#e9dcff", "stroke": "transparent", "strokeWidth": 0, "glow": "#7b3dff", "glowSize": 14, "weight": 700 }
+    },
+    // 每种浮现文字用哪套样式、多大字（px）。剧情里 float 可以另写 "look" 和 "size"；调节器「演出」页可以试、可以存本机。
+    // 竖排是主人公的心声，样式固定（墨色竖条 + 底下一串思考泡泡，魅了越深越往粉里染），这里只看 size
+    "floatLook": {
+      "耳语": { "look": "粉", "size": 19 },
+      "竖排": { "look": "紫", "size": 19 },
+      "思绪": { "look": "幽", "size": 18 },
+      "倒计时": { "look": "红", "size": 17 }
+    },
+    // 心形的颜色权重（魅了层粒子、心形环、撒出来的心）：pink 粉 / rose 玫红 / purple 紫 / black 黑
+    "heartTones": { "pink": 4, "rose": 1, "purple": 3, "black": 2 },
+    // 魅惑闪光：flash 闪白强度（0–1，太大会盖住立绘）、echo 残影亮度倍数、duration 毫秒
+    "allure": { "flash": 0.14, "echo": 1, "duration": 1000 },
+    // 魅了层：粉紫暗角 + 飘起来的心 + 放大的半透明幻象。强度 0–1 = 底色 + 临时加深（慢慢退）。
+    // 战斗中各段的底色在演出表（stage.early / mid / late / endless 的 charm）；这里的 base 只管暂停画面，和演出表没写时的兜底
+    "charm": {
+      "enabled": true,
+      "base": { "early": 0.05, "mid": 0.22, "late": 0.42, "endless": 1, "pause": 0.15 },
+      "decay": 0.08,      // 临时加深每秒退多少
+      "hearts": 9,        // 强度 1 时每秒飘出几颗心
+      // 幻象：强度到 from 以上，时不时把她身上一块（parts）放大到占满大半屏、半透明浮现再淡掉。
+      // every [刚到 from 时, 强度 1 时] 隔几秒一次；zoom 屏幕宽里露出原图多宽（越小越近）；opacity 最亮时的不透明度
+      "visions": { "enabled": true, "from": 0.3, "every": [9, 3.5], "opacity": 0.3, "parts": ["chest", "lips", "eyes"], "zoom": { "chest": 560, "lips": 260, "eyes": 340 } }
+    },
+    // burstOnPass＝出「通过」时再放一次魅惑闪光（有了余韵默认不放）。倒计时诱惑本身（几秒、数数的池、加深）在演出表的 stage.countdown
+    // 数到 0 的余韵（时长在 timing.finishHold）：ring 心形环扩多大、hearts 飘几颗心、glow 柔光多亮、echo 残影多亮、charm 魅了加深多少
+    "finish": { "ring": 7, "hearts": 14, "glow": 0.5, "echo": 0.9, "charm": 0.15 },
+    "countdown": { "burstOnPass": false },
+    // 特写 cut-in：height＝画框里露出原图多高（越小越近）；offset＝画框中心相对锚点挪多少 [x, y]；hold＝停几秒
+    //   共用：follow＝整个身体（整张图）跟着动的比例；jiggle＝胸（遮罩 R）/ 臀（遮罩 2 的 R，没画就用椭圆）再多动出去的比例；
+    //         impulse＝一次性切进来那一下的冲量；stiffness / damping＝弹簧硬度 / 衰减（同 motion.shake）；maxOffset＝最多动开多远（原图像素）
+    //   loop：带「循环」的演出用的，盖在上面的参数——amp 往复幅度、freq 每秒几个来回、zoom 同步放大多少（0.035＝3.5%）、
+    //         hold 停几秒（剧情里一律停到下一句）、impulse 开场冲量（默认 0＝平滑开始）、turnKick 到尽头多甩一下（默认 0＝不甩）
+    //   chest     胸·纵（特写-胸 / 特写-胸-循环）：上下；循环按呼吸的节奏（0.27 ≈ 3.7 秒一次），往上时同步放大
+    //   chestSide 胸·横（特写-胸-横 / 特写-胸-横-循环）：整个身体左右摆、胸多甩一点；循环走两头上翘的弧线（lift），到两边略放大。取景沿用 chest
+    //   hips      臀（特写-臀 / 特写-臀-循环）：只截臀部突出的那一半（side：right 画面右边 / left 左边，sideOffset 往那边挪多少），往那一边扭。
+    //             身体先动：整张图绕脚（anchors.feet）往那边转 bodyTwist（每单位弧度），腰线（motion.cycle.waistY）以上反着转回来 torsoCounter 倍，
+    //             胯送出去、上半身收回来；臀部区域在这之上绕腰（anchors.waist）多扭 twist、往外往上推 jiggle / lift；follow 是整张图再平移多少。
+    //             循环是扭出去再平滑回来；radius 是没有遮罩 2 时椭圆的半径
+    //   eyes      眼：echoSeconds＝魅惑残影留多久；eyeSpread＝两眼离中心多远（原图像素），心形环从两只眼睛扩散
+    //   legs      腿（特写-腿 / 特写-腿-循环）：翘着腿坐的图才有（立绘档案写 anchors.legs 画框中心、anchors.knee 膝盖）。
+    //             翘起来的那条小腿（遮罩 2 的 G）绕膝盖自然地晃：amp 幅度、freq 每秒几下、turn 每单位转多少弧度、kick 脚尖往上踢那一下的比例；
+    //             一次性的也一直晃，停 hold 秒；radius 是没画遮罩 2 时的椭圆半径
+    "closeup": {
+      "chest": {
+        "height": 480, "offset": [0, -70], "follow": 0.7, "jiggle": 1, "impulse": 700, "hold": 1.6, "stiffness": 90, "damping": 7,
+        "loop": { "amp": 26, "freq": 0.27, "zoom": 0.035, "follow": 0.6, "stiffness": 80, "damping": 6, "hold": 7.5 }
+      },
+      "chestSide": {
+        "follow": 0.8, "jiggle": 0.35, "impulse": 420, "maxOffset": 45, "hold": 1.6, "stiffness": 60, "damping": 5.5,
+        "loop": { "amp": 34, "freq": 0.45, "lift": 0.35, "zoom": 0.04, "hold": 6.7 }
+      },
+      "hips": {
+        "side": "right", "sideOffset": 140, "height": 440, "offset": [0, -50],
+        "bodyTwist": 0.001, "torsoCounter": 1.6, "twist": 0.0012, "jiggle": 0.2, "lift": 0.4, "follow": 0.1,
+        "radius": [470, 300], "impulse": 300, "maxOffset": 40, "hold": 2, "stiffness": 45, "damping": 5,
+        "loop": { "amp": 30, "freq": 0.45, "zoom": 0.025, "hold": 6.6 }
+      },
+      "eyes": { "height": 190, "hold": 1.9, "echoSeconds": 2.2, "eyeSpread": 95 },
+      "legs": { "height": 620, "amp": 30, "freq": 1.1, "turn": 0.0016, "kick": 0.3, "stiffness": 70, "damping": 6, "maxOffset": 45, "hold": 3.2, "radius": [320, 380], "loop": { "hold": 6 } }
+    },
+    // 锚点（原图像素 [x, y]）：拟声词、耳语、唇印、心章从哪冒出来。chest 不写就用遮罩 R 通道的重心；
+    // crest 是心章贴的位置（下腹），不在画面里时改贴胸口；hips 是臀部的中心（特写再往 side 那边挪 sideOffset）；waist 是扭屁股时臀部和上半身转的轴，feet 是整个身体转的轴
+    "anchors": { "face": [872, 340], "eyes": [872, 325], "lips": [880, 420], "crest": [880, 1010], "hips": [870, 1230], "waist": [870, 930], "feet": [870, 2440] },
+    "crestSize": 230,
+    // 唇印的颜色权重：红 / 粉 / 紫 / 黑
+    "lipColors": { "红": 3, "粉": 3, "紫": 2, "黑": 1 }
+  },
+
+  // ---------- 言责（台词）----------
+  // 词库在 lines-common.jsonc：言责-贬损 / 言责-褒奖 / 言责-勾引（她说的）、心声（主人公的，竖排专用）。
+  // 演出表各段格里的 talk 是专放台词的一条线（和抽演出分开），pools 写这几个池、按权重混：见 quest-001.jsonc
+  "speech": {
+    // self：她的自称。共用言责词库（lines-common.jsonc 的「言责-*」）里写的「我」在这份委托里换成它（委托文件里写，如 001 "Aschan"、002 "人家"；不写就还是「我」）
+    // 她说的浮现文字（耳语 / 气泡 / 大字 / 思绪）在演出表、剧情里没指定池时，从这里取：默认按权重混言责三类。
+    // 大字只挑 8 个字以内的句子、拟声只挑 6 个字以内的（挑不到就用最短的）；思绪连取三句。竖排（心声）固定用「心声」池
+    "floats": {
+      "耳语": { "言责-贬损": 1, "言责-褒奖": 1, "言责-勾引": 1 },
+      "气泡": { "言责-褒奖": 1, "言责-勾引": 1 },
+      "大字": { "言责-贬损": 2, "言责-勾引": 1 },
+      "思绪": { "言责-勾引": 1, "言责-褒奖": 1, "言责-贬损": 1 }
+    },
+    // 后缀：pools 里列了的池，取出来的句子按 chance（这一段加后缀的机会）随机加一个尾巴；byPhase 按段换更重的一套（盖在 pools 上）。
+    // 句子本来就以 w ~ ♥ … 结尾的不再加。chance 的段：early / mid / late / endless，战斗外（暂停、结算）用 other
+    "suffix": {
+      "chance": { "early": 0.35, "mid": 0.55, "late": 0.75, "endless": 0.85, "other": 0.4 },
+      "pools": {
+        "言责-贬损": { "w": 4, "ww": 2, "~": 2, "…": 1 },
+        "言责-褒奖": { "~": 4, "♥": 3, "~♥": 2, "w": 1 },
+        "言责-勾引": { "♥": 4, "~♥": 3, "…♥": 2, "~": 1 },
+        "心声": { "…": 4, "……": 2 }
+      },
+      "byPhase": {
+        "late": {
+          "言责-贬损": { "www": 2, "~♥": 1 },
+          "言责-褒奖": { "~~♥": 2, "♥♥": 2 },
+          "言责-勾引": { "~~♥♥♥": 2, "♥♥": 2 }
+        },
+        "endless": {
+          "言责-贬损": { "www": 3, "~♥": 2 },
+          "言责-褒奖": { "~~♥♥♥": 3, "♥♥": 2 },
+          "言责-勾引": { "~~♥♥♥": 4, "♥♥♥": 2 }
+        }
+      }
+    }
+  },
+
+  // ---------- 背景音乐 ----------
+  // 循环播放，第一次点屏幕时开始。HUD 右上角的喇叭关掉就一起停。
+  // 曲子在站级共享 BGM 库 drop/bgm/（bgm.jsonc 是曲名表，所有游戏包共用）；每份委托放哪首写在 quest-<编号>.jsonc 的 bgm.use。
+  // 用到的曲子署名写在 游戏.txt 的素材来源里（魔王魂「音楽：魔王魂」、MusMus「BGM:MusMus」）
+  "bgm": {
+    // 总音量 0–1
+    "volume": 0.45,
+    // 各画面在总音量上再乘多少（画面名用 | 隔开；没列的画面按 1）。
+    // 剧情和暂停压低让对话出来，结算压到很低让结算音效出来
+    "scene": {
+      "brief": 0.8,
+      "story|pause|choice": 0.6,
+      "prep|hold|pass|endless|execute": 1,
+      "clear|victory|lose|fall|retreat|over|executed": 0.3
+    }
+  },
+
+  // ---------- 败北处决（放弃 / 败北 / 撤退的结算里点「败北」）----------
+  // 站主定（2026-09-17）：失败之后不是直接重来，而是先被她「处决」——她先说几句前言、「倒数开始」cut-in，再数 seconds 秒，数到 0 就是彻底输掉的那一刻，之后才出「彻底败北」（重来 / 委托单）。
+  // intro：前言（lines 的「处决-前言」按顺序一句一句说）first 进来几秒说第一句、每句停 max(every, 字数 × perChar + 0.8) 秒；说完放「处决-cutin」的 cut-in（side 从哪边切进来）
+  // 数的时候没有任何操作（不出题、不能放弃）、魅了拉满、节奏轨照跑越来越快（speed：后段速度的 [起, 止] 倍）、镜头慢慢推到她的脸；
+  // 每 whisperEvery 秒在耳边数一句（处决-倒数），剩 thoughtAt 秒冒心声（处决-心声），剩 visionAt 秒浮幻象，最后三秒心变黑。
+  // 数到 0：紫黑暗幕、硬闪、黑紫的心、久久不散的残影和幻象、紫黑大字（处决-归零），zeroHold 秒后出结算（处决-结算）。
+  // camera：不写＝按立绘档案自动推（中段取景 → 后段取景 → 最后推到眼睛）；写法同委托 sets 的 camera。委托文件里写 execute 就盖过这里
+  // 台词池在各委托的 lines：处决-前言（按顺序）/ 处决-cutin / 处决-倒数（{n} 是剩下的秒数）/ 处决-心声 / 处决-归零 / 处决-结算 / 处决-命令 / 处决-命令-最后（orders 用的）
+  "execute": {
+    "intro": { "first": 0.5, "every": 2.2, "perChar": 0.085, "side": "right" },
+    "seconds": 10,
+    "speed": [1, 1.6],
+    "whisperEvery": 1,
+    "thoughtAt": [7, 3],
+    "visionAt": [6, 2],
+    // 剩几秒喊一句现实里的命令（「命令」演出：集中线 + 大字，不带奖励按钮）：left 剩几秒、text 直接写或 pool 台词池、hold 停几秒
+    "orders": [
+      { "left": 5, "pool": "处决-命令", "hold": 2.2 },
+      { "left": 2, "pool": "处决-命令-最后", "hold": 1.6 }
+    ],
+    "zeroHold": 5
+  },
+
+  // ---------- 挑战（challenge.js）----------
+  // 战斗中突然在画面上出一题，限时内完成才能接着撑，没完成就败北（演出表那一格设成练习就只提示一下）。
+  // 什么时候出、出哪种、限时多久写在各委托演出表的 stage.challenge（每组可以单独改）；这里是每种题的默认值和公共的规矩。
+  //   点击：一枚章浮在画面上，限时 time 秒内点到；size 章的直径（px），hit 能点到的范围（比看到的大一圈）
+  //   按住：同一枚章，限时 time 秒内按住累计灌满 hold 秒（松手往回退，退得比灌快一半）；size / hit 同上
+  //   拖动：一条轨道，限时 time 秒内把滑块从起点拖到终点；shapes 形状权重（斜线 / 折线 / 弧线）、width 轨道粗细、knob 滑块直径（px）、
+  //         tolerance 手指离轨道多远算脱轨（px，脱轨弹回上一个检查点）、checkpoints 全长分几段检查点
+  //   quiet：每组最后几秒不出新题；gap：两题之间至少隔几秒（演出表 every 写得再短也不会更密）
+  //   missHold：失手之后停几秒再进败北结算；practiceBoost：练习题失手时魅了加深多少
+  //   avoid：图标离 HUD、秒数、节奏轨、台词条、放弃按钮、左上角返回把手至少多远（px）；edge：离屏幕边至少多远
+  //   顺序：几枚写着数字的点击章（count 枚：4＝3、2、1、0）一枚隔 spread 秒错开砸下来（先后打乱），限时 time 秒（再加上错开的时间）内从大到小依次点完，
+  //         点错一枚就算失手；最大的那个数字上挂「START」；点到最后的 0 放一波爱心 + 粉色的「被魅惑」干扰一下、魅了加深 charm。
+  //         zeroHold 最后的 0 要按住几秒（zeroHoldChance 的概率，不写＝一定）；
+  //         decoys 再混几枚深色「诱饵」章（0–6），decoyCover 的比例压住数字的一角、其余散在空地；点到诱饵不算输，全屏混乱 confuse 秒
+  //         （紫色硬闪、紫黑罩子、三张半透明的她挡在前面晃、重度紫色模糊、题目大幅晃，魅了加深 decoyCharm，台词条说 decoyLine）；
+  //         hide 每枚出现几秒后翻成「?」（诱饵也翻，只能靠记，不写＝不翻）；size / hit 同点击（比点击小一点，画面上要放好几枚）
+  //   连打：HUD 绿六角 +「×N」，限时 time 秒内连点 taps 下。trap（true，或 0–1 的概率）＝章下面藏一枚诱饵，打完的那一刻露出来停 trapStay 秒，多点一下就踩中
+  //   按住.onHold：写一组顺序题的参数（count / decoys / hide / zeroHold / time / pool），第一次按下去时同一波里再砸下这组顺序题
+  //   comboTime：同时出几题（演出表 kinds 里写 "点击+按住" 这种组合）时，每题的限时乘这么多
+  // 定时出题：委托文件 sets 里某一组的 script 写 { "at": 秒, "fx": "挑战-按住"（组合写 "挑战-点击+拖动"）, "time": 限时, "hold": 按满秒数, "pool": 出题时她说的台词池 }
+  //   「挑战-顺序」还可以写 count / decoys / hide / spread / zeroHold / zeroHoldChance，「挑战-连打」写 taps / trap，「挑战-按住」写 onHold（都只管这一次）
+  // 败北结算的台词：「败北-<题型>」（败北-顺序 / 败北-连打）
+  "challenge": {
+    "点击": { "time": 2.5, "size": 76, "hit": 104 },
+    "按住": { "time": 4, "hold": 1.2, "size": 84, "hit": 112 },
+    "拖动": { "time": 4.5, "shapes": { "斜线": 1, "折线": 1, "弧线": 1 }, "width": 18, "knob": 84, "tolerance": 46, "checkpoints": 4 },
+    "顺序": { "time": 3.5, "count": 4, "decoys": 0, "decoyCover": 0.5, "confuse": 6.4, "decoyCharm": 0.25, "spread": 0.2, "size": 66, "hit": 92, "charm": 0.08 },
+    "连打": { "time": 3, "taps": 8, "trapStay": 1.5, "size": 76, "hit": 104 },
+    "comboTime": 1.25,
+    "quiet": 3,
+    "gap": 4,
+    "missHold": 0.8,
+    "practiceBoost": 0.2,
+    "avoid": 14,
+    "edge": 22
+  },
+
+  // ---------- 立绘动态 ----------
+  // 战斗画面（准备、战斗、通过、无尽战斗）的角色图按遮罩做形变，WebGL 实时算；没有遮罩 / 没有 WebGL / 开了减少动态时
+  // 退回整图呼吸。位移单位都是「原图像素」，所以镜头越近（后段）屏幕上看起来越大。
+  // 默认往小里定：宁可不明显，也不要橡皮感。tuner.html 的「立绘」页可以边看边调、画遮罩、导出
+  "motion": {
+    "enabled": true,
+    // free：自然呼吸（默认，战斗和剧情对话都是）；sync：胸部跟着节奏指示器做完整的上下循环（到顶＝最高、到底＝最低）。
+    // 手机上对比：游戏地址后面加 ?motion=free 或 ?motion=sync
+    "mode": "free",
+    // 循环：胸部追着一个目标位置走，弹簧追不上、过冲、回弹，就是晃
+    "cycle": {
+      "amp": 30,            // sync：随节奏上下的幅度（原图像素，按 shake.phaseScale 随阶段放大）
+      "freeAmp": 12,        // free（以及准备倒数等节奏没跑的时候）：随呼吸起伏的幅度
+      "upperFollow": 0.35,  // 上半身（腰线以上）整体跟着起落的比例，胸部在它上面多晃出来
+      "waistY": 930,        // 腰线（原图 y），以下不动；不写就用 battleStandee.waistY
+      "feather": 160        // 腰线上下渐变的宽度
+    },
+    // 形变的左右中线（原图 x）。呼吸外扩以它为中心；不写就用 battleStandee.centerX
+    // "centerX": 880,
+    // 呼吸（G 通道）：纵向起伏 + 轻微外扩
+    "breathe": {
+      "period": 4.2,        // 一呼一吸几秒
+      "amp": 5,             // 起伏幅度（原图像素）
+      "expand": 0.006,      // 外扩比例（离中线越远挪得越多）
+      "rate": { "early": 1, "mid": 1.15, "late": 1.35 }  // 各段呼吸快慢
+    },
+    // 摇动（R 通道）：阻尼弹簧
+    "shake": {
+      "stiffness": 90,      // 硬度：越大追得越紧、晃得越快
+      "damping": 7,         // 衰减：越大越不回弹（小于 2×√硬度 才会来回晃）
+      "maxOffset": 60,      // 软上限（原图像素）：越接近越推不动
+      "sideways": 0.15,     // 冲量里随机横向的比例
+      "squash": 0.35,       // 拉伸：往下甩纵向拉长、往上压扁的程度
+      "bodyFollow": 0.2,    // 连带：躯干（G 通道）跟着晃的比例
+      // 额外冲量（原图像素 / 秒）：cut-in、切阶段的切图、后段心跳。到顶 / 到底默认 0——上下已经由 cycle 的循环带着走
+      "impulse": { "top": 0, "bottom": 0, "cutin": 700, "art": 550, "heartbeat": 90 },
+      "phaseScale": { "early": 0.7, "mid": 0.9, "late": 1.1 }  // 冲量随阶段放大
+    },
+    // 头发（B 通道）：低频横摆，摇动时跟一点
+    "hair": {
+      "period": 3.4,
+      "amp": 3,
+      "follow": 0.35
+    }
+  },
+
+  // ---------- 图 ----------
+  // 战斗图各槽（battle）和剧情背景（bg）在各委托的 quest-<编号>.jsonc；她的立绘在各委托的 standee 档案里
+  "art": {
+    // 立绘边缘处理：盖住抠图留下的毛边，不描线（战斗、剧情、特写都有；长度按屏幕像素）。调节器「立绘」页可以调
+    //   choke 收边：最外面这么宽变透明；decontam 去色：边缘颜色换成往里这么远的颜色，底色残留就没了；
+    //   shadow 图后面一圈柔和的影子 / 外发光：color 颜色（深色＝阴影、浅色 / 粉色＝外发光）、opacity 浓淡、size 柔化半径、offset 偏移 [x, y]
+    //   全关写 "enabled": false；只关影子写 "shadow": { "enabled": false }
+    "edge": { "choke": 0.8, "decontam": 1.5, "shadow": { "color": "#140c28", "opacity": 0.35, "size": 5, "offset": [0, 0] } }
+  },
+
+  // ---------- 测试立绘 ----------
+  // 只给对比用：地址加 ?standee=test 临时换上（各委托自己的立绘档案在 quest-<编号>.jsonc 的 standee）。
+  // 下面的注释就是立绘档案各字段的说明。上面 motion / fx 里的像素数值是按这张测试立绘定的。
+  "standees": {
+    // 测试立绘（assets/test.png，1680 × 2512）
+    "test": {
+      "art": {
+        // 她的立绘（透明底，全身也行）。表情名随便起，story-<编号>.jsonc 里写同样的名字就能换
+        // frame：剧情画面里露出原图的哪一段（原图像素）——top 放在画面上方，bottom 落到对话框上缘，
+        //        centerX 对准画面正中。全身立绘就这样只露到大腿，下半身藏在对话框后面
+        "standee": {
+          "her": {
+            "frame": { "top": 10, "bottom": 1300, "centerX": 900 },
+            "faces": { "normal": "her-test.3d2b60c564.webp", "smug": "her-test.3d2b60c564.webp", "hurt": "her-test.3d2b60c564.webp" }
+          }
+        },
+        // 战斗图还没有的时候，拿立绘垫在色块占位上面试效果（battle 里写了图的槽就用那张图）。
+        // frames：每个画面露出原图的哪一段 [top, bottom]，数字差得越小镜头越近——越到后段越逼近
+        "battleStandee": {
+          "src": "her-test.3d2b60c564.webp",
+          // 立绘动态的遮罩：和原图同尺寸的 PNG，R 胸部摇动 / G 呼吸 / B 头发（见下面 motion）。不写就只有整图呼吸
+          "mask": "her-test-mask.304534bed1.png",
+          // 遮罩 2：R 臀部（臀部特写左右甩的时候哪一块多甩出去）；G / B 留给以后的部位。不写就用 fx.closeup.hips.radius 的椭圆
+          "mask2": "her-test-mask2.d8e17b8a69.png",
+          "centerX": 880,
+          "frames": {
+            "idle": [0, 1420],
+            "early": [0, 1320],
+            "mid": [60, 1080],
+            "late": [150, 820],
+            "win": [0, 1420],
+            "lose": [0, 2512],
+            "retreat": [0, 1900],
+            "endless": [100, 950]
+          }
+        }
+      }
+    }
+  }
+}

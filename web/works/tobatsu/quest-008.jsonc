@@ -1,0 +1,401 @@
+// 讨伐任务 · 委托 008 · 赌场舞娘（初版，2026-10-23）
+//
+// 核心玩法是 21 点（blackjack.js，规则见那个文件开头；站主 2026-10-25 改成「输了才撑」，同日第二版加上荷官小姐的诱惑与出千）：
+//   每组从 0 秒开始，赢够 wins 手才过这一组（数到 0 不算过）。每一手有 10 秒想：要牌 / 停牌（时间到自动停牌）/ 加倍；
+//   停牌后荷官小姐翻暗牌补到 17 比大小——赢了记一手；输了她的点数变成要撑的秒数，爆牌按你自己的点数；平局不罚。
+//   罚的秒数照常握着跟节奏撑（题、台词、特写都在这时候，题失手照常败北），数到 0 才发下一手。
+//   节奏：发牌想牌时慢、输了罚时中速、爆牌罚时快（前 / 中 / 后段）。
+// Aschan 的护符（原来叫破法护符）：Aschan 借你的，戴着它赌桌上的魔法都失效（她用魔法改写牌面时，护符的紫光把黑心打散）。
+//   第 1 组：赢一手（站主 2026-10-25：输了的等待太长，第 1 组只要一胜、第 2 组两胜），你要赢的那一手她用一次魔法——护符上出「点！」，点到就挡掉（没点到牌被改写、这一手输）。
+//   第 2 组：赢两手。魔法被护符压着，她改用普通的诱惑和出千（通用诱惑 lures：A 换牌 / B 引诱停牌 / C 引诱爆牌 / D 塞牌 / E 遮挡 / 想牌时的题）；
+//     第一次眼看你要赢时一定换牌；赢了一手起有诱惑特写、塞牌、遮挡、想牌时的题；最后一胜前她再用一次魔法（点护符挡）。
+//   第 3 组：赢三手。开头她要护符——交出去她就肆无忌惮（必输局：改写牌面、你的牌全是 0 点小丑、她发给自己的就是 21 点，玩到自己认输为止）；不交，诱惑更多更强。
+//   第 4 组：赢一手。开头她跳一段舞、骗你交护符（护符看起来发黑、她说是诅咒）；不上当就是最后一手——所有诱惑一起来，眼看要赢时先换牌、再用最后一次魔法。
+// 视频（站主 2026-10-25 给的 9 段，assets/ 原片 → clip-008-*.mp4 静音、540 宽）：blackjack.clips；开场那段在 story-008 的 still 里
+// 她的名字（剧情名牌）：神秘荷官J（站主 2026-10-23 定）。立绘只有一张（站主：先当只有这一个立绘），没有胸部特写；诱惑特写是眼睛 / 嘴唇（fx.js 的「特写-唇」）/ 臀部。
+// 台词在 lines-008.jsonc，剧情在 story-008.jsonc；文案是 Claude Code 的初稿
+{
+  // ---------- 委托单 ----------
+  "quest": {
+    "id": "008",
+    "name": "讨伐·赌场舞娘",
+    "subtitle": "Subjugation Quest #008 - [Blackjack]",
+    "rank": "B",
+    "duration": "10 分钟",
+    "description": "城里新开的地下赌场，荷官的胜率不正常地高\n请去那里调查她是否在作弊，并且在赌桌上击败她吧",
+    "detail": "最近，酒场的常客们都往一家新开的地下赌场跑。回来的时候脸是红的、腿是软的，明明输了却还露出幸福的微笑。\n\n那里的荷官，是一个没有透露自己名字的舞娘——娇小的身材、舞娘装扮，一边扭着腰一边发牌，竟然从来没有输过一局。\n\n为了帮助你解决这个任务，Aschan 特意把一枚「护符」塞进你手里：只要好好保留着它，就可以保证牌桌上她的魔法不能生效，进行绝对公平的对决。",
+    // 本机解锁（站主 2026-10-26，同 007）：通过初次任务才解锁
+    "unlock": { "after": "001", "condition": "通过「讨伐·初次任务」" },
+    // 救济（站主 2026-10-26）：这台设备累计失败 5 次后，彻底败北那一刻问他承不承认自己是「离不开她牌桌的赌鬼」——承认了解锁「重来这一组」（story-008 的「救济」几段）
+    "relief": { "after": 5 },
+    // 败北的提示（站主 2026-10-27）：败北结算上多一个按钮，Aschan 讲救济 / 无敌模式、提醒碎片；答应强化护符记本机开关 shardsEachSet（每一组碎片充满）
+    "fallTip": { "label": "Aschan的提示", "flag": "shardsEachSet" },
+    // 日语、英语、韩语版的委托书（2026-10-26 翻：AI 初稿）
+    "i18n": {
+      "ja": {"name":"討伐・カジノの踊り子","duration":"10分","description":"街に新しくできた地下カジノで、ディーラーの勝率が異常に高い\n彼女がイカサマをしていないか調べ、テーブルで打ち負かしてほしい","detail":"最近、酒場の常連たちがこぞって新しい地下カジノに通っている。帰ってくると顔は赤く足はふらふら、負けたはずなのに幸せそうな笑みを浮かべているのだ。\n\nそこのディーラーは、名前を明かさない踊り子——小柄な体に踊り子の衣装をまとい、腰をくねらせながらカードを配る。しかも、これまで一度も負けたことがないという。\n\nこの依頼のために、Aschan はわざわざ「お守り」をひとつ、あなたの手に握らせてくれた。これをちゃんと身につけていれば、テーブルで彼女の魔法は効かず、絶対に公平な勝負ができるはずだ。","tag":"ブラックジャック","unlockCondition":"「討伐・はじめての依頼」をクリア"},
+      "en": {"name":"Subjugation · Casino Dancer","duration":"10 min","description":"A new underground casino has opened in town, and its dealer wins unnaturally often.\nFind out if she's cheating, and beat her at her own table.","detail":"Lately, the tavern's regulars have been flocking to a newly opened underground casino. They come back red-faced and weak in the knees, smiling blissfully even though they lost.\n\nThe dealer there is a dancer who won't give her name—petite, in a dancer's costume, swaying her hips as she deals. She has never lost a single game.\n\nTo help you with this quest, Aschan has pressed a \"charm\" into your hand: keep it safe, and her magic won't work at the table, ensuring an absolutely fair match.","tag":"Blackjack","unlockCondition":"Clear \"Subjugation · First Quest\""},
+      "ko": {"name":"토벌·카지노 무희","duration":"10분","description":"시내에 새로 생긴 지하 카지노, 딜러의 승률이 비정상적으로 높다\n그곳에 가서 속임수를 쓰는지 조사하고, 도박 테이블에서 그녀를 쓰러뜨려 주길 바란다","detail":"요즘 선술집 단골들이 새로 생긴 지하 카지노에 드나들고 있다. 돌아올 때면 얼굴은 빨갛고 다리는 풀려 있으며, 분명 돈을 잃었는데도 행복한 미소를 짓는다.\n\n그곳의 딜러는 이름을 밝히지 않은 무희다——작은 체구에 무희 차림으로, 허리를 흔들며 카드를 돌리는데, 지금까지 단 한 판도 진 적이 없다고 한다.\n\n이 의뢰를 돕기 위해, Aschan은 일부러 '부적' 하나를 당신 손에 쥐여 주었다. 이것만 잘 지니고 있으면 테이블 위에서 그녀의 마법은 통하지 않고, 절대 공평한 승부를 겨룰 수 있다.","tag":"블랙잭","unlockCondition":"'토벌·첫 의뢰' 클리어"}
+    },
+    "type": "endurance",
+    // 封面＝008-Q（站主 2026-10-26 放进 assets，拷成 drop/art/tobatsu-008.png）；coverBar＝贴在眼睛上的 UNKNOWN 黑条（两只眼睛约 872,484 / 1069,472）
+    "cover": "tobatsu-008",
+    "coverBar": { "center": [970, 480], "size": [400, 108], "angle": -5 },
+    "client": "电子魅魔Aschan",
+    // 剧情名牌：神秘荷官J（站主 2026-10-23）
+    "herName": "神秘荷官J",
+    "reward": "1500G",
+    "tag": "21点",
+    "suggestion": "握力器",
+    "sets": 4,
+    "seconds": 21,
+    // 赌场的底色：战斗画面占位的蓝换成酒红（index.html 的 .app[data-theme='casino']）
+    "theme": "casino",
+    // 奖杯（站主 2026-10-26 改）：整局罚时加起来不超过 50 秒（when: bjPenalty，max 秒数）；
+    // 隐藏奖杯：不用魔力碎片、一手都没输就通关（when: bjStreak；hidden＝没拿到之前冒险者记录里不列、不算进总数）
+    "trophies": [
+      { "id": "light", "name": "全身而退", "desc": "整局罚时加起来不超过 50 秒，完成讨伐·赌场舞娘", "when": "bjPenalty", "max": 50 },
+      { "id": "streak", "name": "庄家克星", "desc": "不用魔力碎片、一手都没输，完成讨伐·赌场舞娘", "when": "bjStreak", "hidden": true }
+    ]
+  },
+
+  // 立绘上有半透明的黑纱：收边只削外缘（game.js 的 uSheer；纱本身是 tobatsu-standee.mjs 的 sheer 还原出来的）
+  "art": {
+    "edge": { "sheer": true },
+    "battle": { "idle": "", "early": "", "mid": "", "late": "", "win": "", "lose": "", "retreat": "", "endless": "" },
+    "bg": { "story": "", "pause": "", "ending": "", "choice": "" }
+  },
+
+  // 剧情里出场的别人：开场 Aschan 那几句写 "her": "aschan"，立绘换成 001 那张她的（game.js 的 standNode）
+  "cast": { "aschan": { "src": "her-001.0eb8c5d8be.webp", "frame": { "top": 30, "bottom": 1000, "centerX": 600 } } },
+
+  // 魅了幻象只放嘴和眼睛（没有胸部）
+  "fx": { "charm": { "visions": { "parts": ["lips", "eyes"] } } },
+
+  // ---------- 21 点 ----------
+  // think 每一手能想几秒（按钮下面那根条）；dealerStand 她补到几点停（软 17 也停）；perPoint 罚时每点几秒（默认 1：她 19 点就罚 19 秒）
+  // clips 视频 cut-in（fx.js 的「视频」）：src、hold 停几秒、show 出法（slide 滑进来 / full 整屏 / heart 心形窗 / band 横条）、side、
+  //   vcam 运镜 [{ at 片子第几秒, zoom, x, y（框宽高的 %，负＝画面往左 / 往上挪）}]；罚时里放 clap / sway 的概率写在各组的 clap / sway
+  // spiral 交出护符以后垫在她身后的螺旋（写法同 006 的 sets[n].spiral 一帧；mode 4＝心形阿基米德，game.js 的着色器）
+  // shards 魔力碎片（站主 2026-10-26：21 点本身输得太多）：护符上挂几枚，整局共用；想牌时点护符用一枚＝这一手点数 +1（加到 21 为止）
+  "blackjack": {
+    "think": 10, "dealerStand": 17, "shards": 4,
+    "clips": {
+      // 交出护符：她踩上桌子伸手——最后镜头推到她伸过来的手上
+      "take": { "src": "clip-008-take.8279590b73.mp4", "hold": 4, "show": "full", "vcam": [{ "at": 0, "zoom": 1 }, { "at": 2.4, "zoom": 1.12, "y": -4 }, { "at": 4, "zoom": 1.5, "x": -10, "y": -26 }] },
+      // 第 4 组开头：一段舞（8 秒），中间双手在头上比心；跳到一半护符开始发黑
+      "trick": { "src": "clip-008-dance.1b64740f75.mp4", "hold": 8, "show": "full", "vcam": [{ "at": 0, "zoom": 1.08, "y": -3 }, { "at": 4.5, "zoom": 1.3, "y": 9 }, { "at": 8, "zoom": 1.12, "y": 2 }] },
+      // A 换牌：先是她的手在暗牌上一抹（镜头贴着手），再抬到她的脸
+      "swap": { "src": "clip-008-swap.8dc6f7f637.mp4", "hold": 2.8, "show": "slide", "vcam": [{ "at": 0, "zoom": 1.3, "y": -12 }, { "at": 1.6, "zoom": 1.2, "y": -6 }, { "at": 2.8, "zoom": 1.08, "y": 3 }] },
+      // B 引诱停牌：手掌横着挥过牌面（真实 21 点里「停牌」的手势）
+      "stand": { "src": "clip-008-wave.ed23bb8cc3.mp4", "hold": 3.2, "show": "slide", "side": "left", "vcam": [{ "at": 0, "zoom": 1.05 }, { "at": 1.3, "zoom": 1.25, "y": -10 }, { "at": 3.2, "zoom": 1.12, "y": -4 }] },
+      // C 引诱爆牌：手指往桌面点两下（「要牌」的手势；原片只点一下，导出时把落下那一截倒放再接上）
+      "bust": { "src": "clip-008-tap.94d0725cab.mp4", "hold": 3.8, "show": "slide", "vcam": [{ "at": 0, "zoom": 1.05 }, { "at": 1.5, "zoom": 1.3, "y": -9 }, { "at": 3.8, "zoom": 1.2, "y": -7 }] },
+      // D 塞牌：前倾、伸手到镜头前——最后镜头往下推到手上（原片最后的眼神不要）；手伸过来那一刻牌塞进来
+      "slip": { "src": "clip-008-reach.3bd7f336fc.mp4", "hold": 4, "show": "slide", "vcam": [{ "at": 0, "zoom": 1 }, { "at": 2.4, "zoom": 1.15, "y": -6 }, { "at": 4, "zoom": 1.9, "x": -8, "y": -34 }] },
+      // 罚时里鼓掌（各组的 clap 写概率；站主 2026-10-26：爆牌不再放鼓掌，鼓掌只在罚时里）：
+      //   beats＝片子里拍手的那几下（第几秒，按原片 assets/鼓掌.mp4 的声音找的），每拍一下砸一枚「点！」，卡在拍手上；
+      //   decoys [少, 多]＝其中几枚换成黑心诱饵（第一下总是真的；点了恍惚 confuse 秒，不算输）；tapTime 每枚从出现起限时几秒，漏点照常败北
+      "clap": { "src": "clip-008-clap.a00475e265.mp4", "hold": 3.8, "show": "slide", "side": "left", "beats": [2.47, 2.93, 3.35, 3.76], "decoys": [1, 2], "tapTime": 1.2, "confuse": 3.5, "vcam": [{ "at": 0, "zoom": 1.05 }, { "at": 2.2, "zoom": 1.2, "y": -8 }, { "at": 3.8, "zoom": 1.25, "y": -10 }] },
+      // 输了罚时里随机扭一段（各组的 sway 写概率）
+      "sway": { "src": "clip-008-sway.f8bebc0b67.mp4", "hold": 3.4, "show": "slide", "side": "left", "vcam": [{ "at": 0, "zoom": 1.1, "y": -6 }, { "at": 3.4, "zoom": 1.3, "y": -14 }] }
+    },
+    // 交出护符以后垫在她身后的螺旋（站主 2026-10-26：心形的怪怪的，换成催眠螺旋的「对数坠入」——mode 1，臂数、密度、速度照那边的默认）
+    "spiral": { "alpha": 0.9, "wash": 0.16, "speed": 0.6, "mode": 1, "arms": 2, "twist": 4, "soft": 0, "center": "face", "c1": "#e3123f", "c2": "#0b0006" },
+    // 无尽战斗（结局选「再赌一局」，站主 2026-10-26：无尽里也打 21 点）：写法同 sets[n].blackjack，不写 wins（不算手数，一直打到放弃 / 失手）；
+    //   诱惑照第 3 组那样全开，没有魔法（护符照旧戴着），碎片剩几枚用几枚
+    "endless": {
+      "double": true, "split": true, "surrender": true, "surrenderCost": 10, "insurance": true, "insuranceCost": 5,
+      "clap": 0.5, "sway": 0.4,
+      "lures": {
+        "swap": { "chance": 0.45, "window": 1.4 },
+        "stand": { "chance": 0.5, "max": 12, "taps": 2, "hold": 3, "drain": 3 },
+        "bust": { "chance": 0.5, "min": 14, "taps": 2, "hold": 3 },
+        "slip": { "chance": 0.35, "window": 4, "hold": 1.2 },
+        "cover": { "chance": 0.35, "confuse": 5, "act": 0.6, "actKinds": { "点击": 1, "按住": 1 } },
+        "act": { "chance": 0.6, "kinds": { "点击": 2, "按住": 1, "点击+点击": 1, "拖动": 1, "顺序": 1 } }
+      }
+    },
+    // 罚时里的镜头（站主 2026-10-25：罚时里镜头不动太单调）：写法同 sets[n].camera，at＝这一次罚时的第几秒，按最后一帧的秒数循环（game.js 的 bjCamera）；
+    //   mid 输了的罚时：慢慢推到脸 → 滑下来看胯 → 拉远；late 爆牌的罚时：贴着胯跟秒数顶 → 硬切到脸 → 回到胯
+    //   原图：脸 (480, 270)、嘴 y 325、腰 y 690、胯 y 720–900
+    "camera": {
+      "mid": [
+        { "at": 0, "frame": [230, 930] },
+        { "at": 4, "frame": [170, 600], "centerX": 478 },
+        { "at": 7.5, "frame": [200, 640], "centerX": 466 },
+        { "at": 11.5, "frame": [520, 1000], "centerX": 452 },
+        { "at": 15, "frame": [300, 1080] },
+        { "at": 18, "frame": [230, 930] }
+      ],
+      "late": [
+        { "at": 0, "frame": [520, 1000] },
+        { "at": 2.5, "frame": [600, 960], "centerX": 440, "pulse": 0.05 },
+        { "at": 6, "frame": [180, 620], "centerX": 476, "cut": true, "flash": true },
+        { "at": 8.5, "frame": [260, 780] },
+        { "at": 11, "frame": [520, 1000] }
+      ]
+    },
+    // 罚时里的定时演出（blackjack.js 的 penaltyScript）：每次罚时从这几套里挑一套（不连着挑同一套），at＝这次罚时第几秒，离数到 0 不到 2 秒的不放；
+    //   写法同 sets[n].script。各段演出表照常随机抽，这里放随机抽不到的几种：命令、思绪、环字、字墙、心章、爱心爆发、唇印
+    "penaltyScripts": {
+      "mid": [
+        [
+          { "at": 1, "fx": "大字", "pool": "大字-赌场" },
+          { "at": 4, "fx": "特写-唇" },
+          { "at": 8.5, "fx": "命令", "pool": "命令" },
+          { "at": 12.5, "fx": "思绪", "pool": "思绪-赌场" },
+          { "at": 16, "fx": "唇印" }
+        ],
+        [
+          { "at": 1, "fx": "吐息" },
+          { "at": 3.5, "fx": "特写-臀" },
+          { "at": 8, "fx": "环字", "pool": "环字-赌场", "hold": 5 },
+          { "at": 14, "fx": "心章" }
+        ],
+        [
+          { "at": 1.5, "fx": "集中线", "pool": "集中线" },
+          { "at": 4.5, "fx": "特写-眼" },
+          { "at": 9, "fx": "命令", "pool": "命令" },
+          { "at": 13, "fx": "大字", "pool": "大字-赌场" },
+          { "at": 15.5, "fx": "爱心爆发" }
+        ]
+      ],
+      "late": [
+        [
+          { "at": 1, "fx": "字墙", "pool": "字墙-赌场", "hold": 2.6 },
+          { "at": 4.5, "fx": "特写-臀" },
+          { "at": 9, "fx": "命令", "pool": "命令" },
+          { "at": 12.5, "fx": "集中线", "pool": "集中线" },
+          { "at": 16, "fx": "环字", "pool": "环字-赌场", "hold": 4 },
+          { "at": 21, "fx": "爱心爆发" }
+        ],
+        [
+          { "at": 1, "fx": "集中线", "pool": "集中线" },
+          { "at": 3.5, "fx": "特写-唇" },
+          { "at": 7.5, "fx": "字墙", "pool": "字墙-赌场", "hold": 2.4 },
+          { "at": 11, "fx": "思绪", "pool": "思绪-赌场" },
+          { "at": 15, "fx": "命令", "pool": "命令" },
+          { "at": 19, "fx": "唇印" },
+          { "at": 23, "fx": "大字", "pool": "大字-赌场" }
+        ]
+      ]
+    }
+  },
+
+  // ---------- 四组 ----------
+  // seconds 用不上（委托单、通过印章写的是「几胜」）。每组的 blackjack：
+  //   wins 要赢几手、double 能不能加倍（只再拿一张就停：赢了算两手、输了罚两倍）、split 能不能分牌、surrender 能不能投降（罚 surrenderCost 秒）、
+  //   insurance 她明牌是 A 时问不问保险（没用上的话罚 insuranceCost 秒；站主 2026-10-25：10 秒拖沓，改 5 秒）、
+  //   magicFinal 你要拿最后一胜时她用一次魔法（magicWindow＝「点护符」的限时）、clap / sway 罚时里放鼓掌（飞出「点！」）/ 扭动的概率、
+  //   amulet "offer"（要护符）/ "trick"（骗护符）、think / perPoint 也可以按组盖。
+  //   lures 通用诱惑（每样 from＝赢了几手起、chance＝每手的概率）：
+  //     swap  A 换牌：first 这一组第一次眼看要赢一定换、window 几秒内点住
+  //     stand B 引诱停牌：max 你的牌不超过几点才来、taps 心锁要点几下、hold 特写几秒、drain 特写时思考时间快几倍
+  //     bust  C 引诱爆牌：min 你的牌至少几点才来、taps、hold
+  //     slip  D 塞牌：window 几秒内要丢掉、hold 长按几秒
+  //     cover E 遮挡：mine 盖你的牌的概率（不然盖她的明牌）、confuse 点掉以后恍惚几秒、act 恍惚里出题的概率、actKinds 出什么题
+  //     act   想牌时出题：kinds 题型权重、time 限时
+  "sets": [
+    // 第 1 组 · 新手桌：赢一手；你要赢的那一手她用魔法改写牌面——点护符挡掉（站主 2026-10-25）
+    {
+      "seconds": 21, "tempo": 0.9,
+      "prep": "准备-一", "pause": "暂停-一",
+      "tip": "特殊规则：倒计时不算，胜场数达到要求才算通过",
+      "blackjack": { "wins": 1, "magicFinal": true, "magicWindow": 3.2, "sway": 0.5 },
+      "stage": { "challenge": { "in": [] } }
+    },
+    // 第 2 组 · 出千：赢两手；魔法被压着，她用普通的诱惑和出千；赢了一手起诱惑、题都来；最后一胜前再用一次魔法（点护符挡）
+    {
+      "seconds": 21, "tempo": 1,
+      "prep": "准备-二", "pause": "暂停-二",
+      "tip": "感觉她要换牌时，记得点一下发金光的牌",
+      "blackjack": {
+        "wins": 2, "double": true, "split": true, "surrender": true, "surrenderCost": 10, "insurance": true, "insuranceCost": 5, "magicFinal": true, "magicWindow": 2.6,
+        "clap": 0.45, "sway": 0.4,
+        "lures": {
+          "swap": { "first": true, "chance": 0.35, "window": 1.6 },
+          "stand": { "from": 1, "chance": 0.45, "max": 11, "hold": 2.8, "drain": 2.5 },
+          "bust": { "from": 1, "chance": 0.45, "min": 15, "hold": 2.8 },
+          "slip": { "from": 1, "chance": 0.25, "window": 5, "hold": 1 },
+          "cover": { "from": 1, "chance": 0.25, "confuse": 4, "act": 0.5 },
+          "act": { "chance": 0.55, "kinds": { "点击": 2, "按住": 1, "拖动": 1, "顺序": 1 } }
+        }
+      },
+      // 题型多两种（站主 2026-10-26）：拖动（只出直线和弧线，限时宽）、顺序＝三枚「2、1、0」照顺序点（count 3）
+      "stage": {
+        "challenge": { "in": ["mid", "late"], "first": 3, "every": [6, 9], "kinds": { "点击": 2, "按住": 1, "拖动": 1, "顺序": 1 }, "点击": { "time": 2.2 }, "按住": { "time": 3.6, "hold": 1.2 }, "拖动": { "time": 5, "shapes": { "斜线": 2, "弧线": 1 }, "tolerance": 56, "checkpoints": 3 }, "顺序": { "count": 3, "time": 4, "spread": 0.25 }, "hitLine": "挑战-命中" }
+      }
+    },
+    // 第 3 组 · 护符：开头她要护符——交出去就肆无忌惮（必输局，玩到认输）；不交，诱惑更多更强
+    {
+      "seconds": 21, "tempo": 1.05,
+      "prep": "准备-三", "pause": "暂停-三",
+      // 第 3、4 组不出提示条（站主 2026-10-26：开组的提示太多余）
+      "tip": "",
+      "blackjack": {
+        "wins": 3, "double": true, "split": true, "surrender": true, "surrenderCost": 10, "insurance": true, "insuranceCost": 5,
+        "amulet": "offer", "clap": 0.5, "sway": 0.4,
+        // 要护符之前先铺垫（站主 2026-10-26：别上来就问）：两桌都输了 → 朝护符弹一下魔法、被弹开 → 它一直盯着我的手 → 戴着这么冷的东西不扫兴吗 → 交易单
+        //   say 台词条的池、fx 演出（text 特写下面那行）、do: "bounce" 她朝护符弹魔法、wait 这一拍停几秒（blackjack.js 的 offerIntro）
+        "offerIntro": [
+          { "say": "护符-铺垫-1", "fx": "魅惑闪光", "wait": 3 },
+          { "say": "护符-铺垫-2", "do": "bounce", "wait": 3.4 },
+          { "say": "护符-铺垫-3", "fx": "特写-眼", "text": "一直盯着我呢", "hold": 2.6, "wait": 3.4 },
+          { "say": "护符-铺垫-4", "fx": "特写-臀", "text": "比它暖和哦♥", "hold": 2.6, "wait": 3.4 }
+        ],
+        "lures": {
+          "swap": { "first": true, "chance": 0.5, "window": 1.3 },
+          "stand": { "chance": 0.55, "max": 12, "taps": 2, "hold": 3, "drain": 3 },
+          "bust": { "chance": 0.55, "min": 14, "taps": 2, "hold": 3 },
+          "slip": { "chance": 0.4, "window": 4, "hold": 1.2 },
+          "cover": { "chance": 0.4, "confuse": 5, "act": 0.7, "actKinds": { "点击": 1, "按住": 1 } },
+          "act": { "chance": 0.65, "kinds": { "点击": 2, "按住": 1, "点击+点击": 1, "拖动": 1, "顺序": 1 } }
+        }
+      },
+      "stage": {
+        "challenge": { "in": ["mid", "late"], "first": 4, "every": [7, 11], "kinds": { "点击": 2, "按住": 1, "点击+点击": 1, "拖动": 1, "顺序": 1 }, "点击": { "time": 2 }, "按住": { "time": 3.4, "hold": 1.2 }, "拖动": { "time": 4.8, "shapes": { "斜线": 2, "弧线": 1 }, "tolerance": 56, "checkpoints": 3 }, "顺序": { "count": 3, "time": 3.8, "spread": 0.25 }, "hitLine": "挑战-命中" }
+      }
+    },
+    // 第 4 组 · 最后一手：赢一手；开头她跳一段舞、骗你交护符；不上当就是所有诱惑一起来，眼看要赢时先换牌、再用最后一次魔法（草稿：站主还没定这一组怎么演）
+    {
+      "seconds": 21, "tempo": 1.1,
+      "prep": "准备-四",
+      "tip": "",
+      "blackjack": {
+        "wins": 1, "split": true, "surrender": true, "surrenderCost": 10, "insurance": true, "insuranceCost": 5, "magicFinal": true, "magicWindow": 2.2,
+        "amulet": "trick", "clap": 0.55, "sway": 0.35,
+        // 她跳那段舞（8 秒）的时候台词条照常说话：说 Aschan 的坏话，护符跳到一半开始发黑（站主 2026-10-26：原来的骗法太简单）
+        "offerIntro": [
+          { "say": "护符-骗-1", "wait": 2.6 },
+          { "say": "护符-骗-2", "wait": 2.7 },
+          { "say": "护符-骗-3", "wait": 2.7 }
+        ],
+        "lures": {
+          "swap": { "first": true, "chance": 1, "window": 1.2 },
+          "stand": { "chance": 0.8, "max": 12, "taps": 3, "hold": 3, "drain": 3 },
+          "bust": { "chance": 0.8, "min": 14, "taps": 3, "hold": 3 },
+          "slip": { "chance": 0.6, "window": 3.5, "hold": 1.4 },
+          "cover": { "chance": 0.6, "confuse": 5, "act": 0.8, "actKinds": { "点击": 1, "按住": 1 } },
+          "act": { "chance": 0.75, "kinds": { "点击": 2, "按住": 1, "点击+点击": 1, "连打": 1, "拖动": 1, "顺序": 1 } }
+        }
+      },
+      "stage": {
+        "challenge": { "in": ["mid", "late"], "first": 4, "every": [6, 9], "kinds": { "点击": 2, "按住": 1, "点击+点击": 1, "连打": 1, "拖动": 1, "顺序": 1 }, "点击": { "time": 1.9 }, "按住": { "time": 3.2, "hold": 1.2 }, "连打": { "time": 2.8, "taps": 8 }, "拖动": { "time": 4.6, "shapes": { "斜线": 2, "弧线": 1 }, "tolerance": 56, "checkpoints": 3 }, "顺序": { "count": 3, "time": 3.6, "spread": 0.25 }, "hitLine": "挑战-命中" }
+      }
+    }
+  ],
+
+  // ---------- 节奏指示器 ----------
+  // 前段＝发牌、想牌（慢），中段＝输了罚时，后段＝爆牌罚时（快）——blackjack.js 的 S.bjPhase
+  "rhythm": {
+    "use": "握力器",
+    "presets": {
+      "握力器": { "suggestion": "握力器", "rangeTop": 0.1, "rangeBottom": 0.9, "up": 0.35, "top": 0.08, "down": 0.42, "bottom": 0.08, "speed": { "early": 0.45, "mid": 1.2, "late": 2 } }
+    }
+  },
+
+  // ---------- 演出表 ----------
+  // 没有胸部的立绘：特写只有臀部（特写-臀 / 特写-臀-循环），节奏动的也是臀部（standee.motion.drive）
+  // 浮现文字各用各的池（站主 2026-10-25：言责的形式太单调）：耳语贴耳朵说、气泡逗你、大字一两个词砸下来、思绪是你自己飘掉的念头、竖排是心声；
+  //   罚时里另有定时的几套（blackjack.penaltyScripts）
+  "speech": {
+    "floats": { "耳语": "耳语-赌场", "气泡": "气泡-赌场", "大字": "大字-赌场", "思绪": "思绪-赌场", "竖排": "心声-赌场" }
+  },
+  "stage": {
+    "first": 4, "jitter": 0.35,
+    "early": {
+      "line": "前段", "lineEvery": 6, "charm": 0.08, "every": 8, "fx": { "拟声": 2, "吐息": 1, "特写-臀": 1 },
+      "talk": { "every": 5, "fx": { "耳语": 2, "气泡": 1 } }
+    },
+    "mid": {
+      "line": "中段", "lineEvery": 5, "charm": 0.2, "every": 5, "everyTo": 4,
+      "fx": { "拟声": 2, "吐息": 1, "魅惑闪光": 1, "唇印": 1, "特写-臀": 1, "特写-臀-循环": 1, "特写-眼": 1, "特写-唇": 1 },
+      "talk": { "every": 3.6, "everyTo": 3, "fx": { "耳语": 3, "气泡": 2, "竖排": 1, "思绪": 1, "大字": 1 } }
+    },
+    "late": {
+      "line": "后段", "lineEvery": 4, "charm": 0.35, "every": 4.2, "everyTo": 3.2,
+      "fx": { "拟声": 2, "魅惑闪光": 1, "特写-臀": 1, "特写-臀-循环": 1, "特写-眼": 1, "特写-唇": 1, "集中线": 1, "心章": 1 },
+      "talk": { "every": 3, "everyTo": 2.3, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "思绪": 1, "大字": 2 }, "looks": { "耳语": "红" } }
+    },
+    "endless": {
+      "line": { "无尽战斗": 2, "气泡-赌场": 1 }, "lineEvery": 5, "charm": 0.45, "every": 4, "fx": { "拟声": 2, "魅惑闪光": 2, "特写-臀": 2, "特写-臀-循环": 2, "集中线": 1, "心章": 1 },
+      "talk": { "every": 2.6, "fx": { "耳语": 3, "气泡": 2, "竖排": 1, "思绪": 1, "大字": 1 } }
+    },
+    "toMid": { "cutin": "cutin-前到中", "side": "right", "ono": "拟声-臀", "delay": 500, "fx": { "特写-臀": 1 } },
+    "toLate": { "cutin": "cutin-中到后", "side": "left", "ono": "拟声-臀", "delay": 500, "fx": { "集中线": 1 } },
+    "top": { "every": 0, "fx": {} },
+    "bottom": { "every": 0, "fx": {} },
+    "beat": { "in": ["late"], "every": 6, "fx": { "拟声-心跳": 1 } },
+    "countdown": { "from": 5, "line": "倒计时", "boost": 0.05, "at": [1], "fx": { "拟声-魅惑": 1 } },
+    "press": { "line": "长按中" },
+    "release": { "line": "松手", "min": 0.2, "boost": 0.3, "delay": 200, "fx": { "大字": 1, "魅惑闪光": 1 } },
+    // 挑战：各组自己在 sets 里写；这里是无尽战斗
+    "challenge": {
+      "in": ["endless"], "first": 4, "every": [6, 9],
+      "kinds": { "点击": 2, "按住": 1, "连打": 1, "点击+点击": 1, "拖动": 1, "顺序": 1 },
+      "点击": { "time": 1.8 }, "按住": { "time": 3, "hold": 1 }, "连打": { "time": 2.8, "taps": 9 }, "拖动": { "time": 4.6, "shapes": { "斜线": 2, "弧线": 1 }, "tolerance": 56, "checkpoints": 3 }, "顺序": { "count": 3, "time": 3.6, "spread": 0.25 },
+      "onMiss": "defeat", "hitLine": "挑战-命中"
+    }
+  },
+
+  // ---------- 无尽战斗 ----------
+  // 结局选「再赌一局」进来：也打 21 点（blackjack.endless；站主 2026-10-26）
+  "endless": {},
+
+  // ---------- 败北处决 ----------
+  "execute": {
+    "zero": { "fx": "特写-臀-循环", "hold": 4.6, "at": 0.9, "text": "今晚，你归我了♥" },
+    "zeroHold": 6
+  },
+
+  // ---------- 背景音乐 ----------
+  // 舞娘：魔王魂的民族风
+  "bgm": { "use": "魔王魂 民族05（loop）" },
+
+  // ---------- 立绘档案 ----------
+  // 008：舞娘（960 × 1720，assets/008.png）。平胸——没有乳摇（遮罩 R 空），跟着节奏动的是臀部（motion.drive: "hips"，参数在 motion.hips）。
+  // 原图大致位置：脸 (480, 270)、眼 (425, 260) / (535, 245)、嘴 (472, 325)、腰 y 690、胯 y 720–900、脚 1690
+  "standee": {
+    "art": {
+      "standee": {
+        "her": {
+          "frame": { "top": 60, "bottom": 900, "centerX": 482 },
+          "faces": { "normal": "her-008.5c371d73fa.webp", "smug": "her-008.5c371d73fa.webp", "hurt": "her-008.5c371d73fa.webp" }
+        }
+      },
+      "battleStandee": {
+        "src": "her-008.5c371d73fa.webp",
+        "mask": "her-008-mask.70e19da41e.png",
+        "mask2": "her-008-mask2.5305b5b1a8.png",
+        "centerX": 482,
+        "frames": {
+          "idle": [60, 990],
+          "early": [60, 960],
+          "mid": [230, 930],
+          "late": [520, 1000],
+          "win": [60, 990],
+          "lose": [0, 1720],
+          "retreat": [0, 1300],
+          "endless": [230, 930]
+        }
+      }
+    },
+    "motion": {
+      "drive": "hips",
+      "cycle": { "amp": 16, "freeAmp": 6, "waistY": 690, "feather": 90 },
+      "breathe": { "amp": 2.5 },
+      "shake": { "maxOffset": 28, "impulse": { "cutin": 330, "art": 260, "heartbeat": 42 } },
+      "hair": { "amp": 3 },
+      // 扭胯：整张图绕脚转 bodyTwist（弧度 / 摇幅 1px）、腰线以上反着转回来 torsoCounter 倍；臀部区域再绕腰扭 twist、往外送 jiggle、往上 lift
+      "hips": { "radius": [260, 170], "twist": 0.0014, "bodyTwist": 0.0009, "torsoCounter": 1.6, "jiggle": 0.35, "lift": 0.4 }
+    },
+    "fx": {
+      "anchors": { "face": [480, 270], "eyes": [480, 253], "lips": [472, 325], "crest": [482, 760], "hips": [440, 830], "waist": [482, 690], "feet": [472, 1690], "knee": null, "legs": null },
+      "eyeBar": { "center": [480, 253], "size": [176, 44], "angle": -8 },
+      "charm": { "visions": { "zoom": { "lips": 110, "eyes": 150 } } },
+      "closeup": {
+        "hips": { "side": "left", "sideOffset": 70, "height": 380, "offset": [0, 0], "bodyTwist": 0.0018, "twist": 0.0024, "impulse": 140, "maxOffset": 19, "radius": [260, 170], "loop": { "amp": 14 } }
+      }
+    }
+  }
+}

@@ -1,0 +1,396 @@
+// 讨伐任务 · 委托 004 · 一决胜负（电子魅魔 Aschan，立绘 004）
+//
+// JSON 加注释（// 开头的行是注释）。这份只写这一份委托自己的东西，其余沿用 common.jsonc；
+// 这里写了 common.jsonc 里同名的段（比如 "timing": { "holdToQuit": 2000 }）就盖过去。
+// 台词在 lines-004.jsonc，剧情在 story-004.jsonc。
+{
+  // ---------- 委托单 ----------
+  // 委托信息和四组提示条站主写的（2026-09-18）；台词、剧情 Claude Code 按它写的初稿（看 docs/讨伐-任务004文本表.md 改）
+  "quest": {
+    // 编号：和文件名里的一样
+    "id": "004",
+    // 委托名：任务墙卡片的标题、委托单、战斗画面顶上
+    "name": "讨伐·电子魅魔Aschan",
+    // 任务墙卡片的副标题（中文或英文，可不写）
+    "subtitle": "Subjugation Quest #004 - [Aschan]",
+    // 任务等级：S / A / B / C / D / E（S 最高）。任务墙卡片上的贴纸，也决定格子大小（S 占 2×2、A 横 2 格、其余一格）
+    "rank": "A",
+    // 任务墙卡片与启动页：大约玩多久、一段说明
+    "duration": "4 分钟",
+    "description": "曾经帮助你完成初次任务的电子魅魔Aschan\n这次将以认真模式，向你发起带有紧张感的讨伐挑战",
+    // 启动页 /quests/tobatsu/004 的「任务说明」（空一行＝分段）。不写就用上面的 description
+    "detail": "在通过【初次任务】后，你再一次回到冒险者酒场。这一次，你发现任务墙上有一个专门指名你的任务。\n\n作为冒险者的实力，也算是得到了Aschan的认可。于是她发起了一场正式对决的邀请。这次的她，不再会像初次任务时那样什么都不做。相反，她会用各种方式积极地试图击败你。\n\n适合想要集中精神全力投入对战的人。危险程度：中。",
+    // 日语、英语版（任务墙、启动页的 /ja/…、/en/… 用）：name / duration / description / detail / tag / tagLong / unlockCondition，没写的沿用上面中文的
+    "i18n": {
+      "ja": {
+        "name": "討伐・電脳サキュバスAschan",
+        "duration": "4分",
+        "description": "はじめての依頼であなたを手伝ってくれた電脳サキュバスAschan\n今回は本気モードで、緊張感たっぷりの討伐勝負を挑んでくる",
+        "detail": "【はじめての依頼】を終えたあなたは、再び冒険者酒場を訪れた。今回、依頼掲示板にはあなたを名指しした依頼が一枚貼られている。\n\n冒険者としての実力が、Aschanにもそれなりに認められたということだろう。彼女から、正式な対決への招待が届いたのだ。今回の彼女は、はじめての依頼のときのように何もせず見ているだけではない。むしろあらゆる手を使って、積極的にあなたを打ち負かしにくる。\n\n集中して全力で勝負に挑みたい人向け。危険度：中。",
+        "tag": "挑戦",
+        "unlockCondition": "「討伐・はじめての依頼」をクリア"
+      },
+      "en": {
+        "name": "Subjugation · Cyber Succubus Aschan",
+        "duration": "4 min",
+        "description": "Aschan, the cyber succubus who helped you through your first quest.\nThis time she's in serious mode — and she's challenging you to a tense subjugation battle.",
+        "detail": "After finishing the [First Quest], you return to the Adventurers' Tavern once more. This time, there's a quest on the Quest Board with your name on it.\n\nIt seems your strength as an adventurer has earned Aschan's recognition. She has sent you an invitation to a real duel. Unlike the first quest, she won't just stand there doing nothing this time. Instead, she'll use every trick she has to actively try to defeat you.\n\nFor those who want to focus and give the fight everything they've got. Danger level: moderate.",
+        "tag": "Challenge",
+        "unlockCondition": "Clear \"Subjugation · First Quest\""
+      },
+      // 韩语（2026-10-20，志愿者审过：docs/讨伐-韩语-B批审阅合入.md）；标签「挑战」＝챌린지（站主 2026-10-23，和委托书记录栏的 도전 分开）
+      "ko": {
+        "name": "토벌·사이버 서큐버스 Aschan",
+        "duration": "4분",
+        "description": "첫 의뢰에서 당신을 도와준 사이버 서큐버스 Aschan\n이번엔 진심 모드로, 긴장감 넘치는 토벌 승부를 걸어온다",
+        "detail": "【첫 의뢰】를 마친 당신은 다시 모험가 선술집을 찾았다. 이번에는 의뢰 게시판에 당신을 지명한 의뢰가 한 장 붙어 있다.\n\n모험가로서의 실력을 Aschan에게도 어느 정도 인정받았다는 뜻이리라. 그녀가 정식 대결을 신청해 온 것이다. 이번의 그녀는 첫 의뢰 때처럼 아무것도 하지 않고 지켜보기만 하지 않는다. 오히려 온갖 수단을 써서 적극적으로 당신을 쓰러뜨리려 들 것이다.\n\n집중해서 전력으로 승부에 임하고 싶은 사람에게. 위험도: 중.",
+        "tag": "챌린지",
+        "unlockCondition": "'토벌·첫 의뢰' 클리어"
+      }
+    },
+    // 本机解锁：这台设备通关了哪份委托才解锁（站主 2026-09-18：通过初次任务）。没通关时任务墙上是未解放的格子，写 condition 这句解放条件
+    "unlock": { "after": "001", "condition": "通过「讨伐·初次任务」" },
+    // 标签：tag 任务墙卡片上的小药丸，tagLong 启动页「标签」栏里的字（没写就也用 tag）。站主 2026-10-19：001、002「教程」，004「挑战」，006「催眠」，003、005、007 不标
+    "tag": "挑战",
+    // 委托类型：endurance＝耐久型（撑够时间）。节拍型（beat）以后做，现在写了也不认
+    "type": "endurance",
+    // 封面：drop/art/ 里的图名（不带扩展名），任务墙大卡、桌面详情卡用（站主画的 004-Q）
+    "cover": "tobatsu-004",
+    // 封面眼睛上的黑条（原图像素：中心、宽高、角度）。导入时贴上去再转图
+    "coverBar": { "center": [984, 512], "size": [330, 96], "angle": 17 },
+    // 委托人：委托单上「委托人」那一栏
+    "client": "电子魅魔Aschan",
+    // 她（讨伐对象）的名字：剧情对话里她的名牌（和 001 是同一个人）
+    "herName": "Aschan",
+    // 成功报酬：委托单上委托人后面那枚药丸、任务墙的卡片 / 预览 / 详情卡（第一份委托的也显示在大厅「最近更新」）
+    "reward": "1200G",
+    // 建议的动作（节奏档位里没写 suggestion 时用）
+    "suggestion": "握力器",
+    // 几组 × 每组多少秒（第 3、4 组在下面 sets 里写成 40 秒）
+    "sets": 4,
+    "seconds": 30,
+    // 救济（站主 2026-09-24：很多人说 004 难）：这台设备累计失败 5 次后，彻底败北那一刻问一次——承认自己是杂鱼，就解锁「重来这一组」
+    "relief": { "after": 5 },
+    // 奖杯：一趟挑战里没用「重来这一组」就全部通过（冒险者记录里列出来）
+    "trophies": [{ "id": "clean", "name": "堂堂正正的胜负", "desc": "不用「重来这一组」，一口气完成讨伐·电子魅魔Aschan", "when": "clean" }]
+  },
+
+  // ---------- 004 的设计（站主定框架，Claude Code 补细节；2026-09-17 框架第二版）----------
+  // Aschan 纯粹想和「你」一决胜负：交互难度最大的一份，重视反应速度，有一点紧张感。
+  // 题型：点击 / 按住 / 拖动 / 顺序（3、2、1、0 从大到小点，一枚隔 0.2 秒错开冒出来，点到 0 炸爱心 + 被魅惑干扰一下）/ 连打（×N 连点）。
+  // 顺序题的变化：
+  //   zeroHold  最后的 0 要按住（站主：第 2 组起）
+  //   decoys    深色诱饵章，一半压住数字的一角、一半散在空地；点到不算输，全屏混乱 6.4 秒（站主：难度加了，诱饵也可以多一点；混乱时间加倍，要碰到下一波）
+  //   hide      翻成「?」以后按住的 0、诱饵和普通数字的背面一模一样，按到了才翻回正面（站主）
+  //   连打 trap 章下面藏一枚诱饵，打完多点一下就踩中：第 3 组第 17 秒一定有，第 3 组随机的连打一半有（站主）
+  //   hide      每枚出现几秒后翻成「?」（诱饵也翻）：第 3 组最后第一次出，第 4 组全部都翻、显示时间短一点（站主）
+  //   按住题 onHold：先出按住，一按下去就砸下一组顺序题（站主）
+  // 难度一组一组往上加（每种新东西第一次出现都是定时的，限时宽一点）：
+  //   第 1 组  30 秒 · 点击；第 10 秒第一次顺序（2、1、0）；第 16 秒第一次连打；第 24 秒两个点击
+  //   第 2 组  30 秒 · 顺序 4 个；第 9 秒第一次按住；第 14 秒第一次「0 要按住」；第 21 秒按住 → 一按下去砸下 2、1、0
+  //   第 3 组  40 秒 · 第 4 秒第一次诱饵；第 12 秒拖动；第 17 秒连打 10 下；第 26 秒三个点击砸在「放弃」上；第 33 秒第一次翻面（5 个 + 1 枚诱饵）
+  //   第 4 组  40 秒 · 顺序全翻面；第 14 秒连打 12 下；第 20 秒按住 → 砸下 4 个 + 诱饵（翻面）；第 31 秒决胜题：6 个 + 4 枚诱饵，全翻面
+  //   无尽战斗  什么都出
+  // 挑战的公共规矩在这份里收紧：两题之间至少隔 2.5 秒、每组最后 2.5 秒不出（common.jsonc 是 4 秒 / 3 秒）
+  // 镜头一律中近景，段内慢慢摇、切段硬切一个部位；第 4 组决胜题前拉远一点（8 枚章铺满画面，还要看得到她）
+
+  // ---------- 节奏指示器 ----------
+  // 右侧一条竖轨，滑块上下来回。一次完整动作 = 上行（举起）→ 顶端停 → 下行（放下）→ 底端停
+  // 速度倍率对四段一起生效：调快了，两端停留的时间也跟着按比例变短
+  "rhythm": {
+    // 用哪一套节奏（下面 presets 里的名字）。?dev=1 面板上可以临时切换。
+    // 细调和存档位用 tuner.html；在那里「设为本机默认」的档位，这台设备上会盖过这一项
+    "use": "4",
+    "presets": {
+      // 004 的默认档位（站主定，2026-09-17）
+      "4": {
+        "suggestion": "握力器",
+        // 往返区间：轨道上的上端和下端（0＝轨道最上、1＝最下）。某一组可以在 sets 里用 rhythm 单独改
+        "rangeTop": 0.15,
+        "rangeBottom": 0.85,
+        // 各段秒数：上行 / 顶端停 / 下行 / 底端停
+        "up": 0.35,
+        "top": 0.02,
+        "down": 0.42,
+        "bottom": 0.02,
+        // 速度倍率（按阶段）。1 = 按上面的秒数。再乘上每组的 tempo
+        "speed": { "early": 1, "mid": 1.4, "late": 2.5 }
+      }
+    }
+  },
+
+  // ---------- 挑战的公共规矩（盖在 common.jsonc 的 challenge 上）----------
+  // 点到诱饵时台词条说的：「挑战-中诱饵」
+  "challenge": { "gap": 2.5, "quiet": 2.5, "顺序": { "decoyLine": "挑战-中诱饵" } },
+
+  // ---------- 每组 ----------
+  // 按组覆盖（第 1 组是第一个 {}）：
+  //   seconds 这组多少秒；earlyEnds / midEnds 分段点（占这组秒数的比例）；tempo 节奏快慢倍数（乘在档位速度上）
+  //   tip 准备倒数时横在画面上的提示（『』里的词标亮）
+  //   camera  镜头：按秒的关键帧 [{ "at": 秒, "frame": [上沿, 下沿], "centerX": 中线 }]，原图像素；"cut": true＝到点一下切过来（"flash": true 切的时候闪一下）
+  //   script  定时演出：[{ "at": 秒, "fx": 演出名, "text" / "pool", "hold" }]；
+  //           "fx": "挑战-点击" / "挑战-按住" / "挑战-拖动" / "挑战-顺序"（同时出几题写 "挑战-顺序+点击"）＝到点一定出：time 限时、hold 按满几秒、pool 出题时她说的、
+  //           place: "quit" 章砸在「放弃」按钮上、stagger 一题接一题隔几秒砸下来；顺序题还能写 count 几个数字、decoys 几枚诱饵、hide 几秒后翻面
+  //   stage   这一组的演出表（按格盖在下面的 stage 上）
+  "sets": [
+    {
+      "earlyEnds": 0.3, "midEnds": 0.7, "tempo": 1,
+      "tip": "虽然是认真战斗，也别忘了按照节奏挥舞『圣剑』哟",
+      "camera": [
+        { "at": 0, "frame": [40, 760], "centerX": 520 },
+        { "at": 14, "frame": [120, 840], "centerX": 515, "ease": "linear" },
+        { "at": 14.05, "frame": [520, 1140], "centerX": 500, "cut": true },
+        { "at": 26, "frame": [460, 1080], "centerX": 505, "ease": "linear" },
+        { "at": 26.05, "frame": [60, 700], "centerX": 520, "cut": true, "flash": true },
+        { "at": 30, "frame": [90, 680], "centerX": 520 }
+      ],
+      "script": [
+        { "at": 4, "fx": "挑战-点击", "time": 2.4, "pool": "挑战-登场-点击" },
+        { "at": 10, "fx": "挑战-顺序", "count": 3, "time": 3.6, "pool": "挑战-登场-顺序" },
+        { "at": 16, "fx": "挑战-连打", "taps": 6, "time": 3, "pool": "挑战-登场-连打" },
+        { "at": 20, "fx": "特写-眼" },
+        { "at": 24, "fx": "挑战-点击+点击", "pool": "挑战-登场-点击+点击" }
+      ],
+      "stage": {
+        "early": { "charm": 0.04 },
+        "mid": { "charm": 0.1 },
+        "late": { "charm": 0.18 },
+        "challenge": {
+          "in": ["mid", "late"], "first": 17, "every": [4, 6],
+          "kinds": { "点击": 2, "顺序": 1, "连打": 1 },
+          "点击": { "time": 2 }, "顺序": { "time": 3.2, "count": 3 }, "连打": { "time": 2.8, "taps": 6 }
+        }
+      }
+    },
+    {
+      "earlyEnds": 0.25, "midEnds": 0.6, "tempo": 1.05,
+      "tip": "请耐心地认真观察，不要草率出手",
+      "camera": [
+        { "at": 0, "frame": [300, 960], "centerX": 510 },
+        { "at": 12, "frame": [240, 900], "centerX": 515, "ease": "linear" },
+        { "at": 12.05, "frame": [880, 1560], "centerX": 470, "cut": true },
+        { "at": 22, "frame": [800, 1480], "centerX": 480, "ease": "linear" },
+        { "at": 22.05, "frame": [40, 720], "centerX": 520, "cut": true, "flash": true },
+        { "at": 30, "frame": [80, 680], "centerX": 520 }
+      ],
+      "script": [
+        { "at": 3, "fx": "挑战-顺序", "count": 4, "time": 3.6, "pool": "挑战-登场-顺序4" },
+        { "at": 9, "fx": "挑战-按住", "time": 3.6, "hold": 1, "pool": "挑战-登场-按住" },
+        // 第一次「0 要按住」
+        { "at": 14, "fx": "挑战-顺序", "count": 3, "zeroHold": 1, "time": 3.4, "pool": "挑战-登场-按住零" },
+        { "at": 18, "fx": "特写-胸" },
+        // 先出按住，一按下去就砸下 2、1、0（站主 2026-09-17）
+        { "at": 21, "fx": "挑战-按住", "time": 6, "hold": 1.4, "onHold": { "count": 3, "time": 3.6 }, "pool": "挑战-登场-按住陷阱" }
+      ],
+      "stage": {
+        "early": { "charm": 0.1 },
+        "mid": { "charm": 0.2 },
+        "late": { "charm": 0.3 },
+        "challenge": {
+          "in": ["early", "mid", "late"], "first": 6, "every": [3.5, 5.5],
+          "kinds": { "点击": 2, "按住": 1, "顺序": 2, "连打": 1, "点击+点击": 1 },
+          "点击": { "time": 1.8 }, "按住": { "time": 3.4, "hold": 1 }, "顺序": { "time": 3.2, "count": 4, "zeroHold": 0.8, "zeroHoldChance": 0.5 }, "连打": { "time": 2.8, "taps": 7 }
+        }
+      }
+    },
+    {
+      "seconds": 40, "earlyEnds": 0.25, "midEnds": 0.6, "tempo": 1.1,
+      "tip": "千万别错过了自己眼前出现的信息喔~",
+      "camera": [
+        { "at": 0, "frame": [560, 1180], "centerX": 500 },
+        { "at": 14, "frame": [480, 1100], "centerX": 505, "ease": "linear" },
+        { "at": 14.05, "frame": [60, 740], "centerX": 520, "cut": true },
+        { "at": 26, "frame": [140, 800], "centerX": 518, "ease": "linear" },
+        { "at": 26.05, "frame": [300, 960], "centerX": 510, "cut": true, "flash": true },
+        { "at": 34, "frame": [260, 900], "centerX": 512 },
+        { "at": 34.05, "frame": [80, 700], "centerX": 520, "cut": true, "flash": true },
+        { "at": 40, "frame": [110, 660], "centerX": 520 }
+      ],
+      "script": [
+        { "at": 4, "fx": "挑战-顺序", "count": 4, "decoys": 3, "time": 4.2, "pool": "挑战-登场-诱饵" },
+        { "at": 12, "fx": "挑战-拖动", "time": 4.2, "pool": "挑战-登场-拖动" },
+        // 第 17 秒：连打下面藏着一枚诱饵——打完还多点一下就踩中（站主 2026-09-18）
+        { "at": 17, "fx": "挑战-连打", "taps": 10, "time": 3.2, "trap": true },
+        { "at": 21, "fx": "特写-臀" },
+        // 第 26 秒：三个点击一个接一个砸在底下的「长按放弃」上
+        { "at": 26, "fx": "挑战-点击+点击+点击", "place": "quit", "stagger": 0.25, "time": 2, "pool": "挑战-引诱放弃" },
+        { "at": 30, "fx": "魅惑闪光" },
+        // 第 33 秒：第一次翻面（站主：第 3 组最后就出）
+        { "at": 33, "fx": "挑战-顺序", "count": 5, "decoys": 2, "hide": 1.2, "time": 4.6, "pool": "挑战-登场-翻面" }
+      ],
+      "stage": {
+        "early": { "charm": 0.16 },
+        "mid": { "charm": 0.28 },
+        "late": { "charm": 0.4 },
+        "challenge": {
+          "in": ["early", "mid", "late"], "first": 8, "every": [3.2, 5],
+          "kinds": { "点击": 2, "按住": 1, "拖动": 1, "顺序": 2, "连打": 1, "点击+点击": 1, "顺序+点击": 1 },
+          "点击": { "time": 1.7 }, "按住": { "time": 3.2, "hold": 1 }, "拖动": { "time": 4 },
+          "顺序": { "time": 3.4, "count": 4, "decoys": 2, "zeroHold": 0.8, "zeroHoldChance": 0.3 }, "连打": { "time": 2.8, "taps": 8, "trap": 0.5 }
+        }
+      }
+    },
+    {
+      "seconds": 40, "earlyEnds": 0.2, "midEnds": 0.55, "tempo": 1.15,
+      "tip": "速度越来越快了，『圣剑』还能撑得住吗？",
+      "camera": [
+        { "at": 0, "frame": [40, 760], "centerX": 520 },
+        { "at": 10, "frame": [100, 800], "centerX": 518, "ease": "linear" },
+        { "at": 10.05, "frame": [520, 1160], "centerX": 500, "cut": true, "flash": true },
+        { "at": 20, "frame": [440, 1080], "centerX": 505, "ease": "linear" },
+        { "at": 20.05, "frame": [900, 1580], "centerX": 470, "cut": true },
+        { "at": 25, "frame": [820, 1500], "centerX": 480, "ease": "linear" },
+        { "at": 25.05, "frame": [60, 700], "centerX": 520, "cut": true, "flash": true },
+        { "at": 30.4, "frame": [120, 660], "centerX": 520 },
+        // 决胜题前拉远一点：8 枚章铺满画面，还要看得到她
+        { "at": 30.45, "frame": [20, 920], "centerX": 525, "cut": true, "flash": true },
+        { "at": 40, "frame": [40, 860], "centerX": 525 }
+      ],
+      // 第 4 组的顺序题全部翻面（站主：数字显示的时间也短一点）
+      "script": [
+        { "at": 3, "fx": "挑战-顺序", "count": 4, "hide": 0.8, "time": 4.4, "pool": "挑战-第4组开场" },
+        { "at": 9, "fx": "挑战-点击+按住", "pool": "挑战-登场-点击+按住" },
+        { "at": 14, "fx": "挑战-连打", "taps": 12, "time": 3.4 },
+        { "at": 17, "fx": "特写-胸-横" },
+        { "at": 20, "fx": "挑战-按住", "time": 7, "hold": 1.4, "onHold": { "count": 4, "decoys": 2, "hide": 0.8, "time": 4.2 } },
+        { "at": 26, "fx": "挑战-点击+拖动" },
+        // 决胜题之前寸止：节奏轨到顶停 2 秒（等画面上的题做完才停，停着时不出新题），停完她耳语「来，决胜负吧♥」
+        { "at": 28.5, "fx": "寸止", "hold": 2, "text": "停。准备好了吗？" },
+        // 第 31 秒：决胜题（6 个数字 + 4 枚诱饵，全翻面）
+        { "at": 31, "fx": "挑战-顺序", "count": 6, "decoys": 4, "hide": 0.9, "time": 5.6, "pool": "挑战-决胜" }
+      ],
+      "stage": {
+        "early": { "charm": 0.22 },
+        "mid": { "charm": 0.36 },
+        "late": { "charm": 0.5 },
+        "challenge": {
+          "in": ["early", "mid", "late"], "first": 6, "every": [2.8, 4.5],
+          "kinds": { "点击": 2, "按住": 1, "拖动": 1, "顺序": 3, "连打": 1, "点击+点击": 1, "顺序+点击": 1, "点击+按住": 1 },
+          "点击": { "time": 1.5 }, "按住": { "time": 3, "hold": 1 }, "拖动": { "time": 3.6 },
+          "顺序": { "time": 3.2, "count": 4, "decoys": 2, "hide": 0.8, "zeroHold": 0.8, "zeroHoldChance": 0.3 }, "连打": { "time": 2.6, "taps": 9 }
+        }
+      }
+    }
+  ],
+
+  // 她的自称：共用言责词库里的「我」换成「Aschan」（和 001 一样）
+  "speech": { "self": "Aschan" },
+
+  // ---------- 演出表 ----------
+  // 战斗里什么时候放什么。一格管一个时机，随机只在这一格里抽（各格写法见 quest-001.jsonc 的注释、README「演出表」）。
+  // 这张表是四组共用的底（每组在上面 sets 里按格改）和无尽战斗。004 以挑战为主：随机演出比 003 稀一点，不抢题的视线
+  "stage": {
+    "first": 4, "jitter": 0.35,
+    "early": {
+      "line": "前段", "lineEvery": 6, "charm": 0.05, "every": 8, "fx": { "拟声": 2, "吐息": 1 },
+      "talk": { "every": 5, "fx": { "耳语": 2, "气泡": 1 }, "pools": { "耳语": { "言责-褒奖": 2, "言责-勾引": 1 }, "气泡": { "言责-褒奖": 1, "言责-贬损": 1 } } }
+    },
+    "mid": {
+      "line": "中段", "lineEvery": 5, "charm": 0.2, "every": 6, "everyTo": 5, "fx": { "拟声": 2, "吐息": 1, "唇印": 1, "魅惑闪光": 1, "特写-胸": 1, "特写-眼": 1 },
+      "talk": { "every": 4, "everyTo": 3.2, "fx": { "耳语": 2, "气泡": 1, "竖排": 1 }, "pools": { "耳语": { "言责-贬损": 2, "言责-褒奖": 1, "言责-勾引": 1 }, "气泡": { "言责-褒奖": 1, "言责-勾引": 1 } } }
+    },
+    "late": {
+      "line": "后段", "lineEvery": 4, "charm": 0.35, "every": 5, "everyTo": 3.5, "fx": { "拟声": 2, "魅惑闪光": 2, "特写-胸": 1, "特写-胸-横": 1, "特写-臀": 1, "集中线": 1, "吐息": 1 },
+      "talk": { "every": 3.2, "everyTo": 2.4, "fx": { "耳语": 2, "气泡": 1, "竖排": 1, "大字": 1 }, "pools": { "耳语": { "言责-贬损": 2, "言责-勾引": 2 }, "气泡": { "言责-褒奖": 1, "言责-勾引": 1 }, "大字": { "言责-贬损": 1, "言责-勾引": 1 } } }
+    },
+    "endless": {
+      "line": { "无尽战斗": 2, "言责-勾引": 1, "言责-贬损": 1 }, "lineEvery": 5, "charm": 1, "every": 4, "fx": { "拟声": 2, "魅惑闪光": 2, "特写-胸": 1, "特写-胸-循环": 2, "特写-胸-横": 1, "特写-臀": 1, "特写-臀-循环": 1, "特写-眼": 1, "集中线": 2, "吐息": 1 },
+      "talk": { "every": 2.6, "fx": { "耳语": 3, "气泡": 2, "竖排": 1, "思绪": 1, "大字": 1 }, "pools": { "耳语": { "言责-贬损": 1, "言责-褒奖": 1, "言责-勾引": 2 }, "气泡": { "言责-褒奖": 1, "言责-勾引": 2 }, "思绪": { "言责-勾引": 1, "言责-贬损": 1 }, "大字": { "言责-贬损": 1, "言责-勾引": 1 } } }
+    },
+    "toMid": { "cutin": "cutin-前到中", "side": "right", "ono": "拟声-摇", "delay": 500, "fx": { "拟声-摇": 1 } },
+    "toLate": { "cutin": "cutin-中到后", "side": "left", "ono": "拟声-摇", "delay": 500, "fx": { "集中线": 1 } },
+    "top": { "burst": true, "every": 0, "fx": {} },
+    "bottom": { "every": 0, "fx": {} },
+    "beat": { "in": ["late"], "every": 6, "fx": { "拟声-心跳": 1 } },
+    "countdown": { "from": 5, "line": "倒计时", "boost": 0.07, "at": [1], "fx": { "拟声-魅惑": 1 } },
+    "press": { "line": "长按中" },
+    "release": { "line": "松手", "min": 0.2, "boost": 0.3, "delay": 200, "fx": { "大字": 1, "魅惑闪光": 1 } },
+    // 挑战：四组各自在 sets 里写；这里是无尽战斗（什么都出）和各组没写的字段
+    "challenge": {
+      "in": ["endless"], "first": 6, "every": [3, 5],
+      "kinds": { "点击": 2, "按住": 1, "拖动": 1, "顺序": 3, "连打": 1, "点击+点击": 1, "顺序+点击": 1, "点击+按住": 1, "点击+拖动": 1 },
+      "点击": { "time": 1.6 }, "按住": { "time": 3, "hold": 1 }, "拖动": { "time": 3.8 },
+      "顺序": { "time": 3.4, "count": 4, "decoys": 2, "hide": 0.9, "zeroHold": 0.8, "zeroHoldChance": 0.3 }, "连打": { "time": 2.8, "taps": 9 },
+      "onMiss": "defeat", "hitLine": "挑战-命中"
+    }
+  },
+
+  // ---------- 背景音乐 ----------
+  // 曲子在站级共享 BGM 库（drop/bgm/bgm.jsonc 的曲名表）；音量、各画面音量倍数在 common.jsonc 的 bgm
+  "bgm": {
+    // 用哪一首：写一个曲名；写几个曲名的数组 ["曲名1", "曲名2"] 就每次在里面随机挑；"random"＝整个库里随机
+    // 004 用 MusMus「怠惰の果実」（站主定）
+    "use": "MusMus 怠惰の果実"
+  },
+
+  // ---------- 图 ----------
+  // 留空＝用占位；写图的路径（相对这个文件夹，比如 "her-normal.webp"）就换成图
+  "art": {
+    // 战斗画面的角色图，竖构图 3:4
+    "battle": {
+      "idle": "",
+      "early": "",
+      "mid": "",
+      "late": "",
+      "win": "",
+      "lose": "",
+      "retreat": "",
+      "endless": ""
+    },
+    // 剧情对话的背景，竖屏 9:16（会按屏幕裁切）
+    "bg": {
+      "story": "",
+      "pause": "",
+      "ending": "",
+      "choice": ""
+    }
+  },
+
+  // ---------- 立绘档案 ----------
+  // 跟着图走的数值：图和遮罩、取景、锚点、特写的像素尺寸、立绘动态的像素幅度。层级和 common.jsonc 一样，载入时最后盖上去。
+  // 各字段的说明见 common.jsonc 最下面的测试立绘。遮罩在 tuner.html「立绘」页画，导出后放进来
+  // 004（assets/004.png，968 × 1720）：比测试立绘小，胸和脸大约是它的 0.44 倍，像素数值都跟着缩
+  "standee": {
+    "art": {
+      "standee": {
+        "her": {
+          "frame": { "top": 20, "bottom": 880, "centerX": 525 },
+          "faces": { "normal": "her-004.2edef6cae4.webp", "smug": "her-004.2edef6cae4.webp", "hurt": "her-004.2edef6cae4.webp" }
+        }
+      },
+      "battleStandee": {
+        "src": "her-004.2edef6cae4.webp",
+        "mask": "her-004-mask.44c6c6cff8.png",
+        "mask2": "her-004-mask2.12e7ce093a.png",
+        "centerX": 530,
+        "frames": {
+          "idle": [20, 950],
+          "early": [20, 880],
+          "mid": [110, 780],
+          "late": [160, 690],
+          "win": [20, 950],
+          "lose": [0, 1720],
+          "retreat": [0, 1260],
+          "endless": [150, 740]
+        }
+      }
+    },
+    "motion": {
+      "cycle": { "amp": 14, "freeAmp": 6, "waistY": 700, "feather": 75 },
+      "breathe": { "amp": 2.5 },
+      "shake": { "maxOffset": 28, "impulse": { "cutin": 330, "art": 260, "heartbeat": 42 } },
+      "hair": { "amp": 2 }
+    },
+    "fx": {
+      "anchors": { "face": [515, 305], "eyes": [514, 298], "lips": [525, 336], "crest": [545, 745], "hips": [520, 790], "waist": [520, 700], "feet": [520, 1690] },
+      "charm": { "visions": { "zoom": { "chest": 250, "lips": 115, "eyes": 150 } } },
+      "closeup": {
+        "chest": { "height": 250, "offset": [0, -10], "impulse": 320, "maxOffset": 32, "loop": { "amp": 12 } },
+        "chestSide": { "impulse": 190, "maxOffset": 21, "loop": { "amp": 16 } },
+        // 左胯没被手挡住，截左边
+        "hips": { "side": "left", "sideOffset": 75, "height": 300, "offset": [0, 10], "bodyTwist": 0.0021, "twist": 0.0026, "impulse": 140, "maxOffset": 19, "radius": [210, 130], "loop": { "amp": 14 } },
+        "eyes": { "height": 80, "eyeSpread": 35 }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+import{t as e}from"./video-player.DYTTT36M.js";document.addEventListener(`astro:page-load`,e);

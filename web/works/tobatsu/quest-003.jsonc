@@ -1,0 +1,445 @@
+// 讨伐任务 · 委托 003
+//
+// JSON 加注释（// 开头的行是注释）。这份只写这一份委托自己的东西，其余沿用 common.jsonc；
+// 这里写了 common.jsonc 里同名的段（比如 "timing": { "holdToQuit": 2000 }）就盖过去。
+// 台词在 lines-003.jsonc，剧情在 story-003.jsonc。
+{
+  // ---------- 委托单 ----------
+  "quest": {
+    // 编号：和文件名里的一样
+    "id": "003",
+    // 委托名：任务墙卡片的标题、委托单、战斗画面顶上
+    "name": "讨伐·魅魔修女",
+    // 任务墙卡片的副标题（中文或英文，可不写）
+    "subtitle": "Subjugation Quest #003 - [Arielle]",
+    // 任务等级：S / A / B / C / D / E（S 最高）。任务墙卡片上的贴纸，也决定格子大小（S 占 2×2、A 横 2 格、其余一格）
+    "rank": "E",
+    // 任务墙卡片与启动页：大约玩多久、一段说明
+    "duration": "5 分钟",
+    "description": "有匿名举报，小教会里有一个修女是魅魔变化而成的\n公会分析认为可能性很低，但还是需要派人去核实一下",
+    // 委托类型：endurance＝耐久型（撑够时间）。节拍型（beat）以后做，现在写了也不认
+    "type": "endurance",
+    // 封面：drop/art/ 里的图名（不带扩展名），任务墙大卡、桌面详情卡用（站主画的 003-Q）
+    "cover": "tobatsu-003",
+    // 封面眼睛上的黑条（原图像素：中心、宽高、角度）。导入时贴上去再转图
+    "coverBar": { "center": [570, 540], "size": [300, 88], "angle": 3 },
+    // 她（魔物）的名字
+    "client": "中央正教会",
+    // 成功报酬：委托单上委托人后面那枚药丸、任务墙的卡片 / 预览 / 详情卡（第一份委托的也显示在大厅「最近更新」）
+    "reward": "100G",
+    // 动作栏固定写「自选」，后面跟一句建议
+    "suggestion": "举轻哑铃",
+    // 几组 × 每组多少秒
+    "sets": 4,
+    "seconds": 30,
+    // 组与组之间不停（站主定，2026-09-17）：没有「通过」、暂停和准备倒数，一组的秒数走完、演完 overtime 就直接接下一组
+    "flow": "continuous",
+    // 给玩家看的：委托单「目标」、HUD、结算都写 1 组 × 60 秒。实际是四组连着打（60 → 卡在 1 → 涨回 30 → 数小数 → 涨回 30 → 卡在 1 往上数到 30 → 30 数到 0）
+    "display": { "sets": 1, "seconds": 60 },
+    "herName": "爱莉儿",
+    "detail": "你知道外城区有一间小教会，最近增加了不少信徒。也有传言中，中央正教会的人把这间无辜的小教会视作眼中钉。\n\n公会接到了匿名举报，说小教会里唯一的修女是由魅魔假扮的。你虽然也觉得不太可能，毕竟这附近已经几十年没有出现过真正的魅魔了。不过既然领取了任务，就还是要跑一趟的。\n\n反正，大家都说那里的修女小姐很温柔。跟她聊聊天也是好的？",
+    // 日语、英语版（任务墙、启动页的 /ja/…、/en/… 用）：name / duration / description / detail / tag / tagLong / unlockCondition，没写的沿用上面中文的
+    "i18n": {
+      "ja": {
+        "name": "討伐・サキュバス シスター",
+        "duration": "5分",
+        "description": "小さな教会のシスターの正体はサキュバスだ、という匿名の通報\nギルドの見立てでは可能性は低いが、誰かが確かめに行かなければならない",
+        "detail": "外街区の小さな教会で、最近信徒が増えていることはあなたも知っている。中央正教会の連中がこの罪もない小教会を目の敵にしている、という噂もある。\n\nギルドに届いた匿名の通報によれば、小教会でただ一人のシスターは、サキュバスが化けた姿だという。あなたもまさかとは思う。何しろこのあたりでは、もう何十年も本物のサキュバスなど出ていないのだから。とはいえ、依頼を受けた以上は一度足を運ばなければならない。\n\nどのみち、あそこのシスターはとても優しいと評判だ。少しおしゃべりしてくるのも悪くないだろう？"
+      },
+      "en": {
+        "name": "Subjugation · Succubus Nun",
+        "duration": "5 min",
+        "description": "An anonymous tip claims the nun at a small church is a succubus in disguise.\nThe Guild thinks it unlikely, but someone still has to go and check.",
+        "detail": "You know of a small church in the outer district that has been gaining quite a few followers lately. There are rumors that the Central Orthodox Church has its eye on this innocent little chapel.\n\nThe Guild received an anonymous tip claiming that the chapel's only nun is a succubus in disguise. You find it hard to believe — no real succubus has been seen around here in decades. Still, you took the quest, so you'll have to make the trip.\n\nBesides, everyone says the nun there is very kind. What's the harm in having a little chat with her?"
+      },
+      // 韩语（2026-10-20，志愿者审过：docs/讨伐-韩语-B批审阅合入.md）
+      "ko": {
+        "name": "토벌·서큐버스 수녀",
+        "duration": "5분",
+        "description": "작은 교회의 수녀가 서큐버스가 변신한 모습이라는 익명의 제보\n길드는 가능성이 낮다고 보지만, 누군가는 확인하러 가야 한다",
+        "detail": "외곽 구역의 작은 교회에 최근 신도가 꽤 늘었다는 것은 당신도 알고 있다. 중앙 정교회 사람들이 이 죄 없는 작은 교회를 눈엣가시로 여긴다는 소문도 있다.\n\n길드에 익명의 제보가 들어왔다. 그 교회의 유일한 수녀가 서큐버스가 변신한 모습이라는 것이다. 당신도 설마일까 싶다. 이 근방에선 수십 년 동안 진짜 서큐버스가 나타난 적이 없으니까. 그래도 의뢰를 받은 이상 한 번은 다녀와야 한다.\n\n어차피 다들 그곳의 수녀님은 아주 상냥하다고 하니, 이야기나 나눠 보는 것도 좋지 않을까?"
+      }
+    }
+  },
+
+  // ---------- 节奏指示器 ----------
+  // 右侧一条竖轨，滑块上下来回。一次完整动作 = 上行（举起）→ 顶端停 → 下行（放下）→ 底端停
+  // 速度倍率对四段一起生效：调快了，两端停留的时间也跟着按比例变短
+  "rhythm": {
+    // 用哪一套节奏（下面 presets 里的名字）。?dev=1 面板上可以临时切换。
+    // 细调和存档位用 tuner.html；在那里「设为本机默认」的档位，这台设备上会盖过这一项
+    "use": "3",
+    "presets": {
+      "哑铃": {
+        // 委托单动作栏里的建议（不写就用上面 quest.suggestion）
+        "suggestion": "举轻哑铃",
+        // 往返区间：轨道上的上端和下端（0＝轨道最上、1＝最下）
+        "rangeTop": 0.1,
+        "rangeBottom": 0.9,
+        // 各段秒数：上行 / 顶端停 / 下行 / 底端停
+        "up": 0.8,
+        "top": 0.2,
+        "down": 1.0,
+        "bottom": 0.2,
+        // 速度倍率（按阶段）。1 = 按上面的秒数；1.4 = 快四成
+        "speed": { "early": 1.0, "mid": 1.35, "late": 1.75 }
+      },
+      "握力器": {
+        "suggestion": "握力器",
+        "rangeTop": 0.15,
+        "rangeBottom": 0.85,
+        "up": 0.35,
+        "top": 0.08,
+        "down": 0.42,
+        "bottom": 0.08,
+        "speed": { "early": 1.0, "mid": 1.5, "late": 2.1 }
+      },
+      // 站主在调节器调的（2026-09-17）
+      "3": {
+        "suggestion": "举轻哑铃",
+        "rangeTop": 0.1,
+        "rangeBottom": 0.9,
+        "up": 1,
+        "top": 0.05,
+        "down": 0.8,
+        "bottom": 0.2,
+        "speed": { "early": 1.2, "mid": 2.5, "late": 3.3 }
+      }
+    }
+  },
+
+  // ---------- 每组 ----------
+  // 按组覆盖（第 1 组是第一个 {}）：seconds 这组多少秒、earlyEnds / midEnds 分段点、tempo 节奏快慢倍数（一个数，或 { "early": 0.8, "mid": 1, "late": 1.2 }，
+  // 乘在节奏档位的各段速度上）、stage 这一组的演出表（按格盖在下面的 stage 上：格里写了的字段换掉，没写的沿用）。不写就全用默认
+  //
+  // 003 的四组是一个连贯的局（quest.flow）。每组秒数走完不数 0，按 overtime 演，再直接接下一组（game.js「超时」）：
+  //   overtime 的步骤：{ "do": "hold", "value": "1", "seconds": 停几秒, "strain": 刚停住时秒数憋住挣扎几秒, "tick": 每几秒再数一次, "whisper": 耳边的池 }
+  //                   { "do": "count", "values": [数字…] 或 "from": 2, "to": 30, "every": 每个停几秒 或 [起, 止], "pop": 往上数时冒的字, "whisper": 池 }
+  //                   { "do": "rewind", "to": 30, "seconds": 滚回去用几秒 }
+  //                   { "do": "challenge", "shape": "零", "size": 占画面中间那块高度的比例, "time": 限时, "missLine": 没画完时的池 }（画完才往下，没画完再出一次，不算败北）
+  //   每一步都可以写自己的 script（at 从这一步开始算）；组的 script 的 at 从这组开头算，可以写到秒数后面（超时那段）。
+  //   只在 script 里用的演出：「台词条」（text 或 pool，hold 停几秒）、「视频」（src 视频 / still 静图、text、side、hold、sound、soundAt、outro: kiss 收尾印唇印）、「诱惑-放弃」（放弃按钮发光勾你，hold 秒，pool 边上的小字）
+  // 越往后越快、中段后段越早进（站主，2026-09-17）：tempo 0.9 → 1 → 1.12 → 1.25；前段 / 中段结束在 35%/75% → 25%/60% → 20%/50% → 15%/40%
+  "sets": [
+    // ---- 第 1 组：看起来就是那「1 组 × 60 秒」。数到 1 不数 0：秒数先憋住挣扎一下，再一直数 1；她「嘘——」，把数字涨回 30 ----
+    {
+      "seconds": 60, "earlyEnds": 0.35, "midEnds": 0.75, "tempo": 0.9,
+      // 镜头：上半身慢慢往下 → 胸到大腿 → 进中段带闪切到袜口往上摇 → 脸和胸 → 进后段带闪切胸 → 脸，卡在 1 时一直推近脸；涨回去时带闪拉远
+      "camera": [
+        { "at": 0, "frame": [60, 620], "centerX": 500 },
+        { "at": 10, "frame": [120, 660], "centerX": 510, "ease": "linear" },
+        { "at": 10.05, "frame": [380, 900], "centerX": 540, "cut": true },
+        { "at": 21, "frame": [300, 820], "centerX": 530, "ease": "linear" },
+        { "at": 21.05, "frame": [640, 1180], "centerX": 520, "cut": true, "flash": true },
+        { "at": 33, "frame": [540, 1080], "centerX": 520, "ease": "linear" },
+        { "at": 33.05, "frame": [180, 640], "centerX": 520, "cut": true },
+        { "at": 45, "frame": [140, 600], "centerX": 510, "ease": "linear" },
+        { "at": 45.05, "frame": [330, 700], "centerX": 560, "cut": true, "flash": true },
+        { "at": 53, "frame": [260, 640], "centerX": 540, "ease": "linear" },
+        { "at": 53.05, "frame": [150, 460], "centerX": 490, "cut": true },
+        { "at": 60, "frame": [180, 420], "centerX": 490, "ease": "linear" },
+        { "at": 69.9, "frame": [210, 390], "centerX": 490, "ease": "linear" },
+        { "at": 70, "frame": [0, 1000], "centerX": 520, "cut": true, "flash": true },
+        { "at": 71.6, "frame": [40, 900], "centerX": 520 }
+      ],
+      "overtime": [
+        { "do": "hold", "value": "1", "seconds": 10, "strain": 1.8, "tick": 1, "whisper": "超时-数1" },
+        { "do": "rewind", "to": 30, "seconds": 1.6 }
+      ],
+      "script": [
+        { "at": 2, "fx": "台词条", "text": "今天的晚祷只有一段哦~ 60秒，陪我数完就好", "hold": 3 },
+        { "at": 5, "fx": "魅惑闪光" },
+        { "at": 8, "fx": "台词条", "text": "等我数到0，就算你赢了~ 很简单吧♥", "hold": 3 },
+        { "at": 12, "fx": "拟声", "pool": "言责-勾引" },
+        { "at": 16, "fx": "特写-眼" },
+        { "at": 25, "fx": "集中线", "pool": "集中线" },
+        { "at": 29, "fx": "拟声", "pool": "言责-褒奖" },
+        { "at": 38, "fx": "特写-臀" },
+        { "at": 48, "fx": "视频", "still": "clip-003-head.517aebb21a.webp", "text": "好孩子♥", "hold": 3.2, "zoom": [1, 1.12] },
+        { "at": 56, "fx": "特写-胸" },
+        // 秒数卡在「1」那一刻：节奏轨也停在「提」上（寸止，lines-003 的「寸止-开始 / 结束」）
+        { "at": 60, "fx": "寸止", "hold": 2 },
+        { "at": 62, "fx": "台词条", "text": "嗯~？数字怎么不动了呢~", "hold": 2.4 },
+        { "at": 64.2, "fx": "视频", "src": "clip-003-shhh.c6c4d3176f.mp4", "text": "嘘——", "hold": 4 },
+        { "at": 65.2, "fx": "台词条", "text": "0……是秘密哦♥", "hold": 3 },
+        { "at": 68.2, "fx": "台词条", "text": "再陪我一会儿吧~ 数字要涨回去咯♥", "hold": 3 }
+      ],
+      "tip": "这次的任务只有这一组，加油撑过去就赢咯~"
+    },
+    // ---- 第 2 组：「这次会好好数下去的」。数到 1 憋住一下，接着数 0.9、0.8……0.01，再涨回 30 ----
+    {
+      "seconds": 30, "earlyEnds": 0.25, "midEnds": 0.6, "tempo": 1,
+      // 节奏轨：上端降到 0.3（站主，2026-09-17）
+      "rhythm": { "rangeTop": 0.3 },
+      // 镜头：涨回来时的远景慢慢收 → 进中段带闪切胯 → 进后段带闪切胸 → 数到 1 切脸，数小数时一路推近 → 数百分位带闪切胸 → 0.01 切脸 → 涨回去带闪拉远
+      "camera": [
+        { "at": 0, "frame": [40, 900], "centerX": 520 },
+        { "at": 7.5, "frame": [150, 760], "centerX": 520, "ease": "linear" },
+        { "at": 7.55, "frame": [620, 1150], "centerX": 520, "cut": true, "flash": true },
+        { "at": 18, "frame": [520, 1040], "centerX": 520, "ease": "linear" },
+        { "at": 18.05, "frame": [300, 680], "centerX": 560, "cut": true, "flash": true },
+        { "at": 29.9, "frame": [240, 620], "centerX": 550, "ease": "linear" },
+        { "at": 30, "frame": [160, 480], "centerX": 490, "cut": true },
+        { "at": 33, "frame": [170, 470], "centerX": 490 },
+        { "at": 41.9, "frame": [235, 405], "centerX": 490, "ease": "linear" },
+        { "at": 42, "frame": [380, 760], "centerX": 560, "cut": true, "flash": true },
+        { "at": 51.8, "frame": [420, 700], "centerX": 560, "ease": "linear" },
+        { "at": 51.9, "frame": [200, 420], "centerX": 490, "cut": true },
+        { "at": 55.6, "frame": [220, 400], "centerX": 490, "ease": "linear" },
+        { "at": 55.7, "frame": [0, 1100], "centerX": 520, "cut": true, "flash": true },
+        { "at": 57.3, "frame": [60, 900], "centerX": 520 }
+      ],
+      "overtime": [
+        { "do": "hold", "value": "1", "seconds": 3, "strain": 1.8 },
+        { "do": "count", "values": [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1], "every": 1, "whisper": "超时-小数" },
+        { "do": "count", "values": [0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01], "every": [0.8, 1.4], "whisper": "超时-小数" },
+        { "do": "hold", "value": "0.01", "seconds": 3.8 },
+        { "do": "rewind", "to": 30, "seconds": 1.6 }
+      ],
+      "script": [
+        { "at": 4, "fx": "拟声", "pool": "言责-褒奖" },
+        { "at": 10, "fx": "特写-臀-循环", "hold": 4 },
+        { "at": 15, "fx": "魅惑闪光" },
+        { "at": 22, "fx": "特写-胸" },
+        { "at": 32, "fx": "台词条", "text": "……", "hold": 1.4 },
+        { "at": 33.1, "fx": "台词条", "text": "0.9~ 没有停在1哦，好好在数呢♥", "hold": 3 },
+        { "at": 37.1, "fx": "台词条", "text": "0.5……还剩一半~", "hold": 3 },
+        { "at": 41.1, "fx": "台词条", "text": "0.1……接下来就是——", "hold": 1 },
+        { "at": 42.2, "fx": "台词条", "text": "0.09♥ 小数点后面，还有好多好多哦~", "hold": 4 },
+        { "at": 47.4, "fx": "台词条", "text": "还在忍耐吗？还没到0哦~", "hold": 4 },
+        { "at": 52, "fx": "视频", "src": "clip-003-kiss1.15f8d14b34.mp4", "text": "啾♥", "sound": "接触", "soundAt": 1.6, "hold": 4, "outro": "kiss" },
+        { "at": 52.4, "fx": "台词条", "text": "0.01……骗你的~♥", "hold": 3 }
+      ],
+      "stage": {
+        "early": { "line": "第2组-前段" },
+        "mid": { "line": "第2组-中段" },
+        "late": { "line": "第2组-后段" },
+        "countdown": { "line": "第2组-倒计时" }
+      }
+    },
+    // ---- 第 3 组：数到 1 憋住一下，一直数 1，揭底「只要不数 0 你就赢不了」「0 在放弃里面」；接着 2、3、4……往上数到 30 ----
+    {
+      "seconds": 30, "earlyEnds": 0.2, "midEnds": 0.5, "tempo": 1.12,
+      // 节奏轨：只在最上面一小段来回（上端 0.05、下端 0.3）
+      "rhythm": { "rangeTop": 0.05, "rangeBottom": 0.3 },
+      // 镜头：上半身 → 进中段带闪切靴子往上摇 → 进后段带闪切脸胸 → 数到 1 切脸推近 → 「0 在放弃里面」带闪拉到全身 → 往上数的 28 秒一路慢慢推到脸
+      "camera": [
+        { "at": 0, "frame": [60, 900], "centerX": 520 },
+        { "at": 6, "frame": [100, 760], "centerX": 520, "ease": "linear" },
+        { "at": 6.05, "frame": [900, 1500], "centerX": 540, "cut": true, "flash": true },
+        { "at": 15, "frame": [700, 1300], "centerX": 530, "ease": "linear" },
+        { "at": 15.05, "frame": [200, 640], "centerX": 520, "cut": true, "flash": true },
+        { "at": 29.9, "frame": [170, 560], "centerX": 510, "ease": "linear" },
+        { "at": 30, "frame": [170, 470], "centerX": 490, "cut": true },
+        { "at": 36.5, "frame": [190, 450], "centerX": 490, "ease": "linear" },
+        { "at": 36.6, "frame": [0, 1536], "centerX": 520, "cut": true, "flash": true },
+        { "at": 41.8, "frame": [60, 1300], "centerX": 520 },
+        { "at": 69.8, "frame": [200, 440], "centerX": 490, "ease": "linear" },
+        { "at": 70.8, "frame": [205, 435], "centerX": 490 }
+      ],
+      "overtime": [
+        { "do": "hold", "value": "1", "seconds": 2.8, "strain": 1.8 },
+        { "do": "hold", "value": "1", "seconds": 9, "tick": 1, "whisper": "超时-数1" },
+        { "do": "count", "from": 2, "to": 30, "every": 1, "pop": "+1" }
+      ],
+      "script": [
+        { "at": 4, "fx": "拟声", "pool": "言责-勾引" },
+        { "at": 10, "fx": "集中线", "pool": "集中线" },
+        { "at": 20, "fx": "特写-胸-循环", "hold": 4 },
+        { "at": 30.3, "fx": "台词条", "text": "……", "hold": 1.4 },
+        { "at": 33, "fx": "台词条", "text": "发现了吗~？0一直含在我嘴里哦。我不念出来，你就永远赢不了呢♥", "hold": 3.4 },
+        { "at": 33, "fx": "视频", "still": "clip-003-head.517aebb21a.webp", "hold": 3.3, "zoom": [1.05, 1.22] },
+        { "at": 36.6, "fx": "台词条", "text": "想要0的话，放弃就好了呀~ 你看，它就挂在那里呢♥", "hold": 3.5 },
+        { "at": 36.6, "fx": "诱惑-放弃", "pool": "诱惑-放弃" },
+        { "at": 38.4, "fx": "视频", "src": "clip-003-kiss0.6798abfb63.mp4", "text": "接好♥", "sound": "接触", "soundAt": 1.1, "hold": 3.4, "outro": "kiss" },
+        { "at": 42, "fx": "台词条", "text": "不要吗？那就……越数越多了哟~", "hold": 4 },
+        { "at": 47, "fx": "魅惑闪光" },
+        { "at": 49.9, "fx": "台词条", "text": "10……还在涨哦♥", "hold": 4 },
+        { "at": 44.5, "fx": "拟声", "pool": "言责-贬损" },
+        // 往上数的时候叫你闭眼祈祷（lines-003 的「闭眼-*」）：暗 5 秒，睁开时数字已经又涨了；放弃按钮还在一跳一跳地发光
+        { "at": 51, "fx": "闭眼", "hold": 5 },
+        { "at": 59.9, "fx": "台词条", "text": "20~ 『圣剑』还握得住吗？", "hold": 4 },
+        { "at": 63, "fx": "特写-眼" },
+        { "at": 66.9, "fx": "台词条", "text": "快到30了呢~ 然后呢，再从30开始数哦♥", "hold": 3.5 }
+      ]
+    },
+    // ---- 第 4 组：从 30 数到 1 又停住。「好好开口乞求我吧」——照着「0」描一圈，一圈比一圈大，描满三次才「作为奖励」回到 5、数到 0 结束 ----
+    {
+      "seconds": 30, "earlyEnds": 0.15, "midEnds": 0.4, "tempo": 1.25,
+      // 终于数到 0：大号余韵（粉金光芒、烟花一样炸心、星星、大唇印、强残影），停 4 秒再出「通过」
+      "finish": "grand", "finishHold": 4,
+      // 镜头：胸 → 进中段带闪切胯 → 进后段带闪切脸胸 → 最后几秒切脸推近，停在脸上（后面描「0」的时候轨道就叠在她脸上）
+      "camera": [
+        { "at": 0, "frame": [300, 700], "centerX": 560 },
+        { "at": 4.5, "frame": [220, 650], "centerX": 550, "ease": "linear" },
+        { "at": 4.55, "frame": [560, 1100], "centerX": 520, "cut": true, "flash": true },
+        { "at": 12, "frame": [480, 1020], "centerX": 520, "ease": "linear" },
+        { "at": 12.05, "frame": [150, 560], "centerX": 500, "cut": true, "flash": true },
+        { "at": 26, "frame": [180, 500], "centerX": 495, "ease": "linear" },
+        { "at": 26.05, "frame": [200, 440], "centerX": 490, "cut": true },
+        { "at": 31.6, "frame": [230, 400], "centerX": 490, "ease": "linear" }
+      ],
+      "overtime": [
+        { "do": "hold", "value": "1", "seconds": 3.6, "strain": 1.8,
+          "script": [
+            { "at": 1.9, "fx": "台词条", "text": "这么想让我数下去的话，就好好开口乞求我吧~", "hold": 3.4 }
+          ]
+        },
+        { "do": "hold", "value": "1", "seconds": 3.4,
+          "script": [
+            { "at": 0.1, "fx": "台词条", "text": "好好说出来，想要我数到哪个数字呢~？", "hold": 3.6 }
+          ]
+        },
+        { "do": "challenge", "shape": "零", "size": 0.4, "time": 9, "missLine": "超时-画零失手" },
+        { "do": "hold", "value": "1", "seconds": 5.4,
+          "script": [
+            { "at": 0.3, "fx": "台词条", "text": "声音太小了，听不见呢~", "hold": 2.5 },
+            { "at": 2.8, "fx": "台词条", "text": "大声一点，要拼命地拜托我喔~", "hold": 3 }
+          ]
+        },
+        { "do": "challenge", "shape": "零", "size": 0.7, "time": 10, "missLine": "超时-画零失手" },
+        { "do": "hold", "value": "1", "seconds": 5.4,
+          "script": [
+            { "at": 0.3, "fx": "台词条", "text": "还是听不太清楚呢~", "hold": 2.5 },
+            { "at": 2.8, "fx": "台词条", "text": "再大声一点，把0描得满满的吧♥", "hold": 3 }
+          ]
+        },
+        { "do": "challenge", "shape": "零", "size": 1, "time": 11, "missLine": "超时-画零失手" },
+        { "do": "hold", "value": "1", "seconds": 3.6,
+          "script": [
+            { "at": 0.3, "fx": "台词条", "text": "有好好听话呢~ 作为奖励，这次就数到最后吧♥", "hold": 3.4 },
+            { "at": 0.3, "fx": "魅惑闪光" }
+          ]
+        },
+        { "do": "rewind", "to": 5, "seconds": 1.2 },
+        { "do": "hold", "value": "5", "seconds": 1 },
+        { "do": "count", "values": [4, 3, 2, 1], "every": 1 }
+      ],
+      "script": [
+        { "at": 0.5, "fx": "台词条", "text": "这是最后一次了……这次是真的哦~", "hold": 4 },
+        { "at": 6, "fx": "魅惑闪光" },
+        { "at": 13, "fx": "特写-臀" },
+        { "at": 17, "fx": "集中线", "pool": "集中线" },
+        { "at": 21, "fx": "特写-胸-循环", "hold": 4 },
+        { "at": 26, "fx": "视频", "src": "clip-003-kiss2.d09215c460.mp4", "text": "最后……♥", "sound": "接触", "soundAt": 1.3, "hold": 3, "outro": "kiss" }
+      ]
+    }
+  ],
+
+  // ---------- 演出表 ----------
+  // 战斗里什么时候放什么。一格管一个时机，随机只在这一格里抽：
+  //   fx     演出和权重 { "耳语": 3, "拟声": 2 }，抽一个放；写组名（common.jsonc 的 fx.groups，如 "特写"）＝在那组里再平均挑一个
+  //   pools  给这一格的演出换台词池 { "耳语": { "言责-褒奖": 2, "言责-贬损": 1 } }（池名 / 几个池名的数组 / 带权重；不写就用默认：她的浮现文字混言责词库，见 common.jsonc 的 speech.floats）
+  //   delay  抽中之后等几毫秒再放
+  // 各段 early / mid / late 与无尽 endless：every 每隔几秒抽一个演出（±jitter 随机）；line 台词条的池、lineEvery 几秒换一句；charm 魅了层底色 0–1
+  // 切阶段 toMid / toLate（进中段 / 进后段那一刻）：cutin 贴纸大字 cut-in 的池（空＝不切）、side 从哪边切进来、ono cut-in 切进来时冒的拟声池；fx 过 delay 毫秒放（拟声词放大）
+  // 节奏 top / bottom（滑块到顶 / 到底）：burst 到顶的魅惑特效粒子；every 每几下抽一个演出（0＝不抽）、chance 抽中的概率
+  // 心跳 beat：in 哪几段、every 每几下抽一个
+  // 最后几秒 countdown：from 从剩几秒开始（0＝不做）、line 耳边数数的池（{n} 换成秒数）、boost 每秒魅了加深多少、at 剩几秒时抽 fx
+  // 长按放弃 press：line 按住时台词条的池；松手 release：line 台词条的池、min 按到几成以上才算「差点放弃」、boost 魅了加深、fx 过 delay 毫秒放
+  // 003：前段就不闲着（站主：前面有点干、呆板）——拟声弹言责台词、魅惑闪光、言责线（talk，从段首的 every 慢慢密到段末的 everyTo）；各组在 script 里另有定时的特写和静图
+  "stage": {
+    "first": 2.5, "jitter": 0.3,
+    "early": {
+      "line": "前段", "lineEvery": 6, "charm": 0.12, "every": 5.5, "everyTo": 4,
+      "fx": { "拟声": 3, "魅惑闪光": 2, "吐息": 1, "唇印": 1, "特写-眼": 1 },
+      "pools": { "拟声": {"言责-勾引": 2, "言责-褒奖": 1} },
+      "talk": { "every": 4.5, "everyTo": 3, "fx": { "耳语": 3, "气泡": 1, "拟声": 2 }, "pools": { "耳语": {"言责-褒奖": 2, "言责-勾引": 1}, "气泡": {"言责-褒奖": 1, "言责-勾引": 1}, "拟声": {"言责-勾引": 1, "言责-褒奖": 1} } }
+    },
+    "mid": {
+      "line": "中段", "lineEvery": 5, "charm": 0.3, "every": 4.5, "everyTo": 3,
+      "fx": { "拟声": 3, "魅惑闪光": 2, "特写-胸": 2, "特写-胸-横": 1, "特写-臀": 1, "唇印": 1, "集中线": 1, "吐息": 1 },
+      "pools": { "拟声": {"言责-勾引": 2, "言责-贬损": 1} },
+      "talk": { "every": 3.4, "everyTo": 2.4, "fx": { "耳语": 2, "气泡": 2, "拟声": 2, "竖排": 1 }, "pools": { "耳语": {"言责-勾引": 2, "言责-褒奖": 1, "言责-贬损": 1}, "气泡": {"言责-勾引": 1, "言责-褒奖": 1}, "拟声": {"言责-勾引": 1, "言责-贬损": 1} } }
+    },
+    "late": {
+      "line": "后段", "lineEvery": 4, "charm": 0.5, "every": 3.5, "everyTo": 2.5,
+      "fx": { "拟声": 2, "魅惑闪光": 2, "特写-胸": 1, "特写-胸-循环": 1, "特写-臀": 1, "特写-眼": 1, "集中线": 2, "唇印": 1, "吐息": 1 },
+      "pools": { "拟声": {"言责-贬损": 2, "言责-勾引": 1} },
+      "talk": { "every": 2.6, "everyTo": 1.6, "fx": { "耳语": 2, "气泡": 1, "拟声": 2, "思绪": 1, "竖排": 1, "大字": 1 }, "pools": { "耳语": {"言责-贬损": 1, "言责-勾引": 2}, "拟声": {"言责-贬损": 1, "言责-勾引": 1}, "思绪": {"言责-勾引": 1, "言责-贬损": 1}, "大字": {"言责-贬损": 1, "言责-勾引": 1} } }
+    },
+    "endless": { "line": "无尽战斗", "lineEvery": 6, "charm": 1, "every": 3.5, "fx": { "思绪": 2, "拟声": 3, "魅惑闪光": 2, "特写-胸": 1, "特写-胸-循环": 2, "特写-胸-横": 1, "特写-臀": 1, "特写-臀-循环": 2, "特写-眼": 1, "集中线": 2, "吐息": 1 }, "pools": { "拟声": {"言责-贬损": 1, "言责-勾引": 2} } },
+    "toMid": { "cutin": "cutin-前到中", "side": "right", "ono": "拟声-摇", "delay": 500, "fx": { "拟声-摇": 1, "魅惑闪光": 1 } },
+    "toLate": { "cutin": "cutin-中到后", "side": "left", "ono": "拟声-摇", "delay": 500, "fx": { "集中线": 1, "魅惑闪光": 1 } },
+    "top": { "burst": true, "every": 6, "chance": 0.5, "fx": { "拟声-摇": 1 } },
+    "bottom": { "every": 0, "fx": {} },
+    "beat": { "in": ["mid", "late"], "every": 5, "fx": { "拟声-心跳": 1 } },
+    "countdown": { "from": 5, "line": "倒计时", "boost": 0.07, "at": [1], "fx": { "拟声-魅惑": 1 } },
+    "press": { "line": "长按中" },
+    "release": { "line": "松手", "min": 0.2, "boost": 0.3, "delay": 200, "fx": { "大字": 1, "魅惑闪光": 1 } }
+  },
+
+  // ---------- 言责 ----------
+  "speech": {
+    // 共用言责按角色增删（站主 2026-10-13）：skip 是这份委托不说的（照 lines-common.jsonc 的原句写），add 是按她的口吻另加的
+    "skip": ["噗，好好笑w", "要被秒射男打败了w", "放过我~ 放过我~", "对不起嘛w", "我什么都会做的~ 饶了我吧w", "会被女孩子支配哟", "Biu~~~", "m男从一开始就没希望赢的", "快点秒射出来吧", "服从命令的白给很舒服的", "杂鱼~ 杂鱼~", "自慰猴子", "抖M", "处男", "短小", "早泄", "奴隶预备役", "丢人的东西"],
+    "add": {
+      "言责-褒奖": ["真是虔诚的孩子", "祷告得很认真呢", "忍耐的表情很美哦", "好孩子，继续祈祷", "你的痛苦我都看着呢", "这么乖，神也会嫉妒的"],
+      "言责-勾引": ["认输也是一种忏悔", "我会赦免你的", "全部告解出来吧", "向我祈祷就好", "0就在我这里哦", "输掉也会被宽恕的", "跪下来就轻松了", "让我替你数完吧"],
+      "言责-贬损": ["真是罪孽深重呢", "连祷告都不专心", "迷途的小羊", "欲望都写在脸上了", "又在心里求我了吧", "神都移开视线了哦"]
+    }
+  },
+
+  // ---------- 背景音乐 ----------
+  // 曲子在站级共享 BGM 库（drop/bgm/bgm.jsonc 的曲名表）；音量、各画面音量倍数在 common.jsonc 的 bgm
+  "bgm": {
+    // 用哪一首：写一个曲名；写几个曲名的数组 ["曲名1", "曲名2"] 就每次在里面随机挑；"random"＝整个库里随机
+    "use": "魔王魂 アコースティック15（loop）"
+  },
+
+  // ---------- 图 ----------
+  // 留空＝用占位；写图的路径（相对这个文件夹，比如 "her-normal.webp"）就换成图
+  "art": {
+    // 战斗画面的角色图，竖构图 3:4
+    "battle": {
+      "idle": "",
+      "early": "",
+      "mid": "",
+      "late": "",
+      "win": "",
+      "lose": "",
+      "retreat": "",
+      "endless": ""
+    },
+    // 剧情对话的背景，竖屏 9:16（会按屏幕裁切）
+    "bg": {
+      "story": "",
+      "pause": "",
+      "ending": "",
+      "choice": ""
+    }
+  },
+
+  // ---------- 立绘档案 ----------
+  // 跟着图走的数值：图和遮罩、取景、锚点、特写的像素尺寸、立绘动态的像素幅度。层级和 common.jsonc 一样，载入时最后盖上去。
+  // 各字段的说明见 common.jsonc 最下面的测试立绘。遮罩在 tuner.html「立绘」页画，导出后放进来
+  // 003（assets/003.png，1024 × 1536）：粉发修女、角、黑披风。左胯边上是手套，臀部特写截右边
+  "standee": {
+    "art": {
+      "standee": { "her": { "frame": { "top": 20, "bottom": 790, "centerX": 510 }, "faces": { "normal": "her-003.97d151f683.webp", "smug": "her-003.97d151f683.webp", "hurt": "her-003.97d151f683.webp" } } },
+      "battleStandee": {
+        "src": "her-003.97d151f683.webp", "mask": "her-003-mask.0b3f0fdd7e.png", "mask2": "her-003-mask2.56491af573.png", "centerX": 520,
+        "frames": { "idle": [0, 920], "early": [20, 780], "mid": [100, 700], "late": [150, 590], "win": [20, 830], "lose": [0, 1536], "retreat": [0, 1120], "endless": [120, 660] }
+      }
+    },
+    "motion": {
+      "cycle": { "amp": 13, "freeAmp": 5.5, "waistY": 600, "feather": 70 },
+      "breathe": { "amp": 2.3 },
+      "shake": { "maxOffset": 26, "impulse": { "cutin": 300, "art": 240, "heartbeat": 38 } },
+      "hair": { "amp": 2 }
+    },
+    "fx": {
+      "anchors": { "face": [485, 262], "eyes": [485, 248], "lips": [490, 295], "crest": [510, 650], "hips": [510, 730], "waist": [510, 600], "feet": [530, 1490] },
+      // 委托单画面眼睛上的黑条（原图像素：中心、宽高、角度）。眼睛实际在 (537, 233) 附近——anchors.eyes 偏左下，眼部特写靠 offset [45, -15] 补的
+      "eyeBar": { "center": [537, 233], "size": [152, 44], "angle": 6 },
+      "charm": { "visions": { "zoom": { "chest": 250, "lips": 105, "eyes": 140 } } },
+      "closeup": {
+        "chest": { "height": 250, "offset": [0, -5], "impulse": 300, "maxOffset": 30, "loop": { "amp": 11 } },
+        "chestSide": { "impulse": 180, "maxOffset": 20, "loop": { "amp": 15 } },
+        "hips": { "side": "left", "sideOffset": 50, "height": 300, "offset": [60, 0], "bodyTwist": 0.0022, "twist": 0.0027, "impulse": 130, "maxOffset": 18, "radius": [210, 130], "loop": { "amp": 13 } },
+        "eyes": { "height": 60, "offset": [45, -15], "eyeSpread": 40 },
+        "legs": { "height": 620 }
+      }
+    }
+  }
+}

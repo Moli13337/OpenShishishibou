@@ -1,0 +1,17 @@
+{
+  "siteName": "士师志望",
+  "siteNameEn": "Shishishibou",
+  "version": "1.0.0",
+  "languages": ["zh", "ja", "en", "ko"],
+  "game": {
+    "id": "tobatsu",
+    "title": "冒险者记录",
+    "entry": "/works/tobatsu/index.html",
+    "quests": ["001", "002", "003", "004", "005", "006", "007", "008"]
+  },
+  "progressKeys": ["tavern.", "tobatsu."],
+  "leaderboard": {
+    "metric": "tobatsu.q<id>.endless-best",
+    "order": "desc"
+  }
+}

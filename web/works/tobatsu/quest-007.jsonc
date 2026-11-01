@@ -1,0 +1,628 @@
+// 讨伐任务 · 委托 007 · 公会柜台（四组玩法初版，2026-10-17）
+//
+// 主轴（第二版起，站主：掉级要是玩家自己选的）：四组都一样，秒数走到 0 先盖「通过」，这一组不结束（超时步骤 do: "stay"，game.js）——
+//   她劝他多留一会儿，「长按放弃」换成「长按通过」，按满才走；留着的时候每隔几秒秒数往下数一格、交出一级（card.js），越留越快。
+//   刚通过那一阵先把话说完（intro）再开始扣；扣的时候秒数每秒跳一下、扣那一下跳得大，卡上的等级被吸到她身上。
+// 四组初版（站主 2026-10-17 的框架，Claude Code 补的细节）：
+//   1 登记——常规的等级榨取 + 简单的题（点击、按住；失手扣一级）
+//   2 私人升级辅导——交易单（点「成交」多交几级，换一段亲过来的特写 + 等级被一级一级吸走）；连打打完露出「接受榨取」，多点一下就被吸；
+//     胸部循环特写开着的时候，从冒险者卡沿着曲线拖进特写里（失手扣一级）；
+//     第 30 秒换成趴在柜台上往前探的那张（007-a），这一组的结尾和逗留都在这张上
+//   3 翘腿——整组是翘着腿坐在高脚凳上的那张（007-b），踩踏为主、口气更像命令：高跟鞋印从画面别处一步一步踩向卡片，点掉没事、踩到卡上扣一级；
+//     靴底特写（鞋底跟着「压」一下一下踩过来）
+//   4 最后一组——前面的全上，镜头在三张图之间切；中间两次趁整屏的大图挡住画面把卡挪个地方（挪卡），后面的鞋印往新的位置去
+// 第五轮（站主 2026-10-19）：委托单、开场按站主写的；题失手＝败北；第 2–4 组到 0 就开始吸，按「长按通过」时她会打断（pressLure）；
+//   奖杯「一级都不给」；节奏轨上端 0.05、下端 0.8
+// 第六轮（站主 2026-10-19 第二批）：第 1 组 0 之后短一半；打断只在吸过一级之后（奖杯改名「我的等级由我保护」）；
+//   第 2 组挡在长按条上、第 3 组贴脸的鞋底 + 大鞋印、第 4 组按得慢 + 挡住进度条；第 4 组挪卡到右下、再到中间（鞋印四面八方）
+// 卡跟着等级变：C → D → E → M 每降一档换一种样子（唇印、粉卡、紫黑卡），称号一路从「弱小冒险者」到「收藏预定品」，
+//   名字先加上「M奴隶·」、最后连名字都没了，变成「等级罐子 No.xxxxx」（card 段）。
+// 台词在 lines-007.jsonc，剧情在 story-007.jsonc（文案第二版 2026-10-18：照 006 那次的做法整体重写——更色气、不讲规则、不幼稚；
+//   每组各段的 talk 换成这一组自己的耳语 / 心声池）。
+{
+  // ---------- 委托单 ----------
+  "quest": {
+    "id": "007",
+    "name": "讨伐·公会柜台",
+    "subtitle": "Subjugation Quest #007 - [Receptionist]",
+    "rank": "C",
+    "duration": "6 分钟",
+    "description": "最近很多刚登记的新人冒险者因为等级下降而退会\n我们需要请志愿者装成新人来潜入调查，试着查明原因",
+    "detail": "这是一个Aschan偷偷塞给你的指名委托，看上去似乎是一个内部调查的任务。\n\n近一段时间，出现了不少新人冒险者短期退出的情况。虽然公会的人员流动本身也是很正常的，但是退出的新人冒险者，往往等级会比原本还要低。\n\n为了查清到底出了什么问题，Aschan特意委托还没有跟大家很熟悉的你，找一个她不在的时间来假装新人冒险者重新来公会登记，看看会遇到什么问题。",
+    // 日英版的委托单（任务墙、启动页、游戏里的委托书）：没写的字段沿用中文
+    "i18n": {
+      "ja": {"name":"討伐・ギルド受付","duration":"6分","description":"最近、登録したばかりの新人冒険者がレベルを下げて退会する件が相次いでいる\n新人になりすました志願者に潜入調査してもらい、原因を突き止めたい","detail":"これは Aschan がこっそり手渡してきた指名依頼。どうやら内部調査の任務らしい。\n\nここしばらく、新人冒険者が短期間で辞めていくケースが少なくない。ギルドで人が出入りすること自体は珍しくもないが、辞めていく新人たちは、決まって元よりもレベルが下がっているのだという。\n\n何が起きているのかを突き止めるため、Aschan はまだ皆とあまり顔なじみのないあなたに頼んだ。彼女のいない時間に、新人冒険者のふりをしてギルドに登録し直し、何が起きるのか確かめてほしい——と。","unlockCondition":"「討伐・はじめての依頼」をクリア"},
+      "en": {"name":"Subjugation · Guild Counter","duration":"6 min","description":"Lately, many newly registered adventurers have been quitting after losing levels.\nWe need a volunteer to pose as a newcomer, go undercover, and find out why.","detail":"This is a named quest Aschan slipped to you in secret. It seems to be an internal investigation.\n\nFor a while now, quite a few newcomers have quit the guild after only a short time. People coming and going is nothing unusual for a guild—but the newcomers who quit always seem to leave with a lower level than they started with.\n\nTo get to the bottom of it, Aschan asked you—someone the others don't know well yet—to re-register at the guild posing as a newcomer while she's away, and see what happens.","unlockCondition":"Clear \"Subjugation · First Quest\""},
+      // 韩语（2026-10-25 整本补译：AI 初稿，志愿者 Sszuad 检查中）
+      "ko": {"name":"토벌·길드 창구","duration":"6분","description":"최근 갓 등록한 초보 모험가들이 레벨이 떨어진 채 탈퇴하는 일이 잇따르고 있다\n신입으로 위장해 잠입 조사할 지원자를 구해, 원인을 밝혀내려 한다","detail":"이것은 Aschan이 몰래 건네준 지명 의뢰다. 보아하니 내부 조사 임무인 듯하다.\n\n최근 한동안, 초보 모험가가 단기간에 그만두는 일이 적지 않다. 길드에 사람이 들고 나는 것 자체는 흔한 일이지만, 그만두는 신입들은 늘 원래보다 레벨이 낮아져 있다고 한다.\n\n무슨 일이 벌어지는지 밝혀내기 위해, Aschan은 아직 사람들과 얼굴을 익히지 못한 당신에게 부탁했다. 그녀가 없는 시간을 골라 초보 모험가인 척 길드에 다시 등록하고, 무슨 일이 생기는지 확인해 달라고.","unlockCondition":"'토벌·첫 의뢰' 클리어"}
+    },
+    // 本机解锁（站主 2026-10-19 上墙时定）：通过初次任务才解锁，同 004
+    "unlock": { "after": "001", "condition": "通过「讨伐·初次任务」" },
+    "type": "endurance",
+    // 封面＝007-Q（站主 2026-10-19 放进 assets，拷成 drop/art/tobatsu-007.png）
+    "cover": "tobatsu-007",
+    "coverBar": { "center": [1001, 513], "size": [290, 80], "angle": -21 },
+    "client": "Aschan",
+    // 她的名字（Claude Code 起的，站主可以改）：莉薇尔——「Lv」藏在名字里
+    "herName": "莉薇尔",
+    "reward": "1000G",
+    "suggestion": "握力器",
+    "sets": 4,
+    "seconds": 40,
+    // 奖杯：一级等级都没被吸走就全部通过（when: untouched，card.js 的 cardFull）
+    "trophies": [{ "id": "untouched", "name": "我的等级由我保护", "desc": "一级等级都没有被吸走，完成讨伐·公会柜台", "when": "untouched" }],
+    // 救济（站主 2026-10-20）：这台设备累计彻底败北 5 次，问他承不承认自己是「姐姐的储蓄罐」，承认了解锁「重来这一组」（等级回到那一组开打时）；
+    // 剧情在 story-007 的「救济」「救济选择」「救济-承认」「救济-拒绝」。无敌模式是每份委托都有的（common.jsonc 的 relief.invincible，累计 20 次）
+    "relief": { "after": 5 }
+  },
+
+  // ---------- 冒险者卡（card.js）----------
+  // 一局从 start 级开始、跨组继承，降到 0＝败北（卡被她收走）
+  "card": {
+    "start": 30,
+    "xp": 10,
+    // 被动吸取停掉（第一版每一下「压」都吸，站主嫌不可控）；无尽里照旧慢慢吸
+    "drain": { "early": 0, "mid": 0, "late": 0, "endless": 0.4 },
+    "held": 2.5,
+    // 题失手扣几级（演出表 challenge.onMiss: "card"）
+    "miss": 1,
+    // 冒险者等级：几级以上是什么；卡的样子也按这一格换（C 干净 → D 唇印 → E 粉卡 → M 紫黑的卡）
+    "ranks": [[24, "C"], [16, "D"], [8, "E"], [1, "M"]],
+    // 称号：这一局交出去几级以上是什么（一路往重了走）
+    "titles": [[0, "新人冒险者"], [3, "弱小冒险者"], [6, "柜台的常客"], [10, "莉薇尔的储蓄罐"], [13, "自愿上供的杂鱼"], [17, "被吸到上瘾"], [21, "变态败北癖"], [25, "等级罐子预备役"], [28, "收藏预定品"]],
+    // 名字：交出去 18 级加上「M奴隶·」，26 级连名字都没了（{no}＝她的收藏编号，和处决时盖的「回收 No.」同一个数）
+    "names": [[18, "M奴隶·{name}"], [26, "等级罐子 No.{no}"]],
+    // 收藏编号从几开始（加上这台设备被收走过几张）。等级罐子 No. 是假的计数：只算这台设备，不是全站的人数
+    "collection": 12847
+  },
+
+  // ---------- 节奏指示器 ----------
+  "rhythm": {
+    "use": "握力器",
+    "presets": {
+      "握力器": {
+        "suggestion": "握力器",
+        "rangeTop": 0.05,
+        "rangeBottom": 0.8,
+        "up": 0.35,
+        "top": 0.08,
+        "down": 0.42,
+        "bottom": 0.08,
+        "speed": { "early": 1, "mid": 1.5, "late": 2.1 }
+      }
+    }
+  },
+
+  // ---------- 挑战的公共规矩 ----------
+  "challenge": { "gap": 3, "quiet": 3 },
+
+  // 「命令」砸上来的那一下画面压暗一拍（整份委托只有第 1 组逗留里那一条命令）
+  "fx": { "command": { "dim": 0.62, "beat": 0.8 } },
+
+  // ---------- 演出表 ----------
+  "speech": {
+    "floats": { "耳语": "言责-柜台", "气泡": "气泡-柜台", "大字": "短句-柜台", "思绪": "言责-柜台", "竖排": "心声-柜台" }
+  },
+  "stage": {
+    "first": 4, "jitter": 0.35,
+    "early": { "line": "前段", "lineEvery": 6, "charm": 0.06, "every": 7, "fx": { "拟声": 1, "吐息": 1, "唇印": 1 }, "talk": { "every": 4.5, "fx": { "耳语": 3, "气泡": 1 } } },
+    "mid": { "line": "中段", "lineEvery": 5, "charm": 0.16, "every": 5.5, "fx": { "吐息": 1, "唇印": 1, "特写": 2, "魅惑闪光": 1 }, "talk": { "every": 3.6, "fx": { "耳语": 3, "气泡": 1, "竖排": 1 } } },
+    "late": { "line": "后段", "lineEvery": 4, "charm": 0.3, "every": 4.5, "fx": { "特写": 2, "魅惑闪光": 1, "吐息": 1, "心章": 1, "集中线": 1 }, "talk": { "every": 3, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "大字": 1 } } },
+    "endless": {
+      "line": { "无尽战斗": 2, "言责-柜台": 1 }, "lineEvery": 5, "charm": 0.8, "every": 4, "fx": { "拟声": 2, "魅惑闪光": 2, "特写-胸": 1, "特写-臀": 1, "特写-眼": 1, "特写-嘴": 1, "特写-靴底": 1, "集中线": 1, "吐息": 1 },
+      "talk": { "every": 2.6, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "大字": 1 } }
+    },
+    "toMid": { "cutin": "cutin-前到中", "side": "right", "delay": 500, "fx": {} },
+    "toLate": { "cutin": "cutin-中到后", "side": "left", "delay": 500, "fx": {} },
+    "top": { "every": 0, "fx": {} },
+    "bottom": { "every": 0, "fx": {} },
+    "beat": { "in": ["late"], "every": 7, "fx": { "拟声-心跳": 1 } },
+    "countdown": { "from": 3, "line": "倒计时", "boost": 0.05, "at": [1], "fx": {} },
+    "press": { "line": "长按中" },
+    "release": { "line": "松手", "min": 0.2, "boost": 0.25, "delay": 200, "fx": { "大字": 1 } },
+    // 题失手＝败北，进处决（站主 2026-10-18：和别的讨伐一样；原来是扣一级）；随机出题每组自己开
+    "challenge": { "in": [], "hitLine": "挑战-命中" }
+  },
+
+  // ---------- 每组 ----------
+  // 每组照常撑到 0；0 之后是逗留（overtime 的 stay）：
+  //   intro / introEvery       刚通过那一阵按顺序说完的（这时不扣级；没写 introEvery 就按字数等），说完说 go 那一句、开始扣
+  //   every / everyTo / ramp  每隔几秒扣一级（ramp 秒里从 every 缩到 everyTo：越留越快）
+  //   line / lineEvery         扣级时隔几秒换一句；pressLine / releaseLine 按着「长按通过」/ 松手时说的
+  //   drainCue                 开始吸的那一刻放的一条：停到这组结束、比平时拉近一点（tight）的胸部循环特写——吸取中专用（站主 2026-10-18）
+//   order / orderHold        规则讲完、开始吸之前下一道命令（只有第 1 组：「不许离开，让姐姐吸一下」，整份委托只有这一条命令）
+  // 镜头（camera）的秒数可以写到这一组的秒数后面：逗留的时候照样走
+  "sets": [
+    // ================= 第 1 组 · 登记（30 秒）：常规的等级榨取 + 简单的题 =================
+    {
+      "seconds": 30, "earlyEnds": 0.4, "midEnds": 0.8, "tempo": 0.9,
+      "tip": "认为自己可以前往下一组时，可以长按通过",
+      "prep": "准备-一", "pause": "暂停-一",
+      // 镜头：上半身慢慢推 → 切胸 → 切腰腿往上摇 → 脸和胸 → 拉到全身看高跟鞋 → 后段一路顶着数，最后推到脸
+      "camera": [
+        { "at": 0, "frame": [30, 930] },
+        { "at": 5.5, "frame": [120, 760], "ease": "linear" },
+        { "at": 5.55, "frame": [380, 690], "centerX": 490, "cut": true, "flash": true },
+        { "at": 9.5, "frame": [400, 670], "centerX": 490, "ease": "linear" },
+        { "at": 9.55, "frame": [780, 1220], "centerX": 490, "cut": true },
+        { "at": 13, "frame": [560, 1000], "centerX": 490 },
+        { "at": 13.05, "frame": [140, 640], "cut": true, "flash": true },
+        { "at": 18, "frame": [170, 600], "ease": "linear" },
+        { "at": 18.05, "frame": [0, 1720], "cut": true },
+        { "at": 21, "frame": [30, 930] },
+        { "at": 24.05, "frame": [380, 690], "centerX": 490, "cut": true, "flash": true, "pulse": 0.03 },
+        { "at": 27, "frame": [400, 660], "centerX": 490, "ease": "linear", "pulse": 0.03 },
+        { "at": 27.05, "frame": [160, 400], "centerX": 497, "cut": true, "flash": true, "pulse": 0.05 },
+        { "at": 30, "frame": [175, 385], "centerX": 497 },
+        // 逗留：拉开，再慢慢推到胸、拉开……
+        { "at": 30.5, "frame": [30, 930], "cut": true, "flash": true },
+        { "at": 40, "frame": [300, 720], "centerX": 492 },
+        { "at": 50, "frame": [30, 930] },
+        { "at": 60, "frame": [300, 720], "centerX": 492 },
+        { "at": 72, "frame": [30, 930] }
+      ],
+      "script": [
+        { "at": 2, "fx": "气泡", "text": "握紧~♥" },
+        { "at": 3, "fx": "台词条", "text": "只是模拟战哦~ 放轻松，跟着姐姐的节奏来♥", "hold": 4 },
+        { "at": 6, "fx": "特写-胸" },
+        // 第一题：在卡上盖章（出在冒险者卡上，失手扣一级——让人先知道「失手＝掉级」）
+        { "at": 8.5, "fx": "挑战-点击", "place": "card", "time": 3, "pool": "挑战-盖章" },
+        { "at": 13.5, "fx": "唇印" },
+        { "at": 15, "fx": "挑战-按住", "time": 4.5, "hold": 1.4, "pool": "挑战-登场-按住" },
+        { "at": 18.5, "fx": "吐息" },
+        { "at": 20, "fx": "特写-臀" },
+        { "at": 23, "fx": "挑战-点击+点击", "time": 2.8 },
+        { "at": 25, "fx": "特写-胸-横" },
+        { "at": 27.5, "fx": "集中线" }
+      ],
+      "stage": {
+        "early": { "line": "一组-前段", "lineEvery": 5, "charm": 0.08, "talk": { "every": 4.5, "fx": { "耳语": 3, "气泡": 1 }, "pools": { "耳语": "耳语-一" } } },
+        "mid": { "line": "一组-中段", "lineEvery": 4.5, "charm": 0.16, "talk": { "every": 3.6, "fx": { "耳语": 3, "气泡": 1, "竖排": 1 }, "pools": { "耳语": "耳语-一", "竖排": "心声-一" } } },
+        "late": { "line": "一组-后段", "lineEvery": 4, "charm": 0.26, "talk": { "every": 3, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "大字": 1 }, "pools": { "耳语": "耳语-一", "竖排": "心声-一" } } },
+        "challenge": {
+          "in": ["mid", "late"], "first": 17, "every": [5, 7],
+          "kinds": { "点击": 2, "按住": 1 },
+          "点击": { "time": 2.4 }, "按住": { "time": 4, "hold": 1.2 }
+        }
+      },
+      "overtime": [
+        {
+          "do": "stay", "intro": "逗留-说明-一", "order": "不许离开，让姐姐吸一下", "orderHold": 2, "go": "逗留-开始", "drainFirst": 2.5, "every": 4, "everyTo": 4,
+          "line": "逗留-一", "lineEvery": 4, "pressLine": "逗留-长按", "releaseLine": "逗留-松手",
+          "drainCue": { "fx": "特写-胸-循环", "hold": 0, "tight": 1.25, "pool": "特写-吸取" }
+        }
+      ]
+    },
+
+    // ================= 第 2 组 · 私人升级辅导（40 秒）：交易单 + 连打下面藏着「接受榨取」，结尾换成 007-a =================
+    {
+      "seconds": 40, "earlyEnds": 0.35, "midEnds": 0.75, "tempo": 0.95,
+      "prep": "准备-二", "pause": "暂停-二",
+      // 镜头：脸和胸 → 切胸 → 交易的时候推到脸 → 连打切腰腿 → 全身 → 大腿 → 后段脸和胸顶着数 →
+      //   第 30 秒带闪换成 007-a（趴在柜台上往前探），从全图慢慢推到垂下来的胸；逗留在这张上推拉
+      "camera": [
+        { "at": 0, "frame": [140, 640] },
+        { "at": 4.5, "frame": [100, 760], "ease": "linear" },
+        { "at": 4.55, "frame": [380, 690], "centerX": 490, "cut": true, "flash": true },
+        { "at": 8, "frame": [160, 400], "centerX": 497 },
+        { "at": 10.55, "frame": [560, 1000], "centerX": 490, "cut": true },
+        { "at": 14, "frame": [520, 960], "centerX": 490, "ease": "linear" },
+        { "at": 14.05, "frame": [30, 930], "cut": true, "flash": true },
+        { "at": 18, "frame": [150, 700] },
+        { "at": 21.55, "frame": [780, 1220], "centerX": 490, "cut": true },
+        { "at": 25, "frame": [600, 1050], "centerX": 490 },
+        { "at": 25.05, "frame": [140, 640], "cut": true, "flash": true, "pulse": 0.03 },
+        { "at": 30, "frame": [180, 580], "ease": "linear", "pulse": 0.03 },
+        { "at": 30.05, "frame": [0, 1216], "centerX": 416, "standee": "007-a", "cut": true, "flash": true },
+        { "at": 34, "frame": [250, 950], "centerX": 405 },
+        { "at": 37, "frame": [560, 930], "centerX": 410, "pulse": 0.04 },
+        { "at": 40, "frame": [600, 920], "centerX": 410 },
+        // 逗留
+        { "at": 40.5, "frame": [250, 950], "centerX": 405, "cut": true, "flash": true },
+        { "at": 50, "frame": [300, 600], "centerX": 330 },
+        { "at": 60, "frame": [560, 930], "centerX": 410 },
+        { "at": 72, "frame": [250, 950], "centerX": 405 }
+      ],
+      "script": [
+        { "at": 1.5, "fx": "台词条", "text": "应该不会，是真的准备『讨伐』姐姐吧？", "hold": 3 },
+        { "at": 2, "fx": "视频", "still": "clip-007-begin.37a2a37cae.webp", "focus": [600, 430], "zoom": [1.2, 1.4], "hold": 2.6, "side": "right", "text": "认真的样子……姐姐很喜欢哦♥" },
+        // 交易单：几秒内点「成交」＝多交几级，等级一级一级被吸到她嘴边，再放一段亲过来的特写
+        {
+          "at": 5.2, "fx": "交易", "cost": 2, "seconds": 5, "text": "让姐姐凑近一点看看你，好不好？", "accept": "交易-答应", "refuse": "交易-拒绝",
+          "reward": { "still": "clip-007-kiss.78e7ff12bf.webp", "focus": [425, 445], "zoom": [1.6, 2.1], "hold": 3, "side": "left", "show": "heart", "outro": "kiss", "text": "这几级，姐姐吸走咯~ 啾♥" }
+        },
+        // 连打：打完的那一刻章下面露出「接受榨取 −2 Lv」，手停不下来多点一下就被吸
+        { "at": 11, "fx": "挑战-连打", "taps": 8, "time": 3.4, "trap": "accept", "trapCost": 2, "trapStay": 1.3, "pool": "连打-登场", "trapLine": "陷阱-上钩", "resistLine": "陷阱-忍住" },
+        // 拖动：先开一段胸部循环特写，再出一道从冒险者卡沿着曲线拖进特写里的题（失手扣一级）
+        { "at": 14.2, "fx": "特写-胸-循环", "hold": 7.5 },
+        { "at": 15.2, "fx": "挑战-拖动", "route": "卡→特写", "time": 6, "pool": "拖动-登场", "hitLine": "拖动-夹好" },
+        {
+          "at": 22, "fx": "交易", "cost": 3, "seconds": 4.5, "text": "想让姐姐摸一摸吗？", "accept": "交易-答应", "refuse": "交易-拒绝",
+          "reward": { "still": "clip-007-c.b28ad3040f.webp", "focus": [450, 900], "zoom": [1.2, 1.5], "hold": 3, "side": "right", "show": "slam", "text": "那就……一点一点地摸走哦♥" }
+        },
+        { "at": 27, "fx": "挑战-连打", "taps": 10, "time": 3.6, "trap": "accept", "trapCost": 3, "trapStay": 1.2, "trapLine": "陷阱-上钩", "resistLine": "陷阱-忍住" },
+        { "at": 30.4, "fx": "魅惑闪光" },
+        {
+          "at": 31.5, "fx": "交易", "cost": 4, "seconds": 4.5, "text": "最后……要不要姐姐亲一下？", "accept": "交易-答应", "refuse": "交易-拒绝",
+          "reward": { "still": "clip-007-kiss.78e7ff12bf.webp", "focus": [425, 445], "zoom": [2, 2.4], "hold": 3, "side": "left", "show": "band", "outro": "kiss", "text": "这一口，要你四级哦♥" }
+        },
+        { "at": 36.2, "fx": "特写-胸-循环", "hold": 3.4 },
+        { "at": 38.5, "fx": "集中线" }
+      ],
+      "stage": {
+        "early": { "line": "二组-前段", "lineEvery": 5, "charm": 0.14, "talk": { "every": 4.5, "fx": { "耳语": 3, "气泡": 1 }, "pools": { "耳语": "耳语-二" } } },
+        "mid": { "line": "二组-中段", "lineEvery": 4.5, "charm": 0.24, "talk": { "every": 3.6, "fx": { "耳语": 3, "气泡": 1, "竖排": 1 }, "pools": { "耳语": "耳语-二", "竖排": "心声-二" } } },
+        "late": { "line": "二组-后段", "lineEvery": 4, "charm": 0.36, "talk": { "every": 3, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "大字": 1 }, "pools": { "耳语": "耳语-二", "竖排": "心声-二" } } }
+      },
+      "overtime": [
+        {
+          "do": "stay", "open": "逗留-开始-二", "drainFirst": 5.5, "every": 3.5, "everyTo": 3, "ramp": 20,
+          "line": "逗留-二", "lineEvery": 4.5, "pressLine": "逗留-长按", "releaseLine": "逗留-松手",
+          "drainCue": { "fx": "特写-胸-循环", "hold": 0, "tight": 1.25, "pool": "特写-吸取" },
+          // 打断（第 2–4 组）一按下去就来（站主 2026-10-19 第三批：原来要吸过一级才来，很多人根本触发不了）；
+          // 第一级吸得晚（drainFirst）：0 一到就按、打断全演完再按，也刚好赶得上——奖杯「我的等级由我保护」拿得到。
+          //   第 2 组：反应 0.6 + 按到四成 0.6 + 图挡 2.2 + 再按 0.3 + 1.5 ≈ 5.2 → 5.5 秒
+          // 按到四成：亲过来的那张从下面升上来盖住长按的那一条，这一下按不成（要松手重按）——只打断一次
+          "pressLure": [
+            { "at": 0.4, "cancel": true, "line": "逗留-打断-二", "cover": { "still": "clip-007-kiss.78e7ff12bf.webp", "focus": [425, 445], "hold": 2.2, "text": "等一下~ 还没吸够呢♥" } }
+          ]
+        }
+      ]
+    },
+
+    // ================= 第 3 组 · 翘腿（40 秒）：整组 007-b，踩踏为主、口气是命令；鞋印踩向卡片 =================
+    {
+      "seconds": 40, "earlyEnds": 0.3, "midEnds": 0.7, "tempo": 1,
+      "standee": "007-b",
+      "tip": "要保护好自己的冒险者卡片，不可以被踩脏喔~",
+      "prep": "准备-三", "pause": "暂停-三",
+      // 镜头（007-b 的坐标）：从鞋尖一路抬到全身 → 脸 → 切腿往鞋摇 → 胸 → 全身 → 后段鞋 / 脸 / 全身顶着数，最后停在她舔嘴唇的脸上；
+      //   逗留在脸和鞋之间上下摇
+      "camera": [
+        { "at": 0, "frame": [880, 1180], "centerX": 650 },
+        { "at": 1, "frame": [880, 1180], "centerX": 650 },
+        { "at": 4.5, "frame": [0, 1216], "centerX": 440 },
+        { "at": 8, "frame": [60, 620], "centerX": 450 },
+        { "at": 8.05, "frame": [90, 280], "centerX": 455, "cut": true, "flash": true },
+        { "at": 11, "frame": [100, 270], "centerX": 455, "ease": "linear" },
+        { "at": 11.05, "frame": [450, 1150], "centerX": 540, "cut": true },
+        { "at": 15, "frame": [700, 1180], "centerX": 600 },
+        { "at": 15.05, "frame": [250, 480], "centerX": 440, "cut": true, "flash": true },
+        { "at": 19, "frame": [240, 500], "centerX": 440, "ease": "linear" },
+        { "at": 19.05, "frame": [0, 1216], "centerX": 440, "cut": true },
+        { "at": 23, "frame": [60, 800], "centerX": 450 },
+        { "at": 23.05, "frame": [880, 1180], "centerX": 650, "cut": true, "flash": true, "pulse": 0.04 },
+        { "at": 26, "frame": [860, 1170], "centerX": 645, "ease": "linear", "pulse": 0.04 },
+        { "at": 26.05, "frame": [90, 280], "centerX": 455, "cut": true, "pulse": 0.04 },
+        { "at": 28, "frame": [100, 270], "centerX": 455, "ease": "linear", "pulse": 0.04 },
+        { "at": 28.05, "frame": [0, 1216], "centerX": 440, "cut": true, "flash": true, "pulse": 0.05 },
+        { "at": 33, "frame": [60, 700], "centerX": 450, "pulse": 0.05 },
+        { "at": 33.05, "frame": [450, 1150], "centerX": 540, "cut": true, "pulse": 0.05 },
+        { "at": 36, "frame": [880, 1180], "centerX": 650, "pulse": 0.05 },
+        { "at": 36.05, "frame": [90, 290], "centerX": 455, "cut": true, "flash": true, "pulse": 0.06 },
+        { "at": 40, "frame": [105, 270], "centerX": 455 },
+        // 逗留
+        { "at": 40.5, "frame": [60, 700], "centerX": 450, "cut": true, "flash": true },
+        { "at": 50, "frame": [600, 1180], "centerX": 600 },
+        { "at": 60, "frame": [60, 700], "centerX": 450 },
+        { "at": 72, "frame": [600, 1180], "centerX": 600 }
+      ],
+      "script": [
+        { "at": 1.5, "fx": "台词条", "text": "跪下来吧，从下面往上看着姐姐~", "hold": 3.5 },
+        // 第一波鞋印：慢、只有两只（她先说清楚）
+        { "at": 6.5, "fx": "鞋印", "count": 2, "every": 1.3, "speed": 0.75, "pool": "鞋印-登场" },
+        { "at": 9, "fx": "特写-凝视", "variant": "推近" },
+        { "at": 12.2, "fx": "鞋印", "count": 3, "every": 0.9, "speed": 0.9 },
+        { "at": 14.5, "fx": "特写-靴底", "variant": "砸" },
+        { "at": 18, "fx": "鞋印", "count": 4, "every": 0.75, "speed": 1 },
+        { "at": 21.6, "fx": "特写-胸" },
+        { "at": 23.3, "fx": "特写-靴底", "variant": "逼近" },
+        { "at": 26.6, "fx": "鞋印", "count": 5, "every": 0.6, "speed": 1.15 },
+        { "at": 29, "fx": "集中线" },
+        { "at": 30.6, "fx": "鞋印", "count": 5, "every": 0.5, "speed": 1.3 },
+        // 猛踩：整屏的框推到头重重一下，接着炸开一片心、一下子冲出来四只鞋印
+        {
+          "at": 33.6, "fx": "特写-靴底", "variant": "猛踩",
+          "then": [
+            { "at": 0, "fx": "爱心爆发" },
+            { "at": 0.3, "fx": "鞋印", "count": 4, "every": 0.2, "speed": 1.4 }
+          ]
+        },
+        { "at": 37.6, "fx": "魅惑闪光" }
+      ],
+      "stage": {
+        "early": { "line": "三组-前段", "lineEvery": 5, "charm": 0.2, "fx": { "拟声": 1, "吐息": 1, "心章": 1 }, "talk": { "every": 4.5, "fx": { "耳语": 3, "气泡": 1 }, "pools": { "耳语": "耳语-三" } } },
+        "mid": { "line": "三组-中段", "lineEvery": 4.5, "charm": 0.32, "fx": { "吐息": 1, "魅惑闪光": 1, "特写-胸": 1, "集中线": 1 }, "talk": { "every": 3.6, "fx": { "耳语": 3, "气泡": 1, "竖排": 1 }, "pools": { "耳语": "耳语-三", "竖排": "心声-三" } } },
+        "late": { "line": "三组-后段", "lineEvery": 3.5, "charm": 0.42, "fx": { "魅惑闪光": 1, "集中线": 1, "特写-胸": 1, "心章": 1 }, "talk": { "every": 3, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "大字": 1 }, "pools": { "耳语": "耳语-三", "竖排": "心声-三" } } }
+      },
+      "overtime": [
+        {
+          "do": "stay", "open": "逗留-开始-三", "drainFirst": 6.2, "every": 3, "everyTo": 2.4, "ramp": 20,
+          "line": "逗留-三", "lineEvery": 4.2, "pressLine": "逗留-长按-三", "releaseLine": "逗留-松手-三",
+          "drainCue": { "fx": "特写-胸-横-循环", "hold": 0, "tight": 1.25, "pool": "特写-吸取" },
+          // 想站起来：按到四成鞋底贴到脸上（整屏）、进度踩回零（手不用松，接着按）；按到七成半一只大鞋印踩在画面正中，这一下按不成
+          //   第一级：反应 0.6 + 0.6 + 踩回零后再按到七成半 1.1 + 大鞋印 1.8 + 再按 0.3 + 1.5 ≈ 5.9 → 6.2 秒
+          "pressLure": [
+            { "at": 0.4, "knock": 0, "line": "逗留-打断-三", "cue": { "fx": "特写-靴底", "variant": "贴脸" } },
+            { "at": 0.75, "cancel": true, "line": "逗留-打断-三", "cue": { "fx": "大鞋印", "hold": 1.3 } }
+          ]
+        }
+      ]
+    },
+
+    // ================= 第 4 组 · 回收（50 秒）：前面的全上，镜头在三张图之间切；中间她把卡收走 =================
+    {
+      "seconds": 50, "earlyEnds": 0.25, "midEnds": 0.65, "tempo": 1.05,
+      // 提示条（站主 2026-10-20）：有玩家想不到最后要一直按住才走得了，给一点提示
+      "tip": "想要最终通过的话，要坚持自己的意志不放松",
+      "prep": "准备-四",
+      // 镜头：全身 → 脸和胸 → 切胸 → 换 007-b 看腿和鞋（鞋印）→ 换 007-a 推到胸（交易）→ 回到全身那张（夺卡）→
+      //   007-b 的脸 → 007-a 的胸 → 最后推到她的脸；逗留在全身那张上推拉
+      "camera": [
+        { "at": 0, "frame": [110, 720] },
+        { "at": 4, "frame": [140, 640] },
+        { "at": 7.95, "frame": [180, 600], "ease": "linear" },
+        { "at": 8, "frame": [380, 690], "centerX": 490, "cut": true, "flash": true },
+        { "at": 11.5, "frame": [400, 670], "centerX": 490, "ease": "linear" },
+        { "at": 11.55, "frame": [450, 1150], "centerX": 540, "standee": "007-b", "cut": true, "flash": true },
+        { "at": 16, "frame": [880, 1180], "centerX": 650 },
+        { "at": 19.5, "frame": [60, 700], "centerX": 450 },
+        { "at": 19.55, "frame": [250, 950], "centerX": 405, "standee": "007-a", "cut": true, "flash": true },
+        { "at": 24, "frame": [580, 930], "centerX": 410 },
+        { "at": 27, "frame": [300, 600], "centerX": 330 },
+        { "at": 29.95, "frame": [280, 620], "centerX": 335, "ease": "linear" },
+        { "at": 30, "frame": [140, 640], "standee": "", "cut": true, "flash": true },
+        { "at": 36, "frame": [160, 400], "centerX": 497 },
+        { "at": 36.05, "frame": [90, 290], "centerX": 455, "standee": "007-b", "cut": true, "flash": true, "pulse": 0.05 },
+        { "at": 40, "frame": [0, 1216], "centerX": 440, "pulse": 0.05 },
+        { "at": 43.05, "frame": [600, 920], "centerX": 410, "standee": "007-a", "cut": true, "flash": true, "pulse": 0.06 },
+        { "at": 46.5, "frame": [580, 930], "centerX": 410, "ease": "linear", "pulse": 0.06 },
+        { "at": 46.55, "frame": [160, 400], "centerX": 497, "standee": "", "cut": true, "flash": true, "pulse": 0.07 },
+        { "at": 50, "frame": [175, 385], "centerX": 497 },
+        // 逗留
+        { "at": 50.5, "frame": [30, 930], "cut": true, "flash": true },
+        { "at": 60, "frame": [380, 690], "centerX": 490 },
+        { "at": 72, "frame": [30, 930] },
+        { "at": 84, "frame": [380, 690], "centerX": 490 }
+      ],
+      "script": [
+        { "at": 2, "fx": "台词条", "pool": "四组-开场", "hold": 4 },
+        // 连打（站主 2026-10-19）：章上只写「×?」、次数 ±2 随机——不知道要点几下，更容易多点到藏着的「接受榨取」
+        { "at": 5, "fx": "挑战-连打", "taps": 10, "tapsJitter": 2, "hideTaps": true, "time": 3.4, "trap": "accept", "trapCost": 3, "trapStay": 1.2, "trapLine": "陷阱-上钩", "resistLine": "陷阱-忍住" },
+        { "at": 8.6, "fx": "特写-胸-循环", "hold": 2.8 },
+        { "at": 12.6, "fx": "鞋印", "count": 4, "every": 0.6, "speed": 1.1, "pool": "鞋印-四组" },
+        { "at": 15, "fx": "特写-靴底", "variant": "砸" },
+        { "at": 17.6, "fx": "鞋印", "count": 5, "every": 0.45, "speed": 1.25 },
+        {
+          "at": 20.6, "fx": "交易", "cost": 3, "seconds": 4.5, "text": "再交一点点吧？姐姐会好好疼你的~", "accept": "交易-答应", "refuse": "交易-拒绝",
+          "reward": { "still": "clip-007-a.722ac7e98d.webp", "focus": [410, 760], "zoom": [1.3, 1.7], "hold": 3, "side": "right", "show": "heart", "text": "乖~ 眼睛只看着姐姐吧♥" }
+        },
+        { "at": 25.6, "fx": "特写-嘴", "variant": "推近" },
+        { "at": 27.4, "fx": "挑战-连打", "taps": 12, "tapsJitter": 2, "hideTaps": true, "time": 3.6, "trap": "accept", "trapCost": 4, "trapStay": 1.1, "trapLine": "陷阱-上钩", "resistLine": "陷阱-忍住" },
+        // 挪卡（站主 2026-10-19）：整屏猛踩挡住画面的时候把卡挪到右下（鞋底那张图里高跟鞋的地方），紧接着一波鞋印往新的位置去；
+        // 后面再来一张整屏的静图，卡挪到画面中间——最难的一波，鞋印从四面八方踩过来（around）
+        { "at": 30.2, "fx": "特写-靴底", "variant": "猛踩" },
+        { "at": 31.4, "fx": "挪卡", "to": [0.58, 0.64] },
+        { "at": 33.4, "fx": "鞋印", "count": 5, "every": 0.45, "speed": 1.25, "pool": "鞋印-四组" },
+        { "at": 37.6, "fx": "视频", "still": "clip-007-c.b28ad3040f.webp", "focus": [420, 330], "zoom": [1.2, 1.4], "show": "full", "hold": 2.4, "text": "眼睛……只许看着姐姐哦♥" },
+        { "at": 38.6, "fx": "挪卡", "to": [0.5, 0.44] },
+        { "at": 40.6, "fx": "鞋印", "count": 6, "every": 0.4, "speed": 1.3, "around": true },
+        { "at": 45, "fx": "挑战-点击+点击+点击", "stagger": 0.15, "time": 2.6 },
+        { "at": 47.2, "fx": "魅惑闪光" },
+        { "at": 48.2, "fx": "集中线" }
+      ],
+      "stage": {
+        "early": { "line": "四组-前段", "lineEvery": 4.5, "charm": 0.3, "talk": { "every": 4.5, "fx": { "耳语": 3, "气泡": 1 }, "pools": { "耳语": "耳语-四" } } },
+        "mid": { "line": "四组-中段", "lineEvery": 4, "charm": 0.42, "talk": { "every": 3.6, "fx": { "耳语": 3, "气泡": 1, "竖排": 1 }, "pools": { "耳语": "耳语-四", "竖排": "心声-四" } } },
+        "late": { "line": "四组-后段", "lineEvery": 3.5, "charm": 0.55, "talk": { "every": 3, "fx": { "耳语": 3, "气泡": 1, "竖排": 1, "大字": 1 }, "pools": { "耳语": "耳语-四", "竖排": "心声-四" } } }
+      },
+      "overtime": [
+        {
+          "do": "stay", "open": "逗留-开始-四", "drainFirst": 4.8, "every": 2.5, "everyTo": 1.8, "ramp": 18,
+          "line": "逗留-四", "lineEvery": 4, "pressLine": "逗留-长按", "releaseLine": "逗留-松手",
+          "drainCue": { "fx": "特写-胸-循环", "hold": 0, "tight": 1.3, "pool": "特写-吸取" },
+          // 最难走的一次：长按要按 2.6 倍久（第一级：反应 0.6 + 3.9 ≈ 4.5 → 4.8 秒，中途松手就来不及了）；按下去不久凝视的那张从下面升上来挡住进度条，按着就一直挡着（每按一次都来）；
+          // 按到一半她再说一句——看不到进度也一直按着不放，才走得了
+          "pressTime": 2.6,
+          "pressLure": [
+            { "at": 0.12, "repeat": true, "shake": false, "cover": { "still": "clip-007-c.b28ad3040f.webp", "focus": [412, 300], "hold": "press", "text": "嘘……看着姐姐就好♥" } },
+            { "at": 0.5, "shake": false, "line": "逗留-打断-四" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  // ---------- 无尽战斗 ----------
+  // 等级可以降到负数（欠她的），记最深欠到多少
+  "endless": {},
+
+  // ---------- 败北处决 ----------
+  // 题失手 / 放弃 / 认输：照常的处决——每数一下吸一截，数到 0 正好归零（card.js）；数到 0 之后她把你的卡放进收藏柜。
+  // drained：等级在战斗里被吸到 0 的那一场（站主 2026-10-18：等级清空要有自己的败北场景）——不停在败北结算、不数秒：
+  //   卡被端到画面中间，她说完「清空-前言」（第一句 Lv0 一跳、光从卡里漏出去，第二句在卡上亲一口，最后一句盖「清空」），
+  //   归零那一刻喊「清空-归零」、放下面这张（紫光里伸手的那张，从手一路摇到她的脸）；
+  //   接着演 story-007 的「清零」（收藏柜那张 clip-007-end），停在「等级清零 END」（站主 2026-10-19 第三批：原来吸到 0 只弹出来说重来）
+  "execute": {
+    "drained": {
+      "intro": "清空-前言",
+      "zero": { "fx": "视频", "still": "clip-007-c.b28ad3040f.webp", "show": "full", "pan": [[470, 1120, 0], [440, 760, 0.45], [415, 320, 1]], "zoom": [1.35, 1.15], "hold": 4.6, "at": 0.8, "text": "全部……都是姐姐的了♥" }
+    },
+    "zero": { "fx": "视频", "still": "clip-007-kiss.78e7ff12bf.webp", "focus": [425, 445], "zoom": [1.2, 1.45], "show": "full", "outro": "kiss", "hold": 4.6, "at": 1, "text": "最后一口……姐姐收下了哦♥" },
+    "zeroHold": 6
+  },
+
+  // ---------- 背景音乐 ----------
+  "bgm": { "use": "MusMus 柔らかな嘘" },
+
+  // ---------- 图 ----------
+  // 开场那张举着白卡的（clip-007-begin）不当背景了，放在剧情的画面框里（story-007 的 still）
+  "art": {
+    "battle": { "idle": "", "early": "", "mid": "", "late": "", "win": "", "lose": "", "retreat": "", "endless": "" },
+    "bg": { "story": "", "pause": "", "ending": "", "choice": "" }
+  },
+
+  // ---------- 换着用的战斗图 ----------
+  // 两张都是带背景的图（832 × 1216），立绘和遮罩由 scripts/art/tobatsu-standee.mjs 007-a 007-b 生成（R 胸 / G 呼吸 / B 头发 / 遮罩 2：R 臀部）；
+  // 带背景的图镜头别取得太窄太偏（左右露出图外面）。取景、锚点、特写是 Claude Code 量的起步值
+  "standees": {
+    // 趴在柜台上往前探（第 2 组结尾、第 4 组）：眼 (255, 405) / (395, 352)、嘴 (345, 465)、胸往下垂 x 205–615、y 640–880、右边翘起来的臀 (700, 700)
+    "007-a": {
+      "art": {
+        "battleStandee": {
+          // fill：带背景的图，取景怎么写都盖满整个画面（game.js 的 placeFramed）
+          "fill": true,
+          "src": "her-007-a.7e45b80c3b.webp",
+          "mask": "her-007-a-mask.0ce43d168c.png",
+          "mask2": "her-007-a-mask2.dc8475466f.png",
+          "centerX": 416,
+          "frames": {
+            "idle": [0, 1216],
+            "early": [100, 1100],
+            "mid": [250, 1000],
+            "late": [400, 950],
+            "win": [0, 1216],
+            "lose": [0, 1216],
+            "retreat": [0, 1216],
+            "endless": [200, 1050]
+          }
+        }
+      },
+      "motion": {
+        "cycle": { "amp": 22, "freeAmp": 9, "waistY": 935, "feather": 110 },
+        "breathe": { "amp": 4 },
+        "shake": { "maxOffset": 40, "impulse": { "cutin": 420, "art": 320, "heartbeat": 56 } },
+        "hair": { "amp": 4 }
+      },
+      "fx": {
+        "anchors": { "face": [330, 430], "eyes": [325, 380], "lips": [345, 465], "crest": [410, 860], "hips": [705, 705], "waist": [420, 900], "feet": [430, 1160], "knee": null, "legs": null },
+        "charm": { "visions": { "zoom": { "chest": 460, "lips": 170, "eyes": 230 } } },
+        "closeup": {
+          "chest": { "height": 520, "offset": [0, 0], "impulse": 420, "maxOffset": 44, "loop": { "amp": 18 } },
+          "chestSide": { "impulse": 260, "maxOffset": 30, "loop": { "amp": 22 } },
+          "hips": { "side": "right", "sideOffset": 60, "height": 380, "offset": [0, 0], "bodyTwist": 0.0012, "twist": 0.0016, "impulse": 140, "maxOffset": 19, "radius": [180, 200], "loop": { "amp": 14 } },
+          "eyes": { "height": 150, "eyeSpread": 72 }
+        }
+      }
+    },
+    // 翘着腿坐在高脚凳上、仰视（第 3 组整组、第 4 组）：眼 (420, 160) / (490, 158)、嘴 (470, 195)、胸 x 265–605、y 290–440、翘起来的鞋底 (690, 1060)
+    "007-b": {
+      "art": {
+        "battleStandee": {
+          // fill：带背景的图，取景怎么写都盖满整个画面（game.js 的 placeFramed）
+          "fill": true,
+          "src": "her-007-b.c668dd598c.webp",
+          "mask": "her-007-b-mask.8751f6a68f.png",
+          "mask2": "her-007-b-mask2.b8f30bad33.png",
+          "centerX": 440,
+          "frames": {
+            "idle": [0, 1216],
+            "early": [40, 1100],
+            "mid": [100, 700],
+            "late": [130, 560],
+            "win": [0, 1216],
+            "lose": [0, 1216],
+            "retreat": [0, 1216],
+            "endless": [60, 900]
+          }
+        }
+      },
+      "motion": {
+        "cycle": { "amp": 16, "freeAmp": 7, "waistY": 462, "feather": 80 },
+        "breathe": { "amp": 3 },
+        "shake": { "maxOffset": 32, "impulse": { "cutin": 340, "art": 270, "heartbeat": 46 } },
+        "hair": { "amp": 3.5 }
+      },
+      "fx": {
+        "anchors": { "face": [455, 170], "eyes": [455, 160], "lips": [470, 195], "crest": [440, 450], "hips": [300, 560], "waist": [440, 455], "feet": [690, 1060], "knee": null, "legs": null },
+        "charm": { "visions": { "zoom": { "chest": 260, "lips": 90, "eyes": 120 } } },
+        "closeup": {
+          "chest": { "height": 300, "offset": [0, 0], "impulse": 330, "maxOffset": 34, "loop": { "amp": 13 } },
+          "chestSide": { "impulse": 200, "maxOffset": 22, "loop": { "amp": 16 } },
+          "hips": { "side": "left", "sideOffset": 40, "height": 320, "offset": [0, 0], "bodyTwist": 0.0012, "twist": 0.0016, "impulse": 120, "maxOffset": 16, "radius": [150, 120], "loop": { "amp": 12 } },
+          "eyes": { "height": 70, "eyeSpread": 36 }
+        }
+      }
+    }
+  },
+
+  // ---------- 立绘档案 ----------
+  // 007（assets/007.png，960 × 1720）。眼睛约 449,253 / 527,240（左低右高）、嘴 505,298；左手叉腰。
+  // 立绘和遮罩由 scripts/art/tobatsu-standee.mjs 007 生成（R 胸 / G 呼吸 / B 长卷发 / 遮罩 2：R 臀部），取景、锚点、特写是 Claude Code 量的起步值
+  "standee": {
+    "art": {
+      "standee": {
+        "her": {
+          "frame": { "top": 30, "bottom": 900, "centerX": 495 },
+          "faces": { "normal": "her-007.537ef07b6e.webp", "smug": "her-007.537ef07b6e.webp", "hurt": "her-007.537ef07b6e.webp" }
+        }
+      },
+      "battleStandee": {
+        "src": "her-007.537ef07b6e.webp",
+        "mask": "her-007-mask.4c5f5df849.png",
+        "mask2": "her-007-mask2.2af3183130.png",
+        "centerX": 495,
+        "frames": {
+          "idle": [30, 930],
+          "early": [30, 880],
+          "mid": [120, 790],
+          "late": [180, 710],
+          "win": [30, 930],
+          "lose": [0, 1720],
+          "retreat": [0, 1250],
+          "endless": [150, 760]
+        }
+      }
+    },
+    "motion": {
+      "cycle": { "amp": 14, "freeAmp": 6, "waistY": 650, "feather": 75 },
+      "breathe": { "amp": 2.5 },
+      // soften.knee / squashKnee（站主 2026-10-19：平常很好，摇到最大幅度还是不自然）：过了 maxOffset 六成之后遮罩糊得更开、拉伸封顶，见 game.9a7df4cb23.js 的 drawStandee
+      "shake": { "maxOffset": 28, "impulse": { "cutin": 330, "art": 260, "heartbeat": 42 }, "soften": { "knee": 0.07, "kneeFrom": 0.6 }, "squashKnee": 0.05 },
+      "hair": { "amp": 2.5 }
+    },
+    "fx": {
+      "anchors": { "face": [500, 262], "eyes": [489, 247], "lips": [505, 298], "crest": [490, 760], "hips": [490, 790], "waist": [490, 650], "feet": [520, 1700], "knee": null, "legs": null },
+      "eyeBar": { "center": [489, 247], "size": [176, 46], "angle": -9 },
+      "charm": { "visions": { "zoom": { "chest": 300, "lips": 110, "eyes": 150 } } },
+      "closeup": {
+        "chest": { "height": 400, "offset": [0, -10], "impulse": 320, "maxOffset": 32, "loop": { "amp": 12 } },
+        "chestSide": { "impulse": 190, "maxOffset": 21, "loop": { "amp": 16 } },
+        "hips": { "side": "left", "sideOffset": 80, "height": 400, "offset": [30, 0], "bodyTwist": 0.0021, "twist": 0.0026, "impulse": 140, "maxOffset": 19, "radius": [210, 130], "loop": { "amp": 14 } },
+        "eyes": { "height": 80, "eyeSpread": 38 },
+        // 静图特写（三张带背景的图）：嘴＝亲过来的那张（每到「提」框一颤、冒心、收尾印唇印）；
+        // 靴底＝翘腿那张的鞋底（每到「压」往镜头踩一下、扬尘、「踩」）；凝视＝紫焰里坏笑的那张（每到「提」整框亮一下）
+        "mouth": {
+          "still": "clip-007-kiss.78e7ff12bf.webp", "focus": [425, 445], "zoom": [2, 2.3], "hold": 3,
+          "variants": [
+            { "name": "推近" },
+            { "name": "横条", "show": "band", "zoom": [2.3, 2.6] },
+            { "name": "心形", "show": "heart", "zoom": [1.8, 2.1] },
+            { "name": "眼到嘴", "pan": [[380, 330, 0], [395, 370, 0.4], [425, 445, 1]], "zoom": [2.2, 2.4], "hold": 3.4 }
+          ]
+        },
+        "sole": {
+          "still": "clip-007-b.cd2faf6aaf.webp", "focus": [690, 1060], "zoom": [1.8, 2.1], "hold": 3,
+          // 鞋底的正中（原图像素，站主 2026-10-20：「踩」的尘圈原来落在脚踝、镜头一动更跑偏）：跟着节奏踩、砸进来的那一圈尘都从这儿扬起来
+          "stompAt": [712, 1086],
+          "variants": [
+            { "name": "推近" },
+            { "name": "砸", "show": "slam", "zoom": [2, 2.2] },
+            { "name": "逼近", "zoom": [1.1, 2.4], "ease": "in", "hold": 2.6 },
+            { "name": "猛踩", "show": "full", "zoom": [1, 2.8], "ease": "in", "hold": 2.6, "peakHit": true },
+            { "name": "贴脸", "show": "full", "focus": [680, 1065], "zoom": [2.6, 3.3], "ease": "in", "hold": 2.2, "peakHit": true },
+            { "name": "抬头", "pan": [[690, 1070, 0], [690, 1050, 0.25], [520, 600, 0.7], [455, 180, 1]], "zoom": [2, 1.6], "hold": 4 }
+          ]
+        },
+        "gaze": {
+          "still": "clip-007-c.b28ad3040f.webp", "focus": [412, 300], "zoom": [2.2, 2.5], "hold": 3,
+          "variants": [
+            { "name": "推近" },
+            { "name": "砸", "show": "slam" },
+            { "name": "横条", "show": "band", "zoom": [2.6, 2.9] }
+          ]
+        }
+      }
+    }
+  }
+}

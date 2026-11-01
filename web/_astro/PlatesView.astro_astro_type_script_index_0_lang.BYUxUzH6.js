@@ -1,0 +1,1 @@
+import{t as e}from"./image-viewer.D_MWnswl.js";document.addEventListener(`astro:page-load`,e);

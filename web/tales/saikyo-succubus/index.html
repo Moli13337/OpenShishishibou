@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN" data-gate="pending" data-astro-cid-z4jru4n3><head><script data-astro-rerun>(function(){const LANG_KEY = "tavern.lang";
+const CUR = "zh";
+const PREFIXED = ["ja","en","ko"];
+const LISTED = ["zh","ja","en","ko"];
+
+          try {
+            var want = localStorage.getItem(LANG_KEY);
+            if (CUR !== 'zh') {
+              if (!want && LISTED.indexOf(CUR) >= 0) localStorage.setItem(LANG_KEY, CUR);
+            } else if (want && want !== CUR && PREFIXED.indexOf(want) >= 0 && LISTED.indexOf(want) >= 0) {
+              // 带前缀的语言（ja / en / ko……）从 src/i18n/langs.ts 来，这里不写死
+              var bare = location.pathname.replace(new RegExp('^/(' + PREFIXED.join('|') + ')(?=/|$)'), '') || '/';
+              location.replace((want === 'zh' ? '' : '/' + want) + (bare === '/' && want !== 'zh' ? '' : bare) + location.search + location.hash);
+            }
+          } catch (e) {}
+        })();</script><style>html[data-gate="pending"] body{visibility:hidden}</style><script>(function(){const AGE_KEY = "tavern.age-confirmed";
+const GATE_PATH = "/gate";
+
+            try {
+              if (localStorage.getItem(AGE_KEY) === '1') document.documentElement.dataset.gate = 'ok';
+            } catch {}
+            if (document.documentElement.dataset.gate !== 'ok') {
+              location.replace(GATE_PATH + '?next=' + encodeURIComponent(location.pathname + location.search));
+            }
+          })();</script><script>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script><script>
+      (function () {
+        var read = function () {
+          try {
+            return Object.keys(JSON.parse(localStorage.getItem('tavern.quest-clear') || '{}') || {}).join(' ');
+          } catch (e) {
+            return '';
+          }
+        };
+        document.documentElement.dataset.clears = read();
+        if (window.__tavernClears) return;
+        window.__tavernClears = true;
+        document.addEventListener('astro:before-swap', function (e) {
+          e.newDocument.documentElement.dataset.clears = read();
+        });
+      })();
+    </script><style>html:not([data-clears~="tobatsu/001"]) [data-unlock="tobatsu/001"][data-unlock-show="open"],html[data-clears~="tobatsu/001"] [data-unlock="tobatsu/001"][data-unlock-show="locked"]{display:none!important}html[data-clears~="tobatsu/001"] [data-chain="tobatsu"][data-chain-step="1"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="2"],html[data-clears~="tobatsu/002"] [data-chain="tobatsu"][data-chain-step="2"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="3"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="3"],html[data-clears~="tobatsu/003"] [data-chain="tobatsu"][data-chain-step="3"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="4"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="4"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="4"],html[data-clears~="tobatsu/004"] [data-chain="tobatsu"][data-chain-step="4"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="5"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="5"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="5"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="5"],html[data-clears~="tobatsu/005"] [data-chain="tobatsu"][data-chain-step="5"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="6"],html:not([data-clears~="tobatsu/005"]) [data-chain="tobatsu"][data-chain-step="6"],html[data-clears~="tobatsu/006"] [data-chain="tobatsu"][data-chain-step="6"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/005"]) [data-chain="tobatsu"][data-chain-step="7"],html:not([data-clears~="tobatsu/006"]) [data-chain="tobatsu"][data-chain-step="7"],html[data-clears~="tobatsu/007"] [data-chain="tobatsu"][data-chain-step="7"]{display:none!important}html:not([data-clears~="tobatsu/001"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/002"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/003"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/004"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/005"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/006"]) [data-chain="tobatsu"][data-chain-step="8"],html:not([data-clears~="tobatsu/007"]) [data-chain="tobatsu"][data-chain-step="8"]{display:none!important}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#10173F"><meta name="robots" content="noindex, nofollow"><title>由勇者亲自创造的『最强魅魔』 · 士师志望</title><link rel="preload" href="/fonts/ui/noto-sans-sc-900.19b8d493.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/ui/noto-sans-sc-700.08a058f2.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/ui/m-plus-1-800.39e9af5d.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/ui/lilita-one.e1467dd8.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/body/index.css?v=c3b26b51" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/fonts/body/index.css?v=c3b26b51"></noscript><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.BKsdyySz.js"></script><link rel="stylesheet" href="/_astro/BaseLayout.HeiBSvvY.css"><style>.viewer[data-astro-cid-g3gknhok]{z-index:300;background:var(--c-ink);opacity:var(--viewer-fade,1);touch-action:none;overscroll-behavior:contain;justify-content:center;align-items:center;display:flex;position:fixed;inset:0;overflow:hidden}.viewer[data-astro-cid-g3gknhok][hidden]{display:none}.viewer-stage[data-astro-cid-g3gknhok]{width:100%;height:100%;translate:var(--viewer-x,0px) var(--viewer-y,0px);scale:var(--viewer-scale,1);will-change:translate, scale;justify-content:center;align-items:center;display:flex}.viewer-stage[data-astro-cid-g3gknhok] picture,.viewer-stage[data-astro-cid-g3gknhok] img[data-astro-cid-g3gknhok]{object-fit:contain;max-width:100vw;max-height:100dvh;display:block}.viewer-close[data-astro-cid-g3gknhok]{right:14px;top:calc(14px + env(safe-area-inset-top));border:var(--stroke-sm) solid var(--c-cream);width:40px;height:40px;color:var(--c-cream);background:#0b0b1299;border-radius:50%;justify-content:center;align-items:center;font-size:16px;line-height:1;display:flex;position:absolute}.viewer-hint[data-astro-cid-g3gknhok]{left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom));color:#fff5e199;letter-spacing:1px;text-align:center;pointer-events:none;margin:0;font-size:11px;position:absolute}
+.lock[data-astro-cid-hxds2m4h]{color:var(--c-cream);display:block}
+.scene[data-astro-cid-kfnc2asi]{height:var(--scene-h,100%);background:var(--c-cream);position:absolute;inset:0 0 auto;overflow:hidden}.scene[data-astro-cid-kfnc2asi] img[data-astro-cid-kfnc2asi]{object-fit:cover;object-position:var(--focus);width:100%;height:100%;display:block}.scene[data-astro-cid-kfnc2asi]:after{content:"";background:var(--c-navy);opacity:var(--scene-dim,.15);pointer-events:none;position:absolute;inset:0}.lang[data-astro-cid-65fqhi4t]{border:var(--stroke-sm) solid var(--c-ink);border-radius:var(--radius-pill);background:var(--c-ink);height:30px;box-shadow:var(--shadow-pill);align-items:center;padding:0 3px;display:flex}.pick[data-astro-cid-65fqhi4t]{border-radius:var(--radius-pill);min-width:30px;height:22px;color:var(--c-cream);place-items:center;padding:0 7px;font-size:12px;font-weight:900;line-height:1;text-decoration:none;display:grid}.pick[data-astro-cid-65fqhi4t]:is(:lang(en),:lang(ko)){font-family:var(--font-num);letter-spacing:.5px;font-weight:400}.pick[data-astro-cid-65fqhi4t][aria-current=true]{background:var(--c-hud);color:var(--c-ink)}.pick[data-astro-cid-65fqhi4t]:not([aria-current=true]):hover{color:var(--c-hud)}.more[data-astro-cid-65fqhi4t]{display:none}@media (width<=359.98px){.lang[data-astro-cid-65fqhi4t]:not([data-open]) .pick[data-astro-cid-65fqhi4t]:not([aria-current=true]){display:none}.lang[data-astro-cid-65fqhi4t]:not([data-open]) .more[data-astro-cid-65fqhi4t]{border-top:5px solid var(--c-cream);border-left:4px solid #0000;border-right:4px solid #0000;width:0;height:0;margin:1px 6px 0 5px;display:block}.lang[data-astro-cid-65fqhi4t][data-open]{z-index:5}}
+</style><link rel="stylesheet" href="/_astro/TaleView.D7GZD25J.css"><style>.bar[data-astro-cid-jgapfgnb]{box-sizing:content-box;border:var(--stroke-xs) solid var(--c-ink);border-radius:var(--radius-pill);background:linear-gradient(90deg, var(--c-hud) var(--fill), var(--c-cream) var(--fill));width:48px;height:7px;display:inline-block}.bar[data-astro-cid-jgapfgnb].is-indeterminate{background:repeating-linear-gradient(135deg, var(--c-hud) 0 3px, var(--c-cream) 3px 6px)}.rank-text[data-astro-cid-kexnm7ay]{font-family:var(--font-sans);font-synthesis:none;letter-spacing:.05em;white-space:nowrap;font-weight:900;line-height:1.25;display:inline-block}.rank-text[data-astro-cid-kexnm7ay] b[data-astro-cid-kexnm7ay]{font:inherit;letter-spacing:0;margin-left:.15em}
+</style><link rel="stylesheet" href="/_astro/ReadingFrame.Bu0p5sBm.css"><link rel="stylesheet" href="/_astro/ZoneFrame.BamIwW-D.css"><style>.keeper[data-astro-cid-ros4szcv]{z-index:5;position:absolute}.keeper-defs[data-astro-cid-ros4szcv]{width:0;height:0;position:absolute}.keeper-hit[data-astro-cid-ros4szcv]{cursor:pointer;-webkit-tap-highlight-color:transparent;background:0 0;border:0;width:100%;padding:0;display:block}.keeper-hit[data-astro-cid-ros4szcv] img[data-astro-cid-ros4szcv]{width:100%;height:auto;display:block}.keeper-hit[data-astro-cid-ros4szcv]:focus-visible{outline:2px dashed var(--c-hud);outline-offset:4px}.keeper-bubble[data-astro-cid-ros4szcv]{bottom:var(--bubble-bottom,62%);pointer-events:none;width:max-content;max-width:260px;margin:0;padding:11px 18px 13px 16px;position:absolute}@media (width>=1024px){.keeper-bubble[data-astro-cid-ros4szcv]{max-width:340px}}.keeper--bubble-left[data-astro-cid-ros4szcv] .keeper-bubble[data-astro-cid-ros4szcv]{transform-origin:calc(100% - 22px) calc(100% + 10px);right:58%}.keeper--bubble-right[data-astro-cid-ros4szcv] .keeper-bubble[data-astro-cid-ros4szcv]{transform-origin:22px calc(100% + 10px);left:58%}.keeper-bubble-bg[data-astro-cid-ros4szcv]{filter:drop-shadow(3px 3px 0 var(--c-ink));position:absolute;inset:0}.keeper-bubble-shape[data-astro-cid-ros4szcv]{width:100%;height:100%;position:absolute;inset:0;overflow:visible}.keeper-bubble-shape[data-astro-cid-ros4szcv] .ink[data-astro-cid-ros4szcv] polygon[data-astro-cid-ros4szcv]{fill:var(--c-ink);stroke:var(--c-ink);stroke-width:5px;stroke-linejoin:round}.keeper-bubble-shape[data-astro-cid-ros4szcv] .fill[data-astro-cid-ros4szcv] polygon[data-astro-cid-ros4szcv]{fill:var(--c-cream)}.keeper-bubble-text[data-astro-cid-ros4szcv]{color:var(--c-cream);white-space:normal;word-break:break-all;font-size:14px;font-weight:900;line-height:1.5;display:block;position:relative}.keeper-bubble-text[data-astro-cid-ros4szcv][lang]{word-break:normal;overflow-wrap:anywhere;word-spacing:.2em}.keeper-bubble-lang[data-astro-cid-ros4szcv]{border-radius:var(--radius-pill);background:var(--c-ink);width:fit-content;color:var(--c-cream);letter-spacing:1px;white-space:nowrap;align-items:baseline;gap:5px;margin:-22px 0 7px -8px;padding:1px 9px 2px;font-size:11px;font-weight:900;line-height:17px;display:flex;position:relative;rotate:-3deg}.keeper-bubble-lang[data-astro-cid-ros4szcv][hidden]{display:none}.keeper-bubble-lang-name[data-astro-cid-ros4szcv]{color:var(--c-hud);font-family:var(--font-num);letter-spacing:.5px;font-size:12px;font-weight:400}.keeper-bubble-lang-name[data-astro-cid-ros4szcv]:empty{display:none}.keeper-bubble[data-astro-cid-ros4szcv]:not([hidden]){animation:.16s cubic-bezier(.2,.9,.3,1.2) bubble-pop}@keyframes bubble-pop{0%{opacity:0;transform:scale(.6)rotate(-6deg)}}@media (prefers-reduced-motion:reduce){.keeper-bubble[data-astro-cid-ros4szcv]:not([hidden]){animation:none}}
+</style><script type="module" src="/_astro/page.DZsFs8hX.js"></script></head><body data-astro-cid-z4jru4n3><noscript><p class="noscript-gate" data-astro-cid-z4jru4n3>需要启用 JavaScript 才能确认年龄并进入。</p></noscript><!-- cut-in / 插页的样式是全局的：标记由 scripts/remark-cutin.mjs 从 markdown 指令生成 --><div class="reading" data-reading data-astro-cid-goz4tz7k><header class="reading-hud" data-astro-cid-goz4tz7k><span class="hud-title" data-astro-cid-goz4tz7k>由勇者亲自创造的『最强魅魔』</span><button type="button" class="hud-stagecraft" data-stagecraft aria-pressed="true" aria-label="演出档位" data-astro-cid-goz4tz7k>演出</button></header><main class="paper" data-reading-id="saikyo-succubus" data-astro-cid-goz4tz7k><header class="head" data-astro-cid-goz4tz7k><p class="kicker" data-astro-cid-goz4tz7k>短篇</p><div class="head-line" data-astro-cid-goz4tz7k><h1 data-text="由勇者亲自创造的『最强魅魔』" data-astro-cid-goz4tz7k="true" class="sticker sticker--small heading">由勇者亲自创造的『最强魅魔』</h1></div></header><div class="prose" data-astro-cid-goz4tz7k><p>并没有像老掉牙的复仇爽文那么惨。</p>
+<p data-pause="2">没有被背叛。没有被陷害。没有被剥夺身为勇者的功绩或是荣誉。</p>
+<p>只是普通地、在拼上性命打败了魔王之后，得到了国王普通的、与自己所做贡献相符的褒奖罢了。</p>
+<p>没有比想象中得少、也没有比想象中得多。在拿到大臣呈上的礼单时，心里只有空荡荡的<span class="dash">—</span>—『啊、就这样呢』……类似这种程度的感触。</p>
+<p>爵位。封地。英雄的称号。与公主的婚姻。</p>
+<p>装裱精致的羊皮纸上，罗列着足以让普通人狂喜失仪的光辉未来。只可惜，这具身体里的神经与肾上腺，或许早已在和魔物们惊心动魄的厮杀中烧坏了吧。事到如今这些微不足道的刺激，根本没办法让自己感到雀跃。</p>
+<p>回过头来，这一趟冒险中，最快乐的时刻，到底莫过于与魔王亚米泰尔剑戟相交的那一瞬。至于什么凯旋归来觐见国王接受封赏之类的，不过是戏剧结束后演职员谢幕般压倒性的怅然与干瘪而已。</p>
+<p><span class="quote sticker is-block" data-text="——说不定、每一个勇者故事的结局都是这样的？"><span class="dash">—</span>—说不定、每一个勇者故事的结局都是这样的？</span></p>
+<p>一边在心里努力自我和解，勇者一边松开了不知从什么时候起咬紧的嘴唇：</p>
+<p>就像小时候的自己，在心满意足地合上冒险谭的绘本后，还是不得不把目光移向那空乏的现实世界一样。是了，每一本叙事诗的主角们，最终的命运都竭尽于此。自己的结局已经足够美好，并没有什么值得抱怨的才对。</p>
+<p>国王确实还在忌惮自己的力量，可依然用诚意与克制的礼节款待了自己。公主的性格尽管骄横尊大，但无疑也有着与之相配的才能与资本。侍臣们对自己都表示出了适度的尊重。百姓们也欢呼着献上适度的感激。大家都很好，没有一个人坏到足以成为支撑一部续作的大反派。</p>
+<p>这应该是好事吧？</p>
+<p>应该是好事没错。</p>
+<p>毕竟，所有人都能享受这来之不易的和平嘛。唯一美中不足的地方……只不过是『故事』讲不下去了而已。但这又有什么关系呢？『冒险』从来不是目的，而应该是手段。既然万恶之源已经倒下，那么剩下的时光，理应属于每一个平凡人，让他们永远幸福快乐地活下去才对吧……</p>
+<p>对吧，</p>
+<p>对吧。</p>
+<p>对吧？</p>
+<p>对吧！</p>
+<p>持续着早已得出结论的自问自答，勇者在无意识间抚摸了一下腰间悬挂着的圣剑的握柄。一声低沉到几不可闻的长叹，从空荡荡的皇宫侧廊上悄然溜过。那比自己记忆中还要苍老许多的声音，迫使勇者重新想起：『与魔王的决战，已经是5年多以前的事情了』。</p>
+<p>犹如时间停滞了一般。空洞、寡淡、转瞬即逝的2000个日夜。可就体验而言，恐怕连还在冒险途中时三个星期的内容都没有。</p>
+<p data-pause="2">没来由地，勇者脑海里浮起了在通往魔王之间前的一段回忆<span class="dash">—</span>—</p>
+<div class="scene-break" role="separator" aria-label="场景切换"><span></span></div>
+<p>「咻溜♡ 啾~♡…… 咕姆、勇♡ 姆唔唔~勇者大人♡…啾溜溜溜♡ 您一定~ 咕呜姆♡ 唔嗯~ 一定会、咕啾♡ 咕啾♡ 会后悔、的唷<span class="dash">—</span>—啾咕啾噜♡♡」</p>
+<p>幽暗的魔王城最深处、是由亚米泰尔本人坐镇的王座厅。只要再击败最后一名护卫，就能推开眼前布满狰狞浮雕的厚重大门，直面这场魔物侵略的罪魁祸首，并开启与这漫长旅程相配的，恢弘壮丽的终局之战。</p>
+<p>而眼下<span class="dash">—</span>—勇者的股间正在被那『最后一名护卫』含在口中、拼命地前后摆头吸吮着、发出淫靡粘稠的水声。</p>
+<p>「啾、啾、啾噜噜噜噜噜♡ 咕哈~♡ <span class="dash">—</span>—就这么、为了人类、咕嗯~♡♡ 打倒魔王大人的话……咕啾♡ 我保证~勇者大人♡ 一定会后悔的<span class="dash">—</span>—吸溜溜溜~♡♡♡」</p>
+<p>魔王亚米泰尔的宠妃、魅魔女王艾丽塔。</p>
+<p>在四天王已经悉数成为圣剑下的亡魂之后，她也就成为了亚米泰尔身边最后一个堪用的部下了。魅魔族虽然没有卓越的战斗能力，但诱惑异性唆使内讧的功夫却无疑是一流的。尤其是这种绝对劣势的场面，往往有可能起到扭转乾坤的奇效。</p>
+<p>「跟勇者大人、您这样伟大的英雄人物不同~♡ 啾咕啾咕…咕呣呣♡♡ 大多数普通的人类、都是一帮自私、懦弱、而且又忘恩负义的生物♡♡ <span class="dash">—</span>—这一点、唔啾啾♡ 勇者大人您…心里应该比我更清楚吧~♡」</p>
+<p>丝毫不顾及门后面的房间里，正在为终极变身做最后咏唱的丈夫，魔王的宠妃在入侵者的两腿之间谄媚地跪下，用丰腴的双唇侍奉着眼前的勇者。灵巧而细长的舌头，在罗列着富有煽动性的话语同时，仍能不忘时不时地舔舐红涨的肉茎。</p>
+<p>被超低腰丁字裤衬托出来的饱满臀部，也在她说话的同时不安分地左右扭动。那仿佛发情期母猫一样天然的媚态，是100%刻意设计专门用来撩动异性欲望的举止。即使是自己和丈夫都已经面临生死存亡的关键时刻，依然能在这种险境中把自己的魅力满分发挥。实在是令人感慨：艾丽塔确实不愧为魅魔族的女王。</p>
+<p>「试想一下吧~♡ 如果您真的就这么杀死了魔王……啾咕♡ 啾噜噜噜♡ 等回到祖国之后、嘛~♡ 的确一开始，大家应该会欢迎一下您的吧~~♡ 嗯呣呣~呣啾<span class="dash">—</span>—会有一些差不多的奖励…财富、荣誉、美人什么的~~嘻嘻♡」</p>
+<p>在把勇者肉棒每一寸边边角角的缝隙都舔到过之后，艾丽塔接着用手捧起自己的傲人双峰，开始了熟练的乳交。在刚刚的前戏里已经膨胀到最大限度的下体，埋在她99cm的爆乳中却也只能勉强漏出一点点龟头。</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="right" style="--cg-ar: 1664 / 2432"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-01-elita.f132ad989e" aria-label="放大看这张 CG：勇者大人♡ 一定会后悔的——"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-01-elita.f132ad989e.avif"><img src="/art/cg/saikyo-01-elita.f132ad989e.webp" alt="" loading="lazy" decoding="async" style="object-position: 50% 45%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="勇者大人♡ 一定会后悔的——">勇者大人♡ 一定会后悔的——</span></figcaption></figure>
+<p>随着左右两边柔软的包裹感开始前后撸动，被唾液润滑到恰到好处的肉棒也开始伴随着艾丽塔的动作发出咕嗞咕嗞的水声。空无一人的幽暗回廊里，这煽情的响动显得格外突出。</p>
+<p>「但是呢……人类能提供的享乐、终归是有限的~恐怕要不了多久就会腻的<span class="dash">—</span>—嗯啾~♡ 而且就算勇者大人您不会腻、那些被您保护的国王、大臣们……他们也会腻的♡♡ 明明是多亏了您才能过上这种每天吃喝玩乐的日子~ 可是没过多久，就会渐渐不想再对勇者大人心怀感激了♡ 斗米恩、升米仇~ 这就是人类这种生物的本能喔♡♡♡」</p>
+<p>每一次双乳的来回，两团媚肉就会往勇者的腰窝极具重量感地撞上一下、发出『啪』的一声。那份足以销魂蚀骨的感触，至今已经征服了无数胆敢挑战艾丽塔的异性。几乎没有一个男人，可以在她开始乳交之后，能依然有力气维持站立……</p>
+<p>「更近一步说，您也不需要真的背叛自己的同族与国家~♡ 啾噜啾噜♡♡ 您呢…可以继续当拯救人类的英雄<span class="dash">—</span>—只要稍微，不急着在现在消灭魔王就好♡♡ 稍微让战事拖得久一点、稍微多对峙周旋一段时间~~ 我们也会配合勇者大人的♡ 只要魔王一天不被完全消灭，那些愚蠢的人类就一天不会忘记您的重要性~~养寇自重的道理，想必聪明如您一定明白的吧~♡」</p>
+<p data-pause="2">……然而，只有这次不一样。</p>
+<p>只有这次，眼前的这名勇者就好像是理性与现实主义的化身一般，仿佛对自己的诱惑没有丝毫兴趣。从被拉进自己的幻梦术开始，勇者就这么漠然的、波澜不惊地看着自己自说自话。</p>
+<p>「更不要说，等真的没有了魔王之后，人类国王也一定会开始忌惮勇者大人您的威名♡搞不好会开始下毒、暗杀……甚至给您扣上不实的罪名、派遣庞大的联军反过来讨伐您♡ 好不容易结束了艰难的冒险、就又要开始跟自己的同胞战斗什么的……勇者大人、真是好可怜呀~♡♡♡」</p>
+<p>这个水平的冒险者当然很清楚：魅魔的最高级幻梦术没有任何提前解除的方法，只能等待30分钟施法时间结束后自动脱离。但是在幻梦术中，魅魔也无法给对方造成任何实际的肉体伤害。因此只要能抵抗住这30分钟的诱惑，可以说，谁都能安然无恙地从幻梦术中走出来。</p>
+<p>而反过来讲，幻梦术最可怕的也正是这一点。迄今为止，还从未有哪怕一个人的心防，能够在艾丽塔的呢喃中坚持过这30分钟的。身为魅魔女王的她，最擅长的便是用糖衣包裹的巧言令色，钻进敌人内心深处最隐蔽的空隙，让他与自己过去的伙伴反目成仇。</p>
+<p>「所以呢~不如我们就一起把前线建设成只属于您的行宫吧♡ 不仅是人类、就连魔族提供的享乐，也可以任由您采撷噢♡♡ 无论是兽娘还是性偶、或者是我这样的魅魔~只要勇者大人能想到的，全部都会超预期地为您实现，保证您什么都不用做，就能够收获至高的体验♡ 而且永远都玩不腻<span class="dash">—</span>—比起一时的胜利、肯定是长久的幸福才更有价值、不是吗♡♡♡」</p>
+<p>艾丽塔曾经用这招幻梦术，搞定过很多高阶冒险者了。</p>
+<p>他们中有的人会在梦中拼命逃跑拖延时间、有的人会和自己虚与委蛇假意合作。但无论是谁，等30分钟的幻梦结束之后，都会在自己的蛊惑下，心甘情愿地沦为任凭摆布的傀儡。</p>
+<p>只是从来没有一个人，没有一个人像此时的勇者这样<span class="dash">—</span>—在意识到幻梦术不会对自己造成任何现实伤害后，直接便什么都不做，就这么默默地等待时间过去。仿佛一起与目标无关的事宜，都被他的大脑自动屏蔽了一样。</p>
+<p>而事实也的确如此。纵使生理上的反应无疑证明了他能够感受到快感，也确实听进去了自己的谗言。可唯独勇者的内心，从头到尾都没有一点波动。从一开始，就只是在若有所思地俯视着自己罢了。</p>
+<p>「咕♡ 咕啾♡ 对了~♡ 勇者大人，我的女儿莉莉丝塔♡ 是远超过我的、魅魔族千年一遇的天才♡ 但是她现在被您的老师、那个可恶的老神父封印在了圣墓的地下……以您的实力，一定可以轻松把她救出来♡ 到时候，就让莉莉丝塔当您的专属魅魔奴隶怎么样~？您不嫌弃的话♡ 还能叫上我一起享受禁断的亲子丼唷……」</p>
+<p data-pause="2">最终，在30分钟的时限即将到来之际。</p>
+<p>经过了数次濒临极限的寸止，艾丽塔还是让勇者在自己的乳沟里盛大地发射出了精液。</p>
+<p>虽然幻梦术中的射精没办法真的榨取等级，但是那份绝顶的高潮快乐却足以改变绝大多数人的价值观。按照艾丽塔以前的经验，往往等从梦境中醒来之后，大家都会变成与30分钟前的自己彻底不同的另一个人。</p>
+<p>「啊、您醒<span class="dash">—</span>—」</p>
+<p data-pause="2">然而只有这次的勇者不一样。</p>
+<p>在幻梦术解除后的第一秒，勇者就用不带一滴犹豫的动作，从剑鞘中拔出了圣剑。</p>
+<p>没有对话、没有宣言、更没有大声喊出自己的招式名等等类似的演出。<span class="quote sticker" data-text="剑锋只是淡然地沿着最短的轨迹，刺向了艾丽塔的咽喉。">剑锋只是淡然地沿着最短的轨迹，刺向了艾丽塔的咽喉。</span></p>
+<p>耀眼的光辉一闪而过，干脆利落地贯穿了还在试图说些什么的魅魔女王。片刻之后，她的灵魂开始在魔族特攻的神意斩效果下解体，被分断成若干个碎片封印在圣剑当中。至于附着在上面的经验值，则化作空气中一片亮晶晶的光雾，被面无表情的勇者所吸收。</p>
+<p>从行囊中掏出一瓶体力药剂，勇者把因为射精而损失的元气补回了最大值。</p>
+<p>算算时间，魔王亚米泰尔的终极变身应该已经咏唱完成了。作为这次冒险的压轴决战，他也希望自己能够以万全的状态临阵。</p>
+<p data-pause="2">想到接下来自己将要面临的那血脉喷张的挑战，勇者内心的兴奋指数被拉到了最大值。</p>
+<div class="scene-break" role="separator" aria-label="场景切换"><span></span></div>
+<p data-pause="2">现在<span class="dash">—</span>—</p>
+<p>勇者不无怜爱地抚摸着圣剑的握柄，开始在心底思考着什么。跟五年多前还在战场上时不同，现在的他，不再能像当初那么迅速果断地做出选择。为了让自己下定决心、总归还是需要积累一些用来推自己一把的理由。</p>
+<p>第一个理由，几天之后就在公主身上找到了。</p>
+<p>跟自己结婚的公主，始终没有改变过骄横的脾性。尤其是在政务上遇到不顺心事情的时候，就会把周围人正常的举止无限放大，上升为正义凛然的道德批判，不把对方彻底压倒决不罢休。哪怕意识到了是自己的错误，也绝不会开口向对方道歉。</p>
+<p>平心而论，这种看似蛮不讲理的言行，本身也是为了维护统治者尊严的帝王术的侧面，并非全然不可理喻。只是对于现在的勇者而言，这种程度的事情已经足够成为一个理由了。</p>
+<p>第二个理由，则于几周之后在国王身上找到了。</p>
+<p>国王接受了财政大臣的提议，决定缩减宫廷支出。而第一个被废除的，就是国家公营的冒险者培训机构。顺带地，勇者也随之失去了实技教授的身份。自己最后一个能够与冒险活动勉强关联的方式，就此在开源节流的大旗下被彻底尘封。</p>
+<p>平心而论，这种不由分说的机构变动，本身也是适应了国家产业革命变得需要更多工人的现状，怎么说也不算是恶政。只是对于现在的勇者而言，这种程度的事情也已经足够成为一个理由了。</p>
+<p>至于最后第三个理由，几个月之后还是在侍从身上找到了。</p>
+<p>跟公主之间诞下的子嗣，是目前王国的第一顺位继承人。在孩子学会说话之后，身边负责礼仪教育的庭臣们就越来越多。在宫廷中浸淫几十年的他们看来，勇者从民间带来的很多举止，都会给孩子带来负面影响。恐怕，也没少在背后说过自己的坏话。</p>
+<p>平心而论，这种多少有些刻薄的评价，本身也不无道理。毕竟作为继承人的孩子，不太可能效仿勇者走上冒险者的道路。只是对于现在的勇者而言，这种程度的事情同样已经足够成为一个理由了。</p>
+<p data-pause="2">并没有像老掉牙的复仇爽文那么惨。</p>
+<p data-pause="2">并没有被爱人背叛，只不过是政治联姻的夫妻间正常的吵架而已；</p>
+<p>并没有被剥夺梦想，只不过是伴随着社会发展被正常的淘汰而已；</p>
+<p>并没有被侮辱重要的人，只不过是在下人们茶余饭后正常的两三句闲言碎语而已。</p>
+<p data-pause="2">虽然理由并没有很充分，但勇者还是下定了决心<span class="dash">—</span>—</p>
+<p data-pause="2"><span class="quote sticker is-block" data-text="他要后悔了。">他要后悔了。</span></p>
+<p>或许是命运诅咒般的玩弄，让斩杀恶龙的勇士注定也会变成恶龙；或许是当年埋下的种子，到底还是在多年之后冒出了新芽。</p>
+<p>总而言之，在消灭魔王亚米泰尔的5年后，勇者选择了后悔。</p>
+<p>他后悔自己没有听从，那个名字不记得了的魅魔族女王的蛊惑，选择了在当时就草草为自己的冒险画上了句点。后悔自己居然为了如此丑陋的人类，缔造了安全而和平的黄金年代。更后悔自己亲手剿灭了几乎所有魔族的残党。</p>
+<p>但这一切也都该结束了。从这一刻起，人类伟大的英雄原地180度转了个身，踏上了通往魔族走狗的方向。</p>
+<p>铿地一声、勇者重新拔出了在腰间沉睡已久的圣剑：</p>
+<p>悔不当初的他，现在决心要亲自缔造一个，能够再次为世界招致黑暗的、将人类逼至绝境的、最最强大的魔物。</p>
+<p data-pause="3"><span class="quote sticker is-block" data-text="而当圣剑再次被收回鞘中时，倒在勇者脚边的血泊中的，正是他曾经的恩师·那个一直守护着圣墓的老神父。">而当圣剑再次被收回鞘中时，倒在勇者脚边的血泊中的，正是他曾经的恩师·那个一直守护着圣墓的老神父。</span></p>
+<p data-pause="3">然后勇者消失了一整年。</p>
+<p data-pause="2">老神父离世后，想要复活被封印在水晶棺里莉莉丝塔并不困难。作为魔王与魔妃唯一的女儿，莉莉丝塔的潜力毋庸置疑。可仅仅如此，还不足以保证她会成长为勇者心中、那个适合的毁灭世界的最终Boss。</p>
+<p>勇者想要把她培养成，大陆史上毋庸置疑最强大、也是最邪恶的魔族女王。只要这样，才配得上他在脑海中为全人类谱写好的终焉。</p>
+<p>因此，勇者用了这一年的时间来做准备<span class="dash">—</span>—</p>
+<p data-pause="2">他首先双膝跪地，在水晶棺前折断了女神赐予自己的圣剑。封印在圣剑中的无数魔物的魂魄，被血脉指引着融入了莉莉丝塔幼小的身躯。</p>
+<p>虽然根据她母亲的说法，莉莉丝塔会是魅魔族千年一遇的天才。可是还没来得及积累经验就被封印的少女，依然需要她母亲积累下来的经验与见识。</p>
+<p>勇者的理想型，是那种精通异性心理的，精神上的支配者。最好还是可以完全掌握对方的性癖和弱点、并且能准确地加以利用的狡诈的阴谋家。</p>
+<p>而为了让莉莉丝塔能预先清楚自己的弱点，准备周全的勇者也没有忘记直接向她上贡自己的遗传信息：</p>
+<p>打开水晶棺的盖板，俯视着里面沉睡的莉莉丝塔。勇者不由得回想起了，5年前俯视着她的母亲艾丽塔时的状况。唯一的不同，就是现在是自己正手握着勃起的肉棒，滑稽地一个人拼命撸动着。</p>
+<p>莉莉丝塔的容貌虽然稚气未脱，但已经跟母亲的妖艳有了几分相似。那清纯中透着一丝媚意的勾人的五官，躺在透明的棺木中圣洁得就像是引人犯罪的宗教绘画。没过多久，勇者就觉得精关不由自主地一松、把肮脏的欲念吐在了莉莉丝塔没有意识的脸上。</p>
+<p>短短几分钟这后，蕴藏着魔力的精液便伴随着一阵光晕被莉莉丝塔的皮肤自然地吸收了。甚至她小巧精致的脸，都好像也愈发水润光滑了一些。勇者知道，高等魅魔可以通过吸收精液来理解男性的潜质与性嗜好。只是没想到，莉莉丝塔居然能在这个过程中同时保养甚至提升自己的外貌特质。</p>
+<p>因此在那之后，勇者隔三差五就会回到莉莉丝塔的棺前，像是自己榨取自己一般，把精液毫无节制地射在她的身体上。</p>
+<p>起初还只是安分地看着莉莉丝塔手淫而已，可没过久他便感到有些不够，行为也开始逐渐过激。从轻轻用龟头下面的里筋直接蹭蹭莉莉丝塔脸旁的头发，到直接插进她沉睡着的口中上下送腰。而发射的量也一次比一次多，到最后必须要服用专门的增精剂才能满足自己日益增长的吐精欲。</p>
+<p>不过好消息是<span class="dash">—</span>—随着自己的射精量越来越多，莉莉丝塔成长发育的速度也越来越快。尤其是如果加大药量、一直射到白浊液能在水晶棺中没过她身体的话，往往隔天回来、那些精液就都能被全部吸收，而莉莉丝塔的身材也会同时获得一个肉眼可见的明显提升。</p>
+<p>等到大半年过去之后，那个曾经娇小柔软的少女，已然在睡梦中长成了不亚于成熟魅魔的诱人娇躯：</p>
+<p>跟童颜形成鲜明对比的爆乳，不用量就知道轻松超过了100cm。而下面紧致纤细的水蛇腰，只是斜躺着都能看到清晰的人鱼线。丰满挺拔的蜜桃翘臀，更是与修长笔直的双腿相得益彰。宛如情趣娃娃一般，完全按照性需求来发育的顶级躯体，已经不知道与勇者在幻想中缠绵过多少次了。</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="left" style="--cg-ar: 1019 / 1543"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-02-coffin.4444328edc" aria-label="放大看这张 CG：完全按照性需求来发育的顶级躯体"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-02-coffin.4444328edc.avif"><img src="/art/cg/saikyo-02-coffin.4444328edc.webp" alt="" loading="lazy" decoding="async" style="object-position: 55% 55%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="完全按照性需求来发育的顶级躯体">完全按照性需求来发育的顶级躯体</span></figcaption></figure>
+<p>至于处理性欲之外的时间，也并没有遭到浪费。</p>
+<p>勇者把几乎全副精力，都投入到了新的冒险之中。只不过这次的冒险目的，不再是消灭魔王，而是为了即将苏醒的新生魅魔女王提前收集齐一套最适合她的装备道具。</p>
+<p>先是在北境的无人深谷里，勇者讨伐了在那里镇守千年的黑蛇。虽然身手已经生疏的他，好几次差点命丧于那致命的毒牙之下。但当战斗最后，自己以胜利者的姿态踩住那只巨蟒，用小刀剖开它的肚子时，勇者的心中却只有无上的幸福。一想到该如何用它来设计出一套与魅魔女王身份匹配的皮衣，颤抖的嘴角就不住地开始往上翘。</p>
+<p>第二个目标则是极东的神秘岛国，在那里有一只被原住民视作神明信仰的女郎蜘蛛。能够用美艳的外表诱惑旅人的魔物，这次在勇者面前却没有发挥出任何能力。是的，当目标明确之后，他就再也不会被任何外物所干扰。对于那时的勇者而言，重要的也仅仅是抢走女郎蜘蛛的催情丝，为莉莉丝塔献上一双视觉与触感都最完美的长袜罢了。</p>
+<p>接下来，勇者几乎马不停蹄地赶往南疆的原始雨林。经过仿佛不要命一般不眠不休的探索，他用最短的时间踏破了郁翠迷宫，并在核心处将树灵连根拔起。因为只是做香木或者香囊并不足够，勇者需要用整个树干精炼出最纯净的树脂。这样，就可以萃取出顶级的媚药香膏，让使用者的肌肤，自然散发出能够令一切异性为之疯狂的幽幽体香。</p>
+<p>除此之外还有西海的群岛，那里隐居着一群终日研究艺术的歌唱海妖。勇者闯进了海妖们的宴会，并抢走了一族代代相传的虹色珍珠。用它制成的美瞳，可以为佩戴者赋予无条件催眠的视线。只要直视着那双眼睛，就会从心底被激发强制的恋情，无可救药地发自真心爱上对方。这同样会是一份很适合她的小礼物。</p>
+<p data-pause="2">至于最后，也是最重要的，就是莉莉丝塔的武器。</p>
+<p>经过了好几天辗转反侧的权衡与纠结，勇者最终选定了一开始出现在自己脑中的那个想法<span class="dash">—</span>—鞭子。</p>
+<p data-pause="2">在皇家的地下藏宝库里，有一根被传说中的恶作剧之神祝福过的长鞭。虽然因为超过常理的长度令它极其难以使用，但被这根鞭子抽中的人不会察觉到疼痛，只会感到一阵与原本的痛苦相当程度的快乐。</p>
+<p>虽然乍一看它并不具有作为武器的功能，但被抽中的另一个副作用，是会让人的大脑擅自把痛觉与快乐连接在一起。被打中次数越多，自己就会变得越容易把其他的痛苦也视为快感。在它的影响之下，即使是身在战场的敌人，也会被即时调教成主动渴望接受鞭打的M奴隶。</p>
+<p>而对于将来要让整个人类世界臣服的魅魔女王来说，没有比着更加合适的装备……</p>
+<p data-pause="2">就这样，一年时间在勇者的精心筹备下很快地过去了。</p>
+<p>那种为莉莉丝塔计划着一切、把大小事宜全部逐一安排好的过程，像极了自己当年在冒险途中自己做规划的样子。虽然当时没少被队友嘲笑为效率厨，但这其中的乐趣，却是其他人所无法理解的。</p>
+<p>就像是给自己亲生女儿的未来铺路一样，勇者把自己心中最完美的答卷，铺陈在了莉莉丝塔面前<span class="dash">—</span>—</p>
+<p>『经验』、『技能』、『道具』、『武器』。</p>
+<p>当然，还包括双膝跪地的自己这个『部下』。</p>
+<figure class="plate" data-plate=""><button type="button" class="plate-frame" data-cutin-open="" data-src="/art/cg/saikyo-03-gear.045d6d5201" aria-label="放大看这张插页" style="aspect-ratio: 14 / 9"><picture><source type="image/avif" srcset="/art/cg/saikyo-03-gear.045d6d5201.avif"><img src="/art/cg/saikyo-03-gear.045d6d5201.webp" alt="" loading="lazy" decoding="async"></picture></button></figure>
+<p data-pause="2">所有的东西都已经准备完成，只等着它们的主人醒来收下属于她的礼物。勇者深吸了一口气，凝聚起庞大的魔力、开始唤醒被封印在水晶灵柩中的魅魔少女。</p>
+<p>斑斓的色彩在他们隐藏行踪的地下室里闪烁呼应、邪恶的气息从虚空中喷涌而出。一道闪电般的龟裂咔地一声劈在失去了封印者提供魔力的圣棺上，仿佛在预示着对于人类而已，和平幸福的生活即将宣告终结。</p>
+<p data-pause="2">而在咏唱完成、女孩修长的睫毛轻动、缓缓地睁开眼睛、带着混杂着嘉许与嘲弄的眼神瞥了自己一样后、</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="right" data-line-at="bottom-left" style="--cut-bl: 30; --cg-ar: 1248 / 1888"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-04-eyes.abbad42a36" aria-label="放大看这张 CG：混杂着嘉许与嘲弄的眼神"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-04-eyes.abbad42a36.avif"><img src="/art/cg/saikyo-04-eyes.abbad42a36.webp" alt="" loading="lazy" decoding="async" style="object-position: 50% 45%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="混杂着嘉许与嘲弄的眼神">混杂着嘉许与嘲弄的眼神</span></figcaption></figure>
+<p data-pause="3">勇者还未来得及勃起的肉棒一跳，像是失禁一般向下喷射出了一大滩的精液。</p>
+<div class="scene-break" role="separator" aria-label="场景切换"><span></span></div>
+<p>莉莉丝塔醒了。</p>
+<p>仿佛只是看了一眼陈列在地上的一整排高级装备，和在最远处跪着地上身体微颤的男人，就完全理解了现状一样，她将修长的美腿从碎裂的棺木残骸中迈出，什么都没有说，只是自顾自地开始用优雅的动作，一件接着一件为自己穿上勇者替她准备好的衣服。</p>
+<p>就像那些东西，理所当然地属于她似的。</p>
+<p>与傲人的上围完全贴合的情趣内衣、面积狭小但剪裁合理的内裤、蕴含着魔力的精致丝袜、黑色的皮制紧身衣、同样质地的长手套、还有过膝的系带高跟长靴。甚至包括冠冕、项链、腿环、乃至于香水与美瞳等等化妆品，都可以看得出来是传说级以上的魔道具。</p>
+<p>但是少女却连一丝犹豫或者恭却的神色都没有，只是淡淡地收下了自己面前的上贡品。</p>
+<p>最后，打扮了当的莉莉丝塔用那根泛着邪恶光泽的皮鞭，轻轻挑起了勇者的下巴，带着笑吟吟的表情，用比他在梦中构想的还要动听十倍的声音开口说了一声：</p>
+<figure class="cutin" data-cutin="" data-mode="rift" data-side="right" style="--cg-ar: 1024 / 1536"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-05-no.e15bae6307" aria-label="放大看这张 CG：不♡"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-05-no.e15bae6307.avif"><img src="/art/cg/saikyo-05-no.e15bae6307.webp" alt="" loading="lazy" decoding="async" style="object-position: 50% 30%"></picture></span></button><figcaption class="cutin-line"><span class="sticker sticker--small" data-text="不♡">不♡</span></figcaption></figure>
+<p data-pause="2">「不♡」</p>
+<p data-pause="2">勇者露出了错愕的神情，好像一时间无法理解到底发生了什么。他的胸部开始激烈地起伏，呼吸也变得急促了起来。嘴唇在半空中开开合合，但是又挤不出一个字来。</p>
+<p>看到这一幕，莉莉丝塔只是用鼻子轻笑了一声，然后蹲下身子，凑到了勇者的耳边：</p>
+<p data-pause="2">「我说不、我不会诱惑你~♡」</p>
+<p data-pause="2">如兰的吐息拂过勇者的耳道，一阵酥痒从脊柱后面发芽，并迅速蔓延到了全身。刚刚醒来的魅魔少女显然也意识到了这一点，于是身体稍稍往后倾了些，又跟眼前的男人拉开了一小段距离。</p>
+<p data-pause="2">「虽然很谢谢你为我做了这么多、恐怕这世界上已经没有任何人能够抵抗我了吧……但是很遗憾~即使如此♡ 只有勇者大人你、我是绝对不会诱惑的唷~♡」</p>
+<p data-pause="2">「不会含住你的阴茎、用灵巧的舌头不断寸止你到放弃自己的原则为我上阵杀敌~♡ 不会在跟人类的谈判桌上，在桌布下面偷偷进行手交来逼你就范~♡ 不会用脚碾着你的脑袋，让你用发誓投降来换取被踩射的权力~♡ 不会用骑乘位的姿势，像是逆强奸一样把你的等级全部都跟着精液一起榨出来~♡」</p>
+<p data-pause="2">「想必在我沉睡的这段时间，你一定是妄想着能够得到这些奖励，才不断加油为我付出上贡的吧。可惜咯~♡ 那些事情，全~~都不会发生在你的身上~♡」</p>
+<p data-pause="2">听着莉莉丝塔的口中，蹦出来的一句句略带嘲讽的话语，勇者的眼神深处涌出了一股绝望。那份绝望很快化作了愤怒与屈辱，而随之而来的，便是周围的空气都似乎要一起沸腾的磅礴的魔力波动。</p>
+<p>眼看着这个身经百战的人类英雄好像马上就要挥拳向自己袭来，莉莉丝塔却并没有启动任何一件勇者送给她装备，只是不慌不忙地伸出食指，按在了勇者嘴上。</p>
+<p data-pause="2">「不过别误会♡ 这并不代表，我不打算奖励你~」</p>
+<p data-pause="2">「我会给你的不是那些随处可见的诱惑。而是你内心深处，真正想要的东西<span class="dash">—</span>—」</p>
+<p data-pause="3">稍微顿了顿之后，这次少女选择把嘴凑到了勇者另一边的耳旁，用宛如恋人倾诉爱意般娇嫩的声线悄声呢喃道：</p>
+<p data-pause="2">「<span class="dash">—</span>—我会把刚刚说的那些手段、全♡部♡ 都用在你身边『其他人』身上的~~♡」</p>
+<p data-pause="2">「会给国王戴着触手内壁的贞操锁，引诱他自己主动陷害原本对自己忠心的臣民~♡ 会彻底开发公主的敏感带，让她沦为没有我的手指就活不下去的身体~♡ 会命令侍臣们排成一列，依次被我用全力狠狠地踢在下体上~♡ 会引诱你的儿子，让他在魅魔的体内迎来100%上瘾中毒的噩梦般的初体验~♡」</p>
+<p data-pause="2">「那些你想象中事情、还有超过你想象的事情~都会在『其他人』身上被我一一实践。开心吗♡毕竟、这才是你真正想要的~~」</p>
+<p data-pause="2">勇者的瞳孔急遽收缩。</p>
+<p>可莉莉丝塔却毫不在意、只是维持着相同的语速继续往下说着。</p>
+<p data-pause="2">「放心~♡ 我很清楚勇者大人并没有绿奴的性癖、也并不会因为那样的场景被刺激到性欲……」</p>
+<p data-pause="2">「……不、应该说，你根本就没有真正意义上性欲。即使我对勇者大人做了那些相同的事情，恐怕你也不会有额外的感觉。虽然你可能会勃起、可能会射精、可能会高潮到几乎失神……但是你的『心』却不会有起伏。因为那些都不是勇者大人最根源的欲望~♡」</p>
+<p data-pause="2">「作为一个天生的战斗狂，你的欲求不满从头到尾都不是只靠性快乐所能够填补的。我们的勇者大人之所以背叛人类、亲手缔造了世界上最强的魅魔，想要的东西其实只有一个<span class="dash">———</span>—」</p>
+<p data-pause="2">心脏像发疯一样狂跳着，大粒的汗珠肆无忌惮地湿透了上衣。莉莉丝塔银铃般的嗓音，在勇者听来几乎就是预兆着幸福的教堂钟声。</p>
+<p data-pause="3"><span class="quote sticker is-block" data-text="「————那就是『敌人』，没错吧~？」">「<span class="dash">———</span>—那就是『敌人』，没错吧~？」</span></p>
+<p data-pause="4">一口唾沫被吞进了喉咙。他知道，自己已经不需要再做任何的反应。被彻底洞察内心的屈服于败北感，让勇者燃起了久违的那种甜美的紧张感。</p>
+<p>就是这个。就是这个。</p>
+<p>没有这个叫人血脉喷张的期待感的话，再多的快乐也不过是画饼充饥。只有冒险。只有冒险带来的濒死体验，才能够让自己的『心』也能跟着抵达高潮。</p>
+<p data-pause="2">「母亲大人当年，大概是搞错了~♡ 她居然想要用来自人类的背叛、说服你暂缓讨伐魔王。呵呵~这样子当然没办法成功诱惑到你啦……她不知道，我们的勇者大人~其实心里巴不得在凯旋归来的第二天，就遭到全人类一起的背叛呢~~♡ 因为假如那样，他的故事就又能有新的『敌人』啦~♡♡」</p>
+<p data-pause="2">「所以你兴高采烈地打败了魔王、回到了人类社会、等待着国王什么时候会像老掉牙的复仇爽文一样，开始向你同室操戈♡ 只是没想到，他们居然都是一群普通的好人~没有一个人做出过那些你期待的举动。恐怕这五年多来，你每天都等得欲火焚身，却又痒到无处释放吧~♡」</p>
+<p data-pause="2">「而如果我没有猜错、勇者大人♡ 你之所以在被封印的我身上，投诸了如此之多的期待……或许~也是因为在我身边时，让你第一次感到了久违的『敌意』、对不对？」</p>
+<p data-pause="2">带着毫不留情面的轻蔑，黑色的皮革手套抓起了勇者的头发，迫使他看向自己，看向那人偶般的眸子泛着七彩变幻的光泽。明明『那个时候』，本应该还在沉睡的莉莉丝塔，却有如全程见证了现场般，道出了当时实际发生的事情：</p>
+<p data-pause="2"><span class="quote sticker is-block" data-text="「老神父先生的死，这件事情很不自然♡」">「老神父先生的死，这件事情很不自然<span class="quote-heart">♡</span>」</span></p>
+<p data-pause="2">「那并不符合勇者大人的性格。倘若你真的有胆量，亲自动手杀死一个无辜的人类的话……那么一开始就不需要我来帮您制造敌人了♡ 不~你必须要让对方先动手<span class="dash">—</span>—只有对方先对你展露出恶意，你才能没有道德包袱地反过来剿灭对方~」</p>
+<p data-pause="2">「所以我想~♡ 一开始勇者大人，怕是只准备把沉睡着的我，从水晶棺中偷出来而已……噗♡ 只是没想到，在那时却被不小心老神父发现了~♡ 不仅如此，那个老家伙居然还像是自己最珍藏的自慰素材被染指一样，愤怒地向着勇者大人杀了过来~~只有满足了这个条件，你才能以『正当防卫』为大义名分，夺走你恩师的性命吧♡♡」</p>
+<p data-pause="2">莫大的震撼与惊叹，让勇者的喉咙深处挤出一股漏气般的呻吟。</p>
+<p data-pause="2">那是对自己的美貌与诱惑力有着绝对的自信。</p>
+<p>哪怕身处被封印着、没有意识的睡眠状态，也能够扭曲他人的意志。把一个曾经一心向神的高洁教士，在一天一天的守卫过程中腐化成了对着水晶棺里的魅魔意淫自慰的性瘾患者。莉莉丝塔清楚地意识到了，自己这一存在对于男性而言就是拥有如此可怕的魔力。</p>
+<p>正如她所说，在目睹过老师那充满嫉妒与怨恨的表情之后，勇者当即就定下了未来这一年的计划。他本能地相信了，自己梦想中的生活，一定能通过这个女孩子的双手变成现实。</p>
+<p data-pause="2">「于是~看着脚边自己恩师的尸体，你意识到了<span class="dash">—</span>—是眼前这个睡着了的魅魔女孩，把勇者大人的伙伴变成了失去理智的敌人。那既然如此，假如她被唤醒的话，岂不是能够让更多人，与自己反目成仇么~♡」</p>
+<p data-pause="2">「唉~勇者大人真过分呀~♡ 居然不惜利用我，勾引自己的同伴恶堕~ 也想要为自己增加新的『敌人』♡ 还是说，这个过程本身，也能够刺激到你的变态心理呢~？」</p>
+<p data-pause="2">「请安心，作为一手创造了现在的我的恩人♡ 勇者大人的一切需要……我都会尽全力来满足的~♡」</p>
+<p data-pause="2">话音落下，莉莉丝塔起身、顺带着把按在勇者嘴巴上的手也收了回来。</p>
+<p>在半空中打了一个响指，一股魔力开始凝聚在她的食指指尖，然后不断地扭曲、涌动、膨胀，最后化作一团面具大小的桃红色云雾。</p>
+<p data-pause="2">「这个，你应该见过吧~？是能够人为制造30分钟天堂的幻梦术♡ 不过跟母亲的不同，我的幻梦术不仅可以即时释放，也能像这样凝聚成魔法团……勇者大人只要带着它，回到王城里，把它丢在带着急切神情跑出来迎接你的第一个人脸上就好了~♡」</p>
+<p data-pause="2">「虽然这30分钟极尽淫靡秽乱之能事的春梦，你可能看不到~♡ 但我保证，等30分钟结束，被从梦里放出来的那个人……肯定会变成，勇者大人最需要的样子♡」</p>
+<p data-pause="2">「无论是你雄心勃勃、贵为一国的公主在国政上呕心沥血的妻子~♡ 还是那个心地善良、敦厚温和、一直致力于努力平衡各方势力的老国王~♡ 亦或者是那些知礼守节，把你孩子的教育摆在第一位的侍臣~♡ 无一例外，都会在30分钟后……变成面目狰狞、心灵丑陋、最适合成为复仇对象的反派工具人~嘿嘿♡」</p>
+<p data-pause="2">「跟那种不择手段的恶党战斗、一定会是既充满刺激、又毫无道理压力的，绝佳的冒险谭续作吧~♡ 在未来的日子里，就让我们各取所取，达成漫~~~长的合作吧♡ 勇·者·大·人~？」</p>
+<p data-pause="2">莉莉丝塔像册封骑士的皇族一般，把那个寄寓着邪恶诅咒的魔法团，轻轻地点在了勇者的左肩之上。</p>
+<p>嘴唇早已被松开的勇者也并没有回话。</p>
+<p data-pause="2">只是心悦诚服地继续维持着跪姿，探出头去，充满感激地亲吻了莉莉丝塔的鞋尖。</p>
+<figure class="cutin" data-cutin="" data-mode="flow" data-side="right" style="--cg-ar: 1888 / 1248"><button type="button" class="cutin-frame" data-cutin-open="" data-src="/art/cg/saikyo-06-boots.a352cc4c23" aria-label="放大看这张 CG"><span class="cutin-edge" aria-hidden="true"></span><span class="cutin-media"><picture><source type="image/avif" srcset="/art/cg/saikyo-06-boots.a352cc4c23.avif"><img src="/art/cg/saikyo-06-boots.a352cc4c23.webp" alt="" loading="lazy" decoding="async" style="object-position: 45% 45%"></picture></span></button></figure></div><div class="fin" data-fin data-astro-cid-goz4tz7k><span class="fin-rule" aria-hidden="true" data-astro-cid-goz4tz7k></span><span class="fin-word sticker sticker--large" data-text="Fin." data-astro-cid-goz4tz7k>Fin.</span><span class="fin-note" data-astro-cid-goz4tz7k>全文完 · 感谢阅读</span></div></main><button type="button" class="resume" data-resume hidden data-astro-cid-goz4tz7k>继续 · 第 <span data-resume-n data-astro-cid-goz4tz7k>1</span> 段</button><nav class="reading-bar" aria-label="返回" data-astro-cid-goz4tz7k><a class="btn btn-next btn-back" href="/tales" data-astro-cid-goz4tz7k>返回</a></nav><div class="viewer" data-viewer hidden aria-modal="true" role="dialog" aria-label="看大图" data-astro-cid-g3gknhok><div class="viewer-stage" data-viewer-stage data-astro-cid-g3gknhok><picture data-viewer-picture data-astro-cid-g3gknhok><source data-viewer-avif type="image/avif" data-astro-cid-g3gknhok><img data-viewer-img alt="" decoding="async" data-astro-cid-g3gknhok></picture></div><button type="button" class="viewer-close" data-viewer-close aria-label="关闭" data-astro-cid-g3gknhok>✕</button><p class="viewer-hint" data-astro-cid-g3gknhok>双指缩放 · 下滑关闭</p></div></div><script type="module" src="/_astro/ReadingFrame.astro_astro_type_script_index_0_lang.CCT8jKlS.js"></script><div data-astro-transition-persist="sweep" class="sweep" data-sweep aria-hidden="true" data-astro-cid-g5p2a5pb><span class="band band--body" data-astro-cid-g5p2a5pb></span><span class="band band--rim" data-astro-cid-g5p2a5pb></span></div></body></html><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.B6XbzcT8.js"></script>

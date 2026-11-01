@@ -1,0 +1,1 @@
+import{t as e}from"./game-stage.CAM8bjR3.js";document.addEventListener(`astro:page-load`,e);
